@@ -33,15 +33,17 @@
                                 <input type="text" id="articulo" name="articulo" placeholder="Producto"
                                     class="form-control" autofocus>
                                 <div class="form-group">
-                                    {% with messages = get_flashed_messages(with_categories=true)%}
-                                    {% if messages %}
-                                    {% for category, message in messages %}
-                                    <div class="alert {{category}}" id="idMensajeError">
-                                        {{message}}
-                                    </div>
-                                    {% endfor %}
+                                    {% if not(articuloExistente) %}
+                                        {% with messages = get_flashed_messages(with_categories=true)%}
+                                            {% if messages %}
+                                                {% for category, message in messages %}
+                                                    <div class="alert {{category}}" id="idMensajeError">
+                                                    {{message}}
+                                                    </div>
+                                                {% endfor %}
+                                            {% endif %}
+                                        {% endwith %}
                                     {% endif %}
-                                    {% endwith %}
                                 </div>
                                 <button type="submit" name="submit" value="agregarDesdeHome" class="btn btn-primary btn-block">
                                     Agregar <i class="fa fa-plus"></i></button>
@@ -50,6 +52,17 @@
                     </div>
                 </div>
             </div>
+            {% if articuloExistente %}
+                {% with messages = get_flashed_messages(with_categories=true)%}
+                    {% if messages %}
+                        {% for category, message in messages %}
+                            <div class="alert {{category}} text-center" id="idMensajeError">
+                            {{message}}
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+                {% endwith %}
+            {% endif %}
             <!-- listar artículos -->
             <div class="container">
                 <div class="row border">

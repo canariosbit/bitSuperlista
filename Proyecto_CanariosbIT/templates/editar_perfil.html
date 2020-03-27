@@ -7,9 +7,6 @@
             <form action="/actualizar_usuario" method="POST" class="border rounded bg-light p-3 mt-3" >
                 <h2 class="text-center">Actualizar</h2>
                 <div class="form-group">
-                    <input type="hidden" class="form-control "  value="{{id}}" name="nmId" id="id">
-                </div>
-                <div class="form-group">
                     <label for="nombre"><b>Nombre</b></label>
                     <span class="text-danger h4">*</span>
                     <input type="text" class="form-control "  value="{{nombre}}" name="nmNombre" id="nombre" required placeholder="Ejem: Juan">
@@ -28,7 +25,7 @@
                     <label for="password">Nueva Contraseña:</label>
                     <span class="text-danger h4">*</span>
                     <input type="password" class="form-control" name="nmPwdnew" id="passwordnew"
-                        aria-describedby="ayuda-password" required>
+                        aria-describedby="ayuda-password" placeholder="**********">
                     <small id="ayuda-password" class="form-text text-muted">
                         No comparta sus contraseñas a nadie.</small>
                 </div>
@@ -37,19 +34,23 @@
                     <label >Repita Contraseña:</label>
                     <span class="text-danger h4">*</span>
                     <input type="password" class="form-control" name="nmPwdnewRep" id="nmPwdnewRep"
-                        aria-describedby="ayuda-password" required>
+                        aria-describedby="ayuda-password" placeholder="**********">
                 </div>
                 {% with messages = get_flashed_messages(with_categories=true)%}
                         {% if messages %}
                             {% for category, message in messages %}
                                 <div class="alert {{category}}" id="idMensajeError">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">x</button>
                                 {{message}}
                                 </div>
                             {% endfor %}
                         {% endif %}
                     {% endwith %}
                 <div class="form-group">
-                    <button type="submit" class="btn btn-primary btn-block">Actualizar</button>
+                    <button type="submit" name="submit" class="btn btn-primary btn-block">Actualizar</button>
+                </div>
+                <div class="form-group">
+                    <button type="submit" name="submit" value="eliminar" class="btn btn-danger btn-block">Darse de baja</button>
                 </div>
             </form>
         </div>

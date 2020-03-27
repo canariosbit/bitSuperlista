@@ -99,16 +99,41 @@ def home():
                                productos=productos)
 
 
-# Ruta para  articulos de la cesta
+# # Ruta para  articulos de la cesta
+# @app.route('/AddArt/<articulo>', methods=['GET'])
+# def AddArt(articulo):
+#     if 'nombre' in session:
+#         id = session['id']
+#     else:
+#         id = -1
+#     db = get_db()
+#     cur = db.cursor()
+#     (cur.execute("INSERT INTO Cesta (Id_Usuario, Item) VALUES(?,?)", (id, articulo)))
+#     db.commit()
+#     db.close()
+#     return redirect('/')
 @app.route('/AddArt/<articulo>', methods=['GET'])
 def AddArt(articulo):
     if 'nombre' in session:
-        id = session['id']
+        id_usuario = session['id']
     else:
-        id = -1
+        id_usuario = -1
+    
     db = get_db()
     cur = db.cursor()
-    (cur.execute("INSERT INTO Cesta (Id_Usuario, Item) VALUES(?,?)", (id, articulo)))
+    # Consultando si ya existe dentro del Carrito
+    find_prod = (
+        "SELECT * FROM Cesta WHERE Item = ? AND Id_Usuario = ?")
+    cur.execute(find_prod, [(articulo), (session['id'])])
+    resultado = cur.fetchall()  # podria ser fetchone()
+    if resultado:
+        categorias = getAllCategorias()
+        productos = getAllProductosUsuarios()
+        flash("El artículo ya fue agregado.", "alert-warning")
+        return render_template('home_logeado.html', categorias=categorias,
+                            productos=productos, articuloExistente=True)
+    
+    (cur.execute("INSERT INTO Cesta (Id_Usuario, Item) VALUES(?,?)", (id_usuario, articulo)))
     db.commit()
     db.close()
     return redirect('/')
@@ -155,6 +180,10 @@ def registrar_usuario():
         password = request.form["nmPwd"]
         passwordRep = request.form["nmPwdnewRep"]
         if (password == passwordRep):
+            if len(password) < 8:
+                flash("La contraseña debe tener al menos 8 caracteres.", "alert-warning")
+                return render_template('registro_usuario.html', nombre=nombre, apellido=apellido, correo=email, success=False)
+            
             password_enc = password.encode("utf-8")
             hashed_pw = bcrypt.hashpw(password_enc, semilla)
             admin = 0
@@ -177,8 +206,8 @@ def registrar_usuario():
                                                                     apellido, email, hashed_pw, admin)))
             db.commit()
             flash("Usuario creado con éxito!! Redireccionando...", "alert-success")
-
-            # cargo los productos iniciales del usuario
+            
+            #cargo los productos iniciales del usuario 
             cur = db.cursor()
             find_user = ("SELECT Id FROM Usuarios WHERE Email = ?")
             cur.execute(find_user, [(email)])
@@ -187,7 +216,7 @@ def registrar_usuario():
             for producto in productosAdmin:
                 cur.execute("INSERT INTO Productos (CategoriaId, Producto, PropietarioId) VALUES(?,?,?)", (
                             producto["cat_id"], producto["pro_nombre"], user_id[0]))
-
+                        
             db.commit()
             db.close()
             return render_template('registro_usuario.html', nombre=nombre, apellido=apellido, correo=email, success=True)
@@ -259,27 +288,50 @@ def fnPerfil():
 @app.route('/actualizar_usuario', methods=['POST'])
 def fnActualizar():
     if 'nombre' in session:
+        id = session['id']
         db = get_db()
         cur = db.cursor()
+        nombre = request.form['nmNombre']
+        apellido = request.form['nmApellido']
+        email = request.form['nmCorreo']
+        password = request.form["nmPwdnew"]
+        passwordRep = request.form["nmPwdnewRep"]
+        
         if request.method == "POST":
-            id = request.form['nmId']
-            nombre = request.form['nmNombre']
-            apellido = request.form['nmApellido']
-            email = request.form['nmCorreo']
-            password = request.form["nmPwdnew"]
-            passwordRep = request.form["nmPwdnewRep"]
+            if request.form['submit'] == 'eliminar':
+                sql = 'DELETE FROM Productos WHERE PropietarioId=?'
+                cur.execute(sql, [(id)])
+                db.commit()
+                sql = 'DELETE FROM Usuarios WHERE Id=?'
+                cur.execute(sql, [(id)])
+                db.commit()
+                db.close()
+                session.clear()
+                flash("Usuario ELIMINADO.", "alert-warning")
+                return render_template('editar_perfil.html', success=True)
+
             if (password == passwordRep):
-                password_enc = password.encode("utf-8")
-                hashed_pw = bcrypt.hashpw(password_enc, semilla)
-                admin = 0
-                sql = (
-                    'UPDATE Usuarios SET Nombre=?, Apellido=? , Email=?, Contrasena=?, Admin=?  WHERE id=?')
-                cur.execute(sql, [(nombre), (apellido),
-                                  (email), (hashed_pw), (admin), (id)])
+                if len(password) > 0 and len(password) < 8:
+                    flash("La contraseña debe tener al menos 8 caracteres.", "alert-warning")
+                    return render_template('editar_perfil.html', id=id, nombre=nombre, apellido=apellido, correo=correo, success=False)
+                
+                if len(password) > 0:
+                    password_enc = password.encode("utf-8")
+                    hashed_pw = bcrypt.hashpw(password_enc, semilla)
+                    admin = 0
+                    sql = ('UPDATE Usuarios SET Nombre=?, Apellido=? , Email=?, Contrasena=?, Admin=?  WHERE id=?')
+                    cur.execute(sql, [(nombre), (apellido),
+                                    (email), (hashed_pw), (admin), (id)])
+                else:
+                    sql = (
+                        'UPDATE Usuarios SET Nombre=?, Apellido=? , Email=? WHERE id=?')
+                    cur.execute(sql, [(nombre), (apellido),
+                                    (email), (id)])
                 db.commit()
                 db.close()
                 flash("Usuario actualizado con exito!! Redireccionando...",
-                      "alert-success")
+                    "alert-success")
+                
                 return render_template('editar_perfil.html', success=True)
             else:
                 correo = session['correo']
