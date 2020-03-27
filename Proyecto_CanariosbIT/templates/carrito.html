@@ -1,0 +1,46 @@
+{% extends "layout_logeado.html" %}
+
+{% block content %}
+
+<!-- Sección #Mis_Listas -->
+<section>
+    <div class="text h2 text-center py-3">
+        <span>Tu Cesta</span>
+    </div>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-5 py-5 text-center">
+                <div class="card">
+                    <div class="card-header">
+                        <span>Tu lista de la compra</span>
+                    </div>
+                    <div class="card-body ">
+                        {%for item in items %}
+                            <div class="input-group py-1">
+                        
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text">
+                                            <input type="checkbox" aria-label="Checkbox for following text input">
+                                        </div>
+                                    </div>
+                                    <input type="text" readonly="true" class="form-control" value="{{item.Item_nombre}}">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text">
+                                            <a href="/DeleteArtCesta/{{item.Id}}"><i class="far fa-trash-alt text-primary"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                        {%endfor%}
+                    </div>
+                </div>
+                
+            </div>
+           
+               
+
+            
+        </div>
+    </div>
+</section>
+
+{% endblock %}

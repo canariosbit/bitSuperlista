@@ -1,0 +1,8 @@
+{
+    "python.pythonPath": "C:\\Users\\usuario\\.virtualenvs\\Proyecto_CanariosbIT-T1fheNUM\\Scripts\\python.exe",
+    "python.linting.enabled": true,
+    "python.linting.pylintEnabled": false,
+    "python.linting.flake8Enabled": true,
+    "python.linting.banditEnabled": false,
+    "python.linting.pylamaEnabled": false
+}

@@ -1,0 +1,190 @@
+{% extends "layout_logeado.html" %}
+
+{% block content %}
+<!-- Sección #animacion -->
+<section id="lista">
+    <div class="container">
+        <header class="py-3 text-secondary text-center">
+            <h2 class="display-6 font-weight-bold">LISTA DE SUPER</h2>
+        </header>
+    </div>
+    <form action="/ABM_articulos" method="POST">
+        <div class="form-group">
+            <div class="container">
+                <div class="row py-4">
+                    <div class="col-6">
+                        <div class="card text-center">
+                            <div class="card-header">
+                                <div class="form-group">
+                                    <div class="text text-center px-1 text-primary">
+                                        <label>AGREGUE UN PRODUCTO A LA LISTA PREDEFENIDA SI NO EXISTE</label> 
+                                    </div>
+                                    <div class="text text-left px-1">
+                                        <label>CATEGORIAS</label> 
+                                    </div>
+                                    <select class="form-control" name="categoria">
+                                        <option selected="OTROS" value="0">SELECCIONAR</option>
+                                        {% for categoria in categorias %}
+                                        <option value="{{categoria.cat_id}}" {% if categoria.cat_id == catSelected %}
+                                            selected {% endif %}>{{ categoria.cat_nombre }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <input type="text" id="articulo" name="articulo" placeholder="Producto"
+                                    class="form-control" autofocus>
+                                <div class="form-group">
+                                    {% with messages = get_flashed_messages(with_categories=true)%}
+                                    {% if messages %}
+                                    {% for category, message in messages %}
+                                    <div class="alert {{category}}" id="idMensajeError">
+                                        {{message}}
+                                    </div>
+                                    {% endfor %}
+                                    {% endif %}
+                                    {% endwith %}
+                                </div>
+                                <button type="submit" name="submit" value="agregarDesdeHome" class="btn btn-primary btn-block">
+                                    Agregar <i class="fa fa-plus"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- listar artículos -->
+            <div class="container">
+                <div class="row border">
+                    <div class="col-3 border">
+                        <div>
+                            {% for categoria in categorias %}
+                            <div class="form-group">
+                                {% if categoria.cat_id == 9 or categoria.cat_id == 13 or categoria.cat_id ==12  or categoria.cat_id == 11 %}
+                                <div class="text h5 py-2 text-center bg-primary text-white">
+                                    <span>{{ categoria.cat_nombre }} </span>
+                                </div>   
+                                    {% for producto in productos %}
+                                    {% if categoria.cat_id == producto.cat_id  %}
+                                    <div class="input-group py-1">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">
+                                                <a href="/AddArt/{{producto.pro_nombre}}"><i class="fas fa-cart-plus" style="color:black;"></i></a>
+                                            </div>
+                                        </div>
+                                        <input type="text" name="input" readonly="true" class="form-control"
+                                            value="{{ producto.pro_nombre }}" aria-label="Text input with checkbox">
+
+                                    </div>
+                                    {% endif %}
+                                    {% endfor %}
+                                
+                                {% endif %}
+                            </div>
+                            {%endfor%}
+
+                        </div>
+                    </div>
+                    <div class="col-3 border">
+                        <div>
+                            {% for categoria in categorias %}
+                            <div class="form-group">
+                                {% if categoria.cat_id == 5 or categoria.cat_id == 2 or categoria.cat_id == 6 or categoria.cat_id == 10 %}
+                                <div class="text h5 py-2 text-center bg-primary text-white">
+                                    <span>{{ categoria.cat_nombre }} </span>
+                                </div>
+                                    {% for producto in productos %}
+                                    {% if categoria.cat_id == producto.cat_id  %}
+                                    <div class="input-group py-1">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">
+                                                <a href="/AddArt/{{producto.pro_nombre}}"><i class="fas fa-cart-plus" style="color:black;"></i></a>
+                                            </div>
+                                        </div>
+                                        <input type="text" readonly="true" class="form-control"
+                                            value="{{ producto.pro_nombre }}" aria-label="Text input with checkbox">
+                                    </div>
+                                    {% endif %}
+                                    {% endfor %}
+                                
+                                {% endif %}
+                            </div>
+                            {%endfor%}
+                        </div>
+                    </div>
+                    <div class="col-3 border">
+                        <div>
+                            {% for categoria in categorias %}
+                            <div class="form-group">
+                                {% if categoria.cat_id == 7 or categoria.cat_id == 3 or categoria.cat_id == 4 %}
+                                <div class="text h5 py-2 text-center bg-primary text-white">
+                                    <span>{{ categoria.cat_nombre }} </span>
+                                </div>
+                                    {% for producto in productos %}
+                                    {% if categoria.cat_id == producto.cat_id  %}
+                                    <div class="input-group py-1">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">
+                                                <a href="/AddArt/{{producto.pro_nombre}}"><i class="fas fa-cart-plus" style="color:black;"></i></a>
+                                            </div>
+                                        </div>
+                                        <input type="text" readonly="true" class="form-control"
+                                            value="{{ producto.pro_nombre }}" aria-label="Text input with checkbox">
+                                    </div>
+                                    {% endif %}
+                                    {% endfor %}
+                                
+                                {% endif %}
+                            </div>
+                            {%endfor%}
+                        </div>
+                    </div>
+                    <div class="col-3 border py-3">
+                        <div>
+                            {% for categoria in categorias %}
+                            <div class="form-group">
+                                {% if categoria.cat_id == 1 or categoria.cat_id == 8 %}
+                                <div class="text h5 py-2 text-center bg-primary text-white">
+                                    <span>{{ categoria.cat_nombre }} </span>
+                                </div>
+                                    {% for producto in productos %}
+                                    {% if categoria.cat_id == producto.cat_id  %}
+                                    <div class="input-group py-1">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">
+                                                <a href="/AddArt/{{producto.pro_nombre}}"><i class="fas fa-cart-plus" style="color:black;"></i></a>
+                                            </div>
+                                        </div>
+                                        <input type="text" readonly="true" class="form-control"
+                                            value="{{ producto.pro_nombre }}" aria-label="Text input with checkbox">
+                                    </div>
+                                    {% endif %}
+                                    {% endfor %}
+                                
+                                {% endif %}
+                            </div>
+                            {%endfor%}
+                        </div>
+                    </div>
+                </div>
+            </div>
+    </form>
+
+    {% if success%}
+    <script type="text/javascript">
+        var url = '/';
+        var delay = "2000";
+        window.onload = function () {
+            setTimeout(GoToURL, delay);
+        }
+        function GoToURL() {
+            if (typeof IE_fix != "undefined") // IE8 and lower fix to pass the http referer
+            {
+                var referLink = document.createElement("a");
+                referLink.href = url;
+                document.body.appendChild(referLink);
+                referLink.click();
+            }
+            else { window.location.replace(url); } // All other browsers
+        }
+    </script>
+    {% endif %}
+
+    {% endblock %}

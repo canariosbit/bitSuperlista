@@ -1,0 +1,191 @@
+{% extends "layout_logeado.html" %}
+
+{% block content %}
+
+<!-- Sección #Mis_Listas -->
+<section id="mislistas">
+    <header class="py-3 text-secondary text-center position-relative">
+        <h2 class="display-6 font-weight-bold">CREAR LISTA</h2>
+    </header>
+</section>
+<div class="container">
+    <div class="row">
+        <div class="col-4">
+            <nav class="navbar navbar-expand-lg navbar-light " id="main_navbar">
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav mr-auto">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle border bg-secondary text-white" href="#" id="navbarDropdown" role="button"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                CATEGORIAS
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">   
+                                {% for categoria in categorias %}  
+                                    <li class="nav-item dropdown">
+                                        <a class="dropdown-item dropdown-toggle" href="#" id="navbarDropdown1" role="button"
+                                            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                            {{categoria.cat_nombre}}
+                                        </a>
+                                        <div class="dropdown-divider"></div> 
+                                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown1">
+                                            {% for producto in productos %}
+                                                {% if categoria.cat_id == producto.cat_id %}
+                                                    <div  class="img"  id="cat">
+                                                        <li><a class="dropdown-item" href="#"  draggable="true" ondragstart="drag(event)" >{{producto.pro_nombre}}</a></li>
+                                                    </div>
+                                                    <div class="dropdown-divider"></div> 
+                                                {%endif%}
+                                            {%endfor%}
+                                        </ul>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+        <div class="col-4 py-3">
+            <form action="">
+                {% for categoria in categorias %}
+                    <div class="form-group">
+                        {% if categoria.cat_id == 9 or categoria.cat_id == 13 or categoria.cat_id ==12 or categoria.cat_id == 10  or categoria.cat_id == 6 or categoria.cat_id == 8 %}
+                            <div class="text h5 py-2 text-center bg-primary text-white">
+                                <span>{{ categoria.cat_nombre }} </span>
+                            </div>
+                            <div class="input-group py-1" id="destino"  >
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">
+                                        <input type="checkbox" aria-label="Checkbox for following text input">
+                                    </div>
+                                </div>
+                                <input type="text" name="input" class="form-control"  aria-label="Text input with checkbox" >
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">
+                                        <input type="checkbox" aria-label="Checkbox for following text input">
+                                    </div>
+                                </div>
+                                <input type="text" name="input" class="form-control"  aria-label="Text input with checkbox">
+                            </div>  
+                            <div class="input-group py-1" id="destino"  >
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">
+                                        <input type="checkbox" aria-label="Checkbox for following text input">
+                                    </div>
+                                </div>
+                                <input type="text" name="input" class="form-control"  aria-label="Text input with checkbox" >
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">
+                                        <input type="checkbox" aria-label="Checkbox for following text input">
+                                    </div>
+                                </div>
+                                <input type="text" name="input" class="form-control"  aria-label="Text input with checkbox">
+                            </div>  
+                            <div class="input-group py-1" id="destino"  >
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">
+                                        <input type="checkbox" aria-label="Checkbox for following text input">
+                                    </div>
+                                </div>
+                                <input type="text" name="input" class="form-control"  aria-label="Text input with checkbox" >
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">
+                                        <input type="checkbox" aria-label="Checkbox for following text input">
+                                    </div>
+                                </div>
+                                <input type="text" name="input" class="form-control"  aria-label="Text input with checkbox">
+                            </div>  
+                            <div class="input-group py-1" id="destino"  >
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">
+                                        <input type="checkbox" aria-label="Checkbox for following text input">
+                                    </div>
+                                </div>
+                                <input type="text" name="input" class="form-control"  aria-label="Text input with checkbox" >
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">
+                                        <input type="checkbox" aria-label="Checkbox for following text input">
+                                    </div>
+                                </div>
+                                <input type="text" name="input" class="form-control"  aria-label="Text input with checkbox">
+                            </div>   
+                        {% endif %}
+                    </div>
+                {%endfor%}
+            </form>
+        </div>
+        <div class="col-4">
+            <form action="">
+                {% for categoria in categorias %}
+                    <div class="form-group">
+                        {% if categoria.cat_id == 5 or categoria.cat_id == 2 or categoria.cat_id == 7 or categoria.cat_id == 3 or categoria.cat_id == 4 or categoria.cat_id == 1 %}
+                            <div class="text h5 py-2 text-center bg-primary text-white">
+                                <span>{{ categoria.cat_nombre }} </span>
+                            </div>
+                            <div class="input-group py-1" id="destino"  >
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">
+                                        <input type="checkbox" aria-label="Checkbox for following text input">
+                                    </div>
+                                </div>
+                                <input type="text" name="input" class="form-control"  aria-label="Text input with checkbox" >
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">
+                                        <input type="checkbox" aria-label="Checkbox for following text input">
+                                    </div>
+                                </div>
+                                <input type="text" name="input" class="form-control"  aria-label="Text input with checkbox">
+                            </div>  
+                            <div class="input-group py-1" id="destino"  >
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">
+                                        <input type="checkbox" aria-label="Checkbox for following text input">
+                                    </div>
+                                </div>
+                                <input type="text" name="input" class="form-control"  aria-label="Text input with checkbox" >
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">
+                                        <input type="checkbox" aria-label="Checkbox for following text input">
+                                    </div>
+                                </div>
+                                <input type="text" name="input" class="form-control"  aria-label="Text input with checkbox">
+                            </div>  
+                            <div class="input-group py-1" id="destino"  >
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">
+                                        <input type="checkbox" aria-label="Checkbox for following text input">
+                                    </div>
+                                </div>
+                                <input type="text" name="input" class="form-control"  aria-label="Text input with checkbox" >
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">
+                                        <input type="checkbox" aria-label="Checkbox for following text input">
+                                    </div>
+                                </div>
+                                <input type="text" name="input" class="form-control"  aria-label="Text input with checkbox">
+                            </div>   
+                            <div class="input-group py-1" id="destino"  >
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">
+                                        <input type="checkbox" aria-label="Checkbox for following text input">
+                                    </div>
+                                </div>
+                                <input type="text" name="input" class="form-control"  aria-label="Text input with checkbox" >
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">
+                                        <input type="checkbox" aria-label="Checkbox for following text input">
+                                    </div>
+                                </div>
+                                <input type="text" name="input" class="form-control"  aria-label="Text input with checkbox">
+                            </div>    
+                        {% endif %}
+                    </div>
+                {%endfor%}
+            </form>
+        </div>
+    </div>
+</div>
+
+
+
+{% endblock %}

@@ -1,0 +1,78 @@
+{% extends "layout_ingreso.html" %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-12 col-lg-6">
+            <form action="/registrar_usuario" method="POST" class="border rounded bg-light p-3 mt-3" >
+                <h2 class="text-center">Registrarse</h2>
+
+                <div class="form-group">
+                    <label for="nombre"><b>Nombre</b></label>
+                    <span class="text-danger h4">*</span>
+                    <input type="text" class="form-control " value="{{nombre}}" name="nmNombre" id="nombre" required placeholder="Ejem: Juan" autofocus>
+                </div>
+                <div class="form-group">
+                    <label for="apell"><b>Apellido</b></label>
+                    <input type="text" class="form-control " value="{{apellido}}" name="nmApellido" id="apell" placeholder="Ejem: Martínez">
+                </div>
+                <div class="form-group">
+                    <label for="correo">Correo Electrónico:</label>
+                    <span class="text-danger h4">*</span>
+                    <input type="text" class="form-control " value="{{correo}}" name="nmCorreo" id="correo"
+                        required placeholder="Ejem: juanperez@gmail.com" aria-describedby="ayuda-nombre">
+                </div>
+                <div class="form-group">
+                    <label for="password">Contraseña:</label>
+                    <span class="text-danger h4">*</span>
+                    <input type="password" class="form-control" name="nmPwd" id="password"
+                        aria-describedby="ayuda-password" required>
+                    <small id="ayuda-password" class="form-text text-muted">
+                        No comparta sus contraseñas a nadie.</small>
+                </div>
+                <div class="form-group">
+                    <label >Repita Contraseña:</label>
+                    <span class="text-danger h4">*</span>
+                    <input type="password" class="form-control" name="nmPwdnewRep" id="nmPwdnewRep"
+                        aria-describedby="ayuda-password" required>
+                </div>
+                {% with messages = get_flashed_messages(with_categories=true)%}
+                        {% if messages %}
+                            {% for category, message in messages %}
+                                <div class="alert {{category}}" id="idMensajeError">
+                                {{message}}
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    {% endwith %}
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary btn-block">Registrarse</button>
+                </div>
+                
+            </form>
+        </div>
+    </div>
+</div>
+{% if success%}
+<script type="text/javascript">
+    var url = '/';
+    var delay = "1400";
+    window.onload = function ()
+    {
+        setTimeout(GoToURL, delay);
+    }
+    function GoToURL()
+    {
+        if(typeof IE_fix != "undefined") // IE8 and lower fix to pass the http referer
+        {
+            var referLink = document.createElement("a");
+            referLink.href = url;
+            document.body.appendChild(referLink);
+            referLink.click();
+        }
+        else { window.location.replace(url); } // All other browsers
+    }
+</script>
+{% endif %}
+{% endblock %}
+

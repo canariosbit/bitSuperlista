@@ -1,0 +1,75 @@
+{% extends "layout_logeado.html" %}
+
+{% block content %}
+<!-- Sección #animacion -->
+<section id="lista">
+    <div class="container">
+        <header class="py-3 text-secondary text-center">
+            <h2 class="display-6 font-weight-bold">MODIFICAR ARTÍCULOS</h2>
+            <div class="text-right ">
+                <a href=""><i onclick="javascript:window.print();" class="fas fa-print text-primary fa-2x "></i></a>
+            </div>
+        </header>
+        
+    </div>
+    
+    <form action="/ABM_articulos" method="POST">
+        <div class="form-group">    
+            <div class="container">
+                <div class="row  py-4">
+                    <div class="col-6">
+                        <div class="card text-center">
+                            <div class="card-header">
+                                    <div class="form-group">
+                                        <label >CATEGORIAS</label>
+                                        <select class="form-control" name="categoria">
+                                        <option selected="OTROS" value="0">SELECCIONAR</option>
+                                        {% for categoria in categorias %}
+                                            <option value="{{categoria.cat_id}}" {% if categoria.cat_id == catSelected %} selected {% endif %} >{{ categoria.cat_nombre }}</option>
+                                        {% endfor %}
+                                        </select>
+                                    </div>
+                                    <input type="text" id="articulo" name="articulo" placeholder="Producto" class="form-control" autofocus>
+                                        <div class="form-group">
+                                            {% with messages = get_flashed_messages(with_categories=true)%}
+                                                {% if messages %}
+                                                    {% for category, message in messages %}
+                                                        <div class="alert {{category}}" id="idMensajeError">
+                                                            {{message}}
+                                                        </div>
+                                                    {% endfor %}
+                                                {% endif %}
+                                            {% endwith %}
+                                        </div>
+                                    <button type="submit" name="submit" value="agregar" class="btn btn-primary btn-block"> Agregar <i class="fa fa-plus"></i></button>      
+                            </div>
+                        </div>
+                    <!-- </div> -->
+                </div>
+            </div>
+        </div>
+    </form>
+
+    {% if success%}
+    <script type="text/javascript">
+        var url = '/';
+        var delay = "2000";
+        window.onload = function ()
+        {
+            setTimeout(GoToURL, delay);
+        }
+        function GoToURL()
+        {
+            if(typeof IE_fix != "undefined") // IE8 and lower fix to pass the http referer
+            {
+                var referLink = document.createElement("a");
+                referLink.href = url;
+                document.body.appendChild(referLink);
+                referLink.click();
+            }
+            else { window.location.replace(url); } // All other browsers
+        }
+    </script>
+    {% endif %}
+
+{% endblock %}

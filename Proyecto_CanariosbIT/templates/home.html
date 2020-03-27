@@ -1,0 +1,216 @@
+{% extends "layout.html" %}
+
+
+<!-- Sección #menu-navegacion -->
+
+<nav id="menu-navegacion" class="navbar navbar-dark bg-secondary navbar-expand-md">
+    <div class="container">
+        <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#menu-principal"
+            aria-expanded="false" aria-label="Botón Menú principal">
+            <span class="boton-menu"></span>
+        </button>
+        <!-- <a href="#" class="btn btn-primary order-md-1">Info</a> -->
+
+        <div class="collapse navbar-collapse" id="menu-principal">
+            <ul class="navbar-nav mt-3 mt-md-0">
+                <li class="nav-item mb-1 mb-md-0 mr-md-2"><a href="#barra-contacto"
+                        class="nav-link active">Inicio</a></li>
+                <li class="nav-item mb-1 mb-md-0 mr-md-2"><a href="#bienvenidos" class="nav-link">Nosotros</a></li>
+                <li class="nav-item mb-1 mb-md-0 mr-md-0"><a href="#contacto" class="nav-link">Contacto</a></li>
+            </ul>
+        </div>
+    </div>
+</nav>
+{% block content %}
+<!-- Sección #animacion -->
+<section id="lista">
+    <div class="container">
+        <header class="py-3 text-secondary text-center">
+            <h2 class="display-6 font-weight-bold">SUPERLISTA</h2>
+            <div class="text-right ">
+                <a href=""><i onclick="javascript:window.print();" class="fas fa-print text-primary fa-2x "></i></a>
+            </div>
+        </header>
+    </div>
+    <div class="container">
+        <div class="row border">
+            <div class="col-3 border">
+                <form action="">
+                    {% for categoria in categorias %}
+                        <div class="form-group">
+                            {% if categoria.cat_id == 9 or categoria.cat_id == 13 or categoria.cat_id ==12  or categoria.cat_id == 11 %}
+                                <div class="text h5 py-2 text-center bg-primary text-white">
+                                    <span>{{ categoria.cat_nombre }} </span>
+                                </div>
+                                {% for producto in productos %}
+                                    {% if categoria.cat_id == producto.cat_id  %}
+                                    <div class="input-group py-1">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">
+                                                <a href="/AddArt/{{producto.pro_nombre}}"><i class="fas fa-cart-plus" style="color:black;"></i></a>
+                                            </div>
+                                        </div>
+                                        <input type="text" name="input" readonly="true" class="form-control"
+                                            value="{{ producto.pro_nombre }}" aria-label="Text input with checkbox">
+
+                                    </div>
+                                    {% endif %}
+                                {% endfor %}
+                            {% endif %}
+                        </div>
+                    {%endfor%}
+                </form>
+            </div>
+            <div class="col-3 border">
+                <form action="">
+                    {% for categoria in categorias %}
+                    <div class="form-group">
+                        {% if categoria.cat_id == 5 or categoria.cat_id == 2 or categoria.cat_id == 6 or categoria.cat_id == 10 %}
+                            <div class="text h5 py-2 text-center bg-primary text-white">
+                                <span>{{ categoria.cat_nombre }} </span>
+                            </div>
+                            {% for producto in productos %}
+                                {% if categoria.cat_id == producto.cat_id  %}
+                                <div class="input-group py-1">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text">
+                                            <a href="/AddArt/{{producto.pro_nombre}}"><i class="fas fa-cart-plus" style="color:black;"></i></a>
+                                        </div>
+                                    </div>
+                                    <input type="text" name="input" readonly="true" class="form-control"
+                                        value="{{ producto.pro_nombre }}" aria-label="Text input with checkbox">
+
+                                </div>
+                                {% endif %}
+                            {% endfor %}
+                        {% endif %}
+                    </div>
+                    {%endfor%}
+                </form>
+            </div>
+            <div class="col-3 border">
+                <form action="">
+                    {% for categoria in categorias %}
+                        <div class="form-group">
+                            {% if categoria.cat_id == 7 or categoria.cat_id == 3 or categoria.cat_id == 4 %}
+                                <div class="text h5 py-2 text-center bg-primary text-white">
+                                    <span>{{ categoria.cat_nombre }} </span>
+                                </div>
+                                    {% for producto in productos %}
+                                        {% if categoria.cat_id == producto.cat_id  %}
+                                        <div class="input-group py-1">
+                                            <div class="input-group-prepend">
+                                                <div class="input-group-text">
+                                                    <a href="/AddArt/{{producto.pro_nombre}}"><i class="fas fa-cart-plus" style="color:black;"></i></a>
+                                                </div>
+                                            </div>
+                                            <input type="text" name="input" readonly="true" class="form-control"
+                                                value="{{ producto.pro_nombre }}" aria-label="Text input with checkbox">
+    
+                                        </div>
+                                        {% endif %}
+                                    {% endfor %}
+                            {% endif %}
+                        </div>
+                    {%endfor%}
+                </form>
+            </div>
+            <div class="col-3 border py-3">
+                <form action="">
+                    {% for categoria in categorias %}
+                        <div class="form-group">
+                            {% if categoria.cat_id == 1 or categoria.cat_id == 8 %}
+                                <div class="text h5 py-2 text-center bg-primary text-white">
+                                    <span>{{ categoria.cat_nombre }} </span>
+                                </div>
+                                    {% for producto in productos %}
+                                        {% if categoria.cat_id == producto.cat_id  %}
+                                        <div class="input-group py-1">
+                                            <div class="input-group-prepend">
+                                                <div class="input-group-text">
+                                                    <a href="/AddArt/{{producto.pro_nombre}}"><i class="fas fa-cart-plus" style="color:black;"></i></a>
+                                                </div>
+                                            </div>
+                                            <input type="text" name="input" readonly="true" class="form-control"
+                                                value="{{ producto.pro_nombre }}" aria-label="Text input with checkbox">
+    
+                                        </div>
+                                        {% endif %}
+                                    {% endfor %}
+                            {% endif %}
+                        </div>
+                    {%endfor%}
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Sección #bienvenidos -->
+<section id="bienvenidos" class="py-5">
+
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-lg-6 text-center">
+
+                <div class="contenedor-video d-inline-block position-relative text-truncate">
+
+                    <img src="{{ url_for('static', filename='images/images.jpg') }}"
+                        alt="Imagen del video promocional del Sitio" class="img-fluid">
+                    <a href="https://www.youtube.com/watch?v=AulXnRyo-C0" class="venobox-video"
+                        data-vbtype="video" title="Bienvenidos a nuestro sitio web."><i class="fas fa-play"></i></a>
+                </div>
+
+            </div>
+            <div class="col-12 col-lg-6  pt-4 pt-lg-0 text-center text-lg-left">
+                <h2 class="display-4 font-weight-bold text-secondary  mt-lg-n2">
+                    BIENVENIDOS A TU <span class="text-primary">SUPERLISTA.</span>
+                </h2>
+                <h6 class="text-black-50">ADMINISTRE SU ECONOMIA PERSONAL</h6>
+                <p>
+                    Superlistas es una plataforma web que permite descargar una lista de compras. También posibilita
+                    agregar items a la lista predefinida y crear tu propia lista de compras entre otras cosas.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Sección #contacto -->
+<section id="contacto">
+    <header class="py-5 bg-primary text-white text-center position-relative">
+        <h2 class="display-4 font-weight-bold">CONTÁCTANOS</h2>
+        <h6 class="text-white-50">ESTAMOS LISTOS PARA ATENDERTE</h6>
+        <div class="detalle-rectangulo"></div>
+    </header>
+
+    <div class="container">
+        <div class="row py-5">
+
+            <div class="col-6">
+                <h2 class="font-weight-bold text-center mb-2">Detalles de contacto:</h2>
+
+                <ul class="list-unstyled">
+                    <li class="d-flex border-bottom py-4">
+                        <i class="fas fa-envelope-open fa-3x text-danger mr-4 fa-fw"></i>
+                        <div>
+                            <h5 class="font-weight-bold">Email:</h5>
+                            <p class="mb-0"><a href="mailto:canariosbit@gmail.com" style="color:#000000;">canariosbit@gmail.com</a></p>
+                        </div>
+                    </li>
+                    <li class="d-flex border-bottom py-4">
+                        <i class="fab fa-skype fa-3x text-info mr-4 fa-fw"></i>
+                        <div>
+                            <h5 class="font-weight-bold">Skype:</h5>
+                            <p class="mb-0">CanariosbIT</p>
+                        </div>
+                    </li>
+
+                </ul>
+
+            </div>
+        </div>
+    </div>
+</section>
+
+
+{% endblock %}

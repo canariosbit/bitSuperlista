@@ -1,0 +1,47 @@
+{% extends "layout_logeado.html" %}
+
+{% block content %}
+
+<!-- Sección #Mis_Listas -->
+<section id="mislistas">
+    <header class="py-3 text-secondary text-center position-relative">
+        <h2 class="display-6 font-weight-bold">MIS LISTAS</h2>
+    </header>
+    <br>
+    <div class="container">
+        <div class="row">
+            <div class="col-12 col-lg-12 text-center">
+
+                <table class="table table-bordered">
+                    <thead class="table text-secondary">
+                      <tr>
+                        <th scope="col">Id</th>
+                        <th scope="col">Fecha</th>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Costo</th>
+                        <th scope="col">Comentarios</th>
+                        <th scope="col">Acciones</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <th scope="row">1</th>
+                        <td>21/03/2020</td>
+                        <td>Asado</td>
+                        <td>3500</td>
+                        <td></td>
+                        <td>
+                            <a href=""><i class="fas fa-edit text-primary px-3"></i></i></a>
+                            <a href=""><i class="fas fa-download text-primary px-3"></i></i></a>
+                            <a href=""><i class="fas fa-trash-alt text-primary px-3"></i></i></a>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+            </div>
+           
+        </div>
+    </div>
+</section>
+
+{% endblock %}

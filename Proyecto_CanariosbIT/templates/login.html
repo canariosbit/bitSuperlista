@@ -1,0 +1,83 @@
+{% extends "layout_ingreso.html" %}
+
+{% block content %}
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-12 col-lg-6">
+                <form action="/login" method="POST" class="border rounded bg-light p-3 mt-3">
+                    <h2 class="text-center">Ingreso</h2>
+                    <div class="row justify-content-center p-2">
+                        <div class="col-auto">
+                            <a href="https://accounts.google.com/"><i class="fab fa-google fa-2x px-3 text-primary"></i></a>
+                            <a href="https://www.facebook.com/"><i class="fab fa-facebook-f fa-2x text-primary"></i></a>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <h2 class="text-center h5">Ingresar con tu cuenta</h2>
+                        <label for="correo">Correo Electrónico:</label>
+                        <input type="text" class="form-control " name="nmCorreo" id="correo" placeholder="Ejem: juanperez@gmail.com"
+                            aria-describedby="ayuda-correo" autofocus required>
+                        <small id="ayuda-correo" class="form-text text-muted">El correo asociado a su
+                            cuenta.</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Contraseña:</label>
+                        <input type="password" class="form-control" name="nmPwd" id="password" aria-describedby="ayuda-password" required>
+                        <small id="ayuda-password" class="form-text text-muted">
+                            No comparta sus contraseñas a nadie.</small>
+                    </div>
+                    {% with messages = get_flashed_messages(with_categories=true)%}
+                        {% if messages %}
+                            {% for category, message in messages %}
+                                <div class="alert {{category}}" id="idMensajeError">
+                                {{message}}
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    {% endwith %}
+                    <section class="info py-2">
+                        <a class="text text-primary"  href="{{ url_for('reset') }}"><p>¿Olvidaste tu contraseña?</p></a>
+                        
+                    </section>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary btn-block">Ingresar</button>
+                    </div>
+                    <div class="flex-col-c p-t-170 p-b-40">
+						<span class="txt1 p-b-9">
+							¿No tenés cuenta?
+						</span>
+
+						<a href="{{ url_for('registrarse') }}" class="txt3 text-primary">
+							Registrate ahora
+						</a>
+					</div>
+                </form>
+                
+            </div>
+        </div>
+    </div>
+    <br>
+    <br>
+{% if success%}
+<script type="text/javascript">
+    var url = '/';
+    var delay = "1400";
+    window.onload = function ()
+    {
+        setTimeout(GoToURL, delay);
+    }
+    function GoToURL()
+    {
+        if(typeof IE_fix != "undefined") // IE8 and lower fix to pass the http referer
+        {
+            var referLink = document.createElement("a");
+            referLink.href = url;
+            document.body.appendChild(referLink);
+            referLink.click();
+        }
+        else { window.location.replace(url); } // All other browsers
+    }
+</script>
+{% endif %}
+
+    {% endblock %}
