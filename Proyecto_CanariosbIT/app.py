@@ -460,6 +460,11 @@ def search():
     # resultado = cur.fetchall() 
     # itemsAdded = len(resultado)
     # return itemsAdded
+
+
+#**************************************
+# Prueba de actualizacion final 
+#**************************************
     
 
 
