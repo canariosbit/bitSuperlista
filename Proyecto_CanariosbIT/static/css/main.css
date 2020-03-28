@@ -1,0 +1,12 @@
+  #cantidad {
+    position: absolute;
+    color: white;
+    z-index: 1000;
+    font-size: 85%;
+    background-color: $naranja;
+    padding-left: 4px;
+    padding-right: 4px;
+    -webkit-border-radius: 9px;
+    -moz-border-radius: 9px;
+    border-radius: 9px;
+  }

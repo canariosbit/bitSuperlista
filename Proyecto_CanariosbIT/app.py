@@ -46,8 +46,8 @@ def getAllProductosUsuarios():
     consulta = 'SELECT * FROM Productos WHERE (PropietarioId= ?)'
     if 'nombre' in session:
         id = session['id']
-    else:
-        id = -1
+    # else:
+    #     id = -1
     cur = g.db.execute(consulta, [id])
     # print(id)
     productos_usuarios = [dict(pro_id=row[0], cat_id=row[1], pro_nombre=row[2])
@@ -90,7 +90,7 @@ def home():
     if 'nombre' in session:
         # Consultando los productos
         productos = getAllProductosUsuarios()
-        return render_template('home_logeado.html', categorias=categorias,
+        return render_template('home_logged_in.html', categorias=categorias,
                                productos=productos)
     else:
         # Consultando los productos
@@ -99,19 +99,6 @@ def home():
                                productos=productos)
 
 
-# # Ruta para  articulos de la cesta
-# @app.route('/AddArt/<articulo>', methods=['GET'])
-# def AddArt(articulo):
-#     if 'nombre' in session:
-#         id = session['id']
-#     else:
-#         id = -1
-#     db = get_db()
-#     cur = db.cursor()
-#     (cur.execute("INSERT INTO Cesta (Id_Usuario, Item) VALUES(?,?)", (id, articulo)))
-#     db.commit()
-#     db.close()
-#     return redirect('/')
 @app.route('/AddArt/<articulo>', methods=['GET'])
 def AddArt(articulo):
     if 'nombre' in session:
@@ -124,17 +111,24 @@ def AddArt(articulo):
     # Consultando si ya existe dentro del Carrito
     find_prod = (
         "SELECT * FROM Cesta WHERE Item = ? AND Id_Usuario = ?")
-    cur.execute(find_prod, [(articulo), (session['id'])])
-    resultado = cur.fetchall()  # podria ser fetchone()
+    cur.execute(find_prod, [(articulo), (id_usuario)])
+    resultado = cur.fetchone() 
     if resultado:
-        categorias = getAllCategorias()
-        productos = getAllProductosUsuarios()
         flash("El artículo ya fue agregado.", "alert-warning")
-        return render_template('home_logeado.html', categorias=categorias,
+        if id_usuario != -1:
+            categorias = getAllCategorias()
+            productos = getAllProductosUsuarios()
+            return render_template('home_logged_in.html', categorias=categorias,
+                                productos=productos, articuloExistente=True)
+        else:
+            categorias = getAllCategorias()
+            productos = getAllProductosAdmin()
+            return render_template('home.html', categorias=categorias,
                             productos=productos, articuloExistente=True)
     
+
     (cur.execute("INSERT INTO Cesta (Id_Usuario, Item) VALUES(?,?)", (id_usuario, articulo)))
-    db.commit()
+    db.commit()    
     db.close()
     return redirect('/')
 
@@ -418,7 +412,7 @@ def ABM_articulos():
             else:
                 # cargo lista del carrito
                 itemsCarrito = getAllCesta()
-                return render_template('home_logeado.html', categorias=categorias,
+                return render_template('home_logged_in.html', categorias=categorias,
                                        productos=productos, items=itemsCarrito)
         else:
             return render_template('ABM_articulos.html', categorias=categorias, productos=productos, catSelected="OTROS")
@@ -442,6 +436,26 @@ def deleteArt(id):
 def search():
     productos = getAllProductosUsuarios()
     return render_template("searchTest.html", productos=productos)
+
+
+# @app.context_processor
+# def context_processor():
+    # if 'nombre' in session:
+    #     id_usuario = session['id']
+    # else:
+    #     id_usuario = -1
+    
+    # db = get_db()
+    # cur = db.cursor()
+    # db.close()
+    # find_prod = (
+    #     "SELECT Id FROM Cesta WHERE Id_Usuario = ?")
+    # cur.execute(find_prod, [(id_usuario)])
+    # resultado = cur.fetchall() 
+    # itemsAdded = len(resultado)
+    # return itemsAdded
+    
+
 
 
 if __name__ == '__main__':

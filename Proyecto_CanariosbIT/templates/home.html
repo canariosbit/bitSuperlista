@@ -32,6 +32,18 @@
             </div>
         </header>
     </div>
+    {% if articuloExistente %}
+        {% with messages = get_flashed_messages(with_categories=true)%}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert {{category}} text-center" id="idMensajeError">
+                    {{message}}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    {% endif %}
+    <!-- listar artículos -->
     <div class="container">
         <div class="row border">
             <div class="col-3 border">

@@ -58,7 +58,10 @@
                         <li class="py-2">{{ session['correo'] }}</li>
                         <li><a href="/perfil"><i class="fas fa-user-edit"></i></i></a></li>
                         <li><a href="/logout"><i class="fas fa-sign-out-alt"></i></i></a></li>
-                        <li><a href="/cart"><i class="fas fa-shopping-cart"></i></a></li>
+                        <div>
+                            <li><a href="/cart"><i class="fas fa-shopping-cart"></i></a></li>
+                            <span id="cantidad"> <strong>{{ cantCestaActual }}</strong></span>
+                        </div>
                     </ul>
                 </div>
             </div>

@@ -41,7 +41,10 @@
                     <ul class="redes-sociales list-unstyled d-inline-flex mb-0">
                         <li><a href="{{ url_for('login') }}"><i class="fas fa-sign-in-alt"></i></i></a></li>
                         <li><a href="{{ url_for('registrarse') }}"><i class="fas fa-user-plus"></i></i></a></li>
-                        <li><a href="/cart"><i class="fas fa-shopping-cart"></i></a></li>
+                        <div>
+                            <li><a href="/cart"><i class="fas fa-shopping-cart"></i></a></li>
+                            </div><span id="cantidad"> <strong>{{ session['id'] }}</strong></span>
+                        </div>
                     </ul>
                 </div>
             </div>
