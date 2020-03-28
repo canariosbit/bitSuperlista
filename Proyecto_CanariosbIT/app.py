@@ -439,47 +439,6 @@ def search():
     productos = getAllProductosUsuarios()
     return render_template("searchTest.html", productos=productos)
 
-########## ESTOS CAMBIOS LOS AGREGUÉ YO ANTES DE HACER EL PULL
-##########
-##########
-##########
-##########
-##########
-##########
-# @app.context_processor
-# def context_processor():
-    # if 'nombre' in session:
-    #     id_usuario = session['id']
-    # else:
-    #     id_usuario = -1
-
-    # db = get_db()
-    # cur = db.cursor()
-    # db.close()
-    # find_prod = (
-    #     "SELECT Id FROM Cesta WHERE Id_Usuario = ?")
-    # cur.execute(find_prod, [(id_usuario)])
-    # resultado = cur.fetchall()
-    # itemsAdded = len(resultado)
-    # return itemsAdded
-
-
-
-#**************************************
-# Prueba 2 de actualizacion Francisco 
-#*************************************
-
-
-#**************************************
-# Prueba 4 de actualizacion Francisco 
-#*****
-# klfeggddg
-# gd
-
-# gdgd
-
-# get_dbgd
-# dgd
 
 
 
