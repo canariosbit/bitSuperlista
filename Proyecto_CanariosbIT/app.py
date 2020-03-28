@@ -437,7 +437,13 @@ def search():
     productos = getAllProductosUsuarios()
     return render_template("searchTest.html", productos=productos)
 
-
+########## ESTOS CAMBIOS LOS AGREGUÉ YO ANTES DE HACER EL PULL
+##########
+##########
+##########
+##########
+##########
+##########
 # @app.context_processor
 # def context_processor():
     # if 'nombre' in session:
