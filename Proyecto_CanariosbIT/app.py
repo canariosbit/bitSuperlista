@@ -478,6 +478,16 @@ def search():
 #**************************************
 # Prueba 4 de actualizacion Francisco 
 #*****
+# klfeggddg
+# gd
+
+# gdgd
+
+# get_dbgd
+# dgd
+
+
+
 
 if __name__ == '__main__':
     app.secret_key = 'qwerty'
