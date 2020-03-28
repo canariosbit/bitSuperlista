@@ -105,30 +105,29 @@ def AddArt(articulo):
         id_usuario = session['id']
     else:
         id_usuario = -1
-    
+
     db = get_db()
     cur = db.cursor()
     # Consultando si ya existe dentro del Carrito
     find_prod = (
         "SELECT * FROM Cesta WHERE Item = ? AND Id_Usuario = ?")
     cur.execute(find_prod, [(articulo), (id_usuario)])
-    resultado = cur.fetchone() 
+    resultado = cur.fetchone()
     if resultado:
         flash("El artículo ya fue agregado.", "alert-warning")
         if id_usuario != -1:
             categorias = getAllCategorias()
             productos = getAllProductosUsuarios()
             return render_template('home_logged_in.html', categorias=categorias,
-                                productos=productos, articuloExistente=True)
+                                   productos=productos, articuloExistente=True)
         else:
             categorias = getAllCategorias()
             productos = getAllProductosAdmin()
             return render_template('home.html', categorias=categorias,
-                            productos=productos, articuloExistente=True)
-    
+                                   productos=productos, articuloExistente=True)
 
     (cur.execute("INSERT INTO Cesta (Id_Usuario, Item) VALUES(?,?)", (id_usuario, articulo)))
-    db.commit()    
+    db.commit()
     db.close()
     return redirect('/')
 
@@ -175,9 +174,10 @@ def registrar_usuario():
         passwordRep = request.form["nmPwdnewRep"]
         if (password == passwordRep):
             if len(password) < 8:
-                flash("La contraseña debe tener al menos 8 caracteres.", "alert-warning")
+                flash("La contraseña debe tener al menos 8 caracteres.",
+                      "alert-warning")
                 return render_template('registro_usuario.html', nombre=nombre, apellido=apellido, correo=email, success=False)
-            
+
             password_enc = password.encode("utf-8")
             hashed_pw = bcrypt.hashpw(password_enc, semilla)
             admin = 0
@@ -200,8 +200,8 @@ def registrar_usuario():
                                                                     apellido, email, hashed_pw, admin)))
             db.commit()
             flash("Usuario creado con éxito!! Redireccionando...", "alert-success")
-            
-            #cargo los productos iniciales del usuario 
+
+            # cargo los productos iniciales del usuario
             cur = db.cursor()
             find_user = ("SELECT Id FROM Usuarios WHERE Email = ?")
             cur.execute(find_user, [(email)])
@@ -210,7 +210,7 @@ def registrar_usuario():
             for producto in productosAdmin:
                 cur.execute("INSERT INTO Productos (CategoriaId, Producto, PropietarioId) VALUES(?,?,?)", (
                             producto["cat_id"], producto["pro_nombre"], user_id[0]))
-                        
+
             db.commit()
             db.close()
             return render_template('registro_usuario.html', nombre=nombre, apellido=apellido, correo=email, success=True)
@@ -290,7 +290,7 @@ def fnActualizar():
         email = request.form['nmCorreo']
         password = request.form["nmPwdnew"]
         passwordRep = request.form["nmPwdnewRep"]
-        
+
         if request.method == "POST":
             if request.form['submit'] == 'eliminar':
                 sql = 'DELETE FROM Productos WHERE PropietarioId=?'
@@ -306,26 +306,28 @@ def fnActualizar():
 
             if (password == passwordRep):
                 if len(password) > 0 and len(password) < 8:
-                    flash("La contraseña debe tener al menos 8 caracteres.", "alert-warning")
+                    flash(
+                        "La contraseña debe tener al menos 8 caracteres.", "alert-warning")
                     return render_template('editar_perfil.html', id=id, nombre=nombre, apellido=apellido, correo=correo, success=False)
-                
+
                 if len(password) > 0:
                     password_enc = password.encode("utf-8")
                     hashed_pw = bcrypt.hashpw(password_enc, semilla)
                     admin = 0
-                    sql = ('UPDATE Usuarios SET Nombre=?, Apellido=? , Email=?, Contrasena=?, Admin=?  WHERE id=?')
+                    sql = (
+                        'UPDATE Usuarios SET Nombre=?, Apellido=? , Email=?, Contrasena=?, Admin=?  WHERE id=?')
                     cur.execute(sql, [(nombre), (apellido),
-                                    (email), (hashed_pw), (admin), (id)])
+                                      (email), (hashed_pw), (admin), (id)])
                 else:
                     sql = (
                         'UPDATE Usuarios SET Nombre=?, Apellido=? , Email=? WHERE id=?')
                     cur.execute(sql, [(nombre), (apellido),
-                                    (email), (id)])
+                                      (email), (id)])
                 db.commit()
                 db.close()
                 flash("Usuario actualizado con exito!! Redireccionando...",
-                    "alert-success")
-                
+                      "alert-success")
+
                 return render_template('editar_perfil.html', success=True)
             else:
                 correo = session['correo']
@@ -444,23 +446,21 @@ def search():
     #     id_usuario = session['id']
     # else:
     #     id_usuario = -1
-    
+
     # db = get_db()
     # cur = db.cursor()
     # db.close()
     # find_prod = (
     #     "SELECT Id FROM Cesta WHERE Id_Usuario = ?")
     # cur.execute(find_prod, [(id_usuario)])
-    # resultado = cur.fetchall() 
+    # resultado = cur.fetchall()
     # itemsAdded = len(resultado)
     # return itemsAdded
 
 
-#**************************************
-# Prueba de actualizacion final 
-#**************************************
-    
-
+#************************************************
+# Creo que falta poco para la locura total 
+#************************************************
 
 
 if __name__ == '__main__':
