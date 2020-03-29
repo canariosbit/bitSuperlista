@@ -61,20 +61,18 @@
                                         {%  set contador = namespace(value=0) %}
                                         <tbody>
                                             <tr class="tex border" >
-                                        {% for CestaArticulo in CestaArticulos %}
-                                            
+                                        {% for CestaArticulo in CestaArticulos %}    
                                             {% if  (contador.value % 6) == 0 %}
                                                  </tr>
                                                  <tr>
                                             {% endif %}
-                                                <td>{{ CestaArticulo.Item_nombre }}</td>
+                                              <td class="text border">{{ CestaArticulo.Item_nombre }}</td>
                                             {% set contador.value = contador.value + 1 %}
                                             
                                         {% endfor %}
                                                 </tr>
                                         </tbody>
                                     </table>
-                               
                             </div>
                         </div>
                     </div>
