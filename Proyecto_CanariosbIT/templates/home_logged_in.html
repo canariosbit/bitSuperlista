@@ -12,7 +12,7 @@
         <div class="form-group">
             <div class="container">
                 <div class="row py-4">
-                    <div class="col-6">
+                    <div class="col-4">
                         <div class="card text-center">
                             <div class="card-header">
                                 <div class="form-group">
@@ -50,6 +50,34 @@
                             </div>
                         </div>
                     </div>
+                    <div class="col-8">
+                        <div class="card">
+                            <div class="card-header text-center">
+                                <span>ARTÍCULOS AGREGADOS A LA CESTA</span>
+                            </div>
+                            <div class="card-body">
+                                    {%  set contador = namespace(value=0) %}
+                                    <table class="table table-striped">
+                                        {%  set contador = namespace(value=0) %}
+                                        <tbody>
+                                            <tr class="tex border" >
+                                        {% for CestaArticulo in CestaArticulos %}
+                                            
+                                            {% if  (contador.value % 6) == 0 %}
+                                                 </tr>
+                                                 <tr>
+                                            {% endif %}
+                                                <td>{{ CestaArticulo.Item_nombre }}</td>
+                                            {% set contador.value = contador.value + 1 %}
+                                            
+                                        {% endfor %}
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                               
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             {% if articuloExistente %}
@@ -75,23 +103,23 @@
                                     <span>{{ categoria.cat_nombre }} </span>
                                 </div>   
                                     {% for producto in productos %}
-                                    {% if categoria.cat_id == producto.cat_id  %}
-                                    <div class="input-group py-1">
-                                        <div class="input-group-prepend">
-                                            <div class="input-group-text">
-                                                <a href="/AddArt/{{producto.pro_nombre}}"><i class="fas fa-cart-plus" style="color:black;"></i></a>
+                                        {% if categoria.cat_id == producto.cat_id  %}
+                                        <div class="input-group py-1">
+                                            <div class="input-group-prepend">
+                                                <div class="input-group-text">
+                                                    <a href="/AddArt/{{producto.pro_nombre}}"><i class="fas fa-cart-plus" style="color:black;"></i></a>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <input type="text" name="input" readonly="true" class="form-control"
-                                            value="{{ producto.pro_nombre }}" aria-label="Text input with checkbox">
-                                        <div class="input-group-prepend">
-                                            <div class="input-group-text">
-                                                <a href="/deleteArt/{{producto.pro_id}}" i class="far fa-trash-alt" style="color:#000000;"></i></a>
+                                            <input type="text" name="input" readonly="true" class="form-control"
+                                                value="{{ producto.pro_nombre }}" aria-label="Text input with checkbox">
+                                            <div class="input-group-prepend">
+                                                <div class="input-group-text">
+                                                    <a href="/deleteArt/{{producto.pro_id}}" i class="far fa-trash-alt" style="color:#000000;"></i></a>
+                                                </div>
                                             </div>
-                                        </div>
 
-                                    </div>
-                                    {% endif %}
+                                        </div>
+                                        {% endif %}
                                     {% endfor %}
                                 
                                 {% endif %}
@@ -109,22 +137,22 @@
                                     <span>{{ categoria.cat_nombre }} </span>
                                 </div>
                                     {% for producto in productos %}
-                                    {% if categoria.cat_id == producto.cat_id  %}
-                                    <div class="input-group py-1">
-                                        <div class="input-group-prepend">
-                                            <div class="input-group-text">
-                                                <a href="/AddArt/{{producto.pro_nombre}}"><i class="fas fa-cart-plus" style="color:black;"></i></a>
+                                        {% if categoria.cat_id == producto.cat_id  %}
+                                        <div class="input-group py-1">
+                                            <div class="input-group-prepend">
+                                                <div class="input-group-text">
+                                                    <a href="/AddArt/{{producto.pro_nombre}}"><i class="fas fa-cart-plus" style="color:black;"></i></a>
+                                                </div>
+                                            </div>
+                                            <input type="text" readonly="true" class="form-control"
+                                                value="{{ producto.pro_nombre }}" aria-label="Text input with checkbox">
+                                            <div class="input-group-prepend">
+                                                <div class="input-group-text">
+                                                    <a href="/deleteArt/{{producto.pro_id}}" i class="far fa-trash-alt" style="color:#000000;"></i></a>
+                                                </div>
                                             </div>
                                         </div>
-                                        <input type="text" readonly="true" class="form-control"
-                                            value="{{ producto.pro_nombre }}" aria-label="Text input with checkbox">
-                                        <div class="input-group-prepend">
-                                            <div class="input-group-text">
-                                                <a href="/deleteArt/{{producto.pro_id}}" i class="far fa-trash-alt" style="color:#000000;"></i></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    {% endif %}
+                                        {% endif %}
                                     {% endfor %}
                                 
                                 {% endif %}
@@ -141,22 +169,22 @@
                                     <span>{{ categoria.cat_nombre }} </span>
                                 </div>
                                     {% for producto in productos %}
-                                    {% if categoria.cat_id == producto.cat_id  %}
-                                    <div class="input-group py-1">
-                                        <div class="input-group-prepend">
-                                            <div class="input-group-text">
-                                                <a href="/AddArt/{{producto.pro_nombre}}"><i class="fas fa-cart-plus" style="color:black;"></i></a>
+                                        {% if categoria.cat_id == producto.cat_id  %}
+                                        <div class="input-group py-1">
+                                            <div class="input-group-prepend">
+                                                <div class="input-group-text">
+                                                    <a href="/AddArt/{{producto.pro_nombre}}"><i class="fas fa-cart-plus" style="color:black;"></i></a>
+                                                </div>
+                                            </div>
+                                            <input type="text" readonly="true" class="form-control"
+                                                value="{{ producto.pro_nombre }}" aria-label="Text input with checkbox">
+                                            <div class="input-group-prepend">
+                                                <div class="input-group-text">
+                                                    <a href="/deleteArt/{{producto.pro_id}}" i class="far fa-trash-alt" style="color:#000000;"></i></a>
+                                                </div>
                                             </div>
                                         </div>
-                                        <input type="text" readonly="true" class="form-control"
-                                            value="{{ producto.pro_nombre }}" aria-label="Text input with checkbox">
-                                        <div class="input-group-prepend">
-                                            <div class="input-group-text">
-                                                <a href="/deleteArt/{{producto.pro_id}}" i class="far fa-trash-alt" style="color:#000000;"></i></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    {% endif %}
+                                        {% endif %}
                                     {% endfor %}
                                 
                                 {% endif %}
@@ -173,22 +201,22 @@
                                     <span>{{ categoria.cat_nombre }} </span>
                                 </div>
                                     {% for producto in productos %}
-                                    {% if categoria.cat_id == producto.cat_id  %}
-                                    <div class="input-group py-1">
-                                        <div class="input-group-prepend">
-                                            <div class="input-group-text">
-                                                <a href="/AddArt/{{producto.pro_nombre}}"><i class="fas fa-cart-plus" style="color:black;"></i></a>
+                                        {% if categoria.cat_id == producto.cat_id  %}
+                                        <div class="input-group py-1">
+                                            <div class="input-group-prepend">
+                                                <div class="input-group-text">
+                                                    <a href="/AddArt/{{producto.pro_nombre}}"><i class="fas fa-cart-plus" style="color:black;"></i></a>
+                                                </div>
+                                            </div>
+                                            <input type="text" readonly="true" class="form-control"
+                                                value="{{ producto.pro_nombre }}" aria-label="Text input with checkbox">
+                                            <div class="input-group-prepend">
+                                                <div class="input-group-text">
+                                                    <a href="/deleteArt/{{producto.pro_id}}" i class="far fa-trash-alt" style="color:#000000;"></i></a>
+                                                </div>
                                             </div>
                                         </div>
-                                        <input type="text" readonly="true" class="form-control"
-                                            value="{{ producto.pro_nombre }}" aria-label="Text input with checkbox">
-                                        <div class="input-group-prepend">
-                                            <div class="input-group-text">
-                                                <a href="/deleteArt/{{producto.pro_id}}" i class="far fa-trash-alt" style="color:#000000;"></i></a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    {% endif %}
+                                        {% endif %}
                                     {% endfor %}
                                 
                                 {% endif %}

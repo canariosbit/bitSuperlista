@@ -90,8 +90,10 @@ def home():
     if 'nombre' in session:
         # Consultando los productos
         productos = getAllProductosUsuarios()
+        # Consultando los productos en la cesta
+        CestaArticulos = getAllCesta()
         return render_template('home_logged_in.html', categorias=categorias,
-                               productos=productos)
+                               productos=productos, CestaArticulos=CestaArticulos)
     else:
         # Consultando los productos
         productos = getAllProductosAdmin()
@@ -443,9 +445,6 @@ def deleteArt(id):
 def search():
     productos = getAllProductosUsuarios()
     return render_template("searchTest.html", productos=productos)
-
-
-
 
 
 if __name__ == '__main__':
