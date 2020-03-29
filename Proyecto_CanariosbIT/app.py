@@ -488,6 +488,7 @@ def deleteArt(id):
     cur.execute(delete_product, [(id), (id_usuario)])
     db.commit()
     db.close()
+    flash("Producto eliminado.", "alert-danger")
     return redirect("/")
 
 
