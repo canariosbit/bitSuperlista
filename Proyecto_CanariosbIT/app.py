@@ -13,7 +13,7 @@ semilla = b'$2b$12$AAbdub6epHJ.1dHCta1rmu'
 def get_db():
     db = getattr(g, '_database', None)
     if db is None:
-        db = g._database = sqlite3.connect('database.db')
+        db = g._database = sqlite3.connect('database1.db')
     return db
 
 
@@ -26,7 +26,7 @@ def close_connection(exception):
 
 
 def conectar_db():
-    return sqlite3.connect('database.db')
+    return sqlite3.connect('database1.db')
 
 
 def getAllProductosAdmin():
