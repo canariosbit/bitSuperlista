@@ -445,6 +445,9 @@ def search():
     return render_template("searchTest.html", productos=productos)
 
 
+
+
+
 if __name__ == '__main__':
     app.secret_key = 'qwerty'
     app.run(debug=True, port=5000)
