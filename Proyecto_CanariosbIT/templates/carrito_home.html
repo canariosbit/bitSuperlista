@@ -26,6 +26,9 @@
     <link href="https://fonts.googleapis.com/css?family=Lato:400,700" rel="stylesheet">
     <!-- Carga del css personalizado -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/estilos.css') }}">
+    <!-- MAIN CSS -->
+    <link rel="stylesheet" href="{{url_for('static', filename='css/main.css')}}">
+
 </head>
 
 <body>
@@ -41,7 +44,10 @@
                     <ul class="redes-sociales list-unstyled d-inline-flex mb-0">
                         <li><a href="{{ url_for('login') }}"><i class="fas fa-sign-in-alt"></i></i></a></li>
                         <li><a href="{{ url_for('registrarse') }}"><i class="fas fa-user-plus"></i></i></a></li>
-                        <li><a href="/cart"><i class="fas fa-shopping-cart"></i></a></li>
+                        <div>
+                            <li><a href="/cart"><i class="fas fa-shopping-cart"></i></a></li>
+                        </div>
+                        <span id="cantidad"> <strong>{{ session['carrito'] }}</strong></span>
                     </ul>
                 </div>
             </div>
@@ -73,23 +79,24 @@
     <div class="text h2 text-center py-3">
         <span>Tu Cesta</span>
     </div>
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-5 py-5 text-center">
-                <div class="card">
-                    <div class="card-header">
-                        <span>Tu lista de la compra</span>
-                    </div>
-                    <div class="card-body ">
-                        {%for item in items %}
-                            <div class="input-group py-1">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-5 py-5 text-center">
+                    <div class="card">
+                        <div class="card-header">
+                            <span>Tu lista de la compra</span>
+                        </div>
+                        <div class="card-body ">
+                            {%for item in items %}
+                                <div class="input-group py-1">
                         
                                     <div class="input-group-prepend">
                                         <div class="input-group-text">
-                                            <input type="checkbox" aria-label="Checkbox for following text input">
+                                            <a href="/adquirido/{{item.Id}}"><i class="{% if item.Tachar %} text-success fas fa-check {% else %} fa-lg text-danger fas fa-times  {% endif %} "></i></a>
+                                            <!-- <a href="/adquirido/{{item.Id}}" type="checkbox" aria-label="Checkbox for following text input"></a> -->
                                         </div>
                                     </div>
-                                    <input type="text" readonly="true" class="form-control" value="{{item.Item_nombre}}">
+                                    <input type="text" readonly="true" color="blue" class="form-control {% if item.Tachar %} tachar {% endif %}" value="{{item.Item_nombre}}">
                                     <div class="input-group-prepend">
                                         <div class="input-group-text">
                                             <a href="/DeleteArtCesta/{{item.Id}}"><i class="far fa-trash-alt text-primary"></i></a>
@@ -101,10 +108,6 @@
                 </div>
                 
             </div>
-           
-               
-
-            
         </div>
     </div>
 </section>

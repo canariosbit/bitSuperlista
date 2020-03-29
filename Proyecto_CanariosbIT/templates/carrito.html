@@ -16,14 +16,15 @@
                     </div>
                     <div class="card-body ">
                         {%for item in items %}
-                            <div class="input-group py-1">
+                                <div class="input-group py-1">
                         
                                     <div class="input-group-prepend">
                                         <div class="input-group-text">
-                                            <input type="checkbox" aria-label="Checkbox for following text input">
+                                            <a href="/adquirido/{{item.Id}}"><i class="{% if item.Tachar %} text-success fas fa-check {% else %} fa-lg text-danger fas fa-times  {% endif %} "></i></a>
+                                            <!-- <a href="/adquirido/{{item.Id}}" type="checkbox" aria-label="Checkbox for following text input"></a> -->
                                         </div>
                                     </div>
-                                    <input type="text" readonly="true" class="form-control" value="{{item.Item_nombre}}">
+                                    <input type="text" readonly="true" color="blue" class="form-control {% if item.Tachar %} tachar {% endif %}" value="{{item.Item_nombre}}">
                                     <div class="input-group-prepend">
                                         <div class="input-group-text">
                                             <a href="/DeleteArtCesta/{{item.Id}}"><i class="far fa-trash-alt text-primary"></i></a>

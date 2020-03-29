@@ -43,8 +43,9 @@
                         <li><a href="{{ url_for('registrarse') }}"><i class="fas fa-user-plus"></i></i></a></li>
                         <div>
                             <li><a href="/cart"><i class="fas fa-shopping-cart"></i></a></li>
-                            </div><span id="cantidad"> <strong>{{ session['id'] }}</strong></span>
                         </div>
+                        <span id="cantidad"> <strong>{{ session['carrito'] }}</strong></span>
+                        
                     </ul>
                 </div>
             </div>

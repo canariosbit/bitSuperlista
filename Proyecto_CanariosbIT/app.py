@@ -1,4 +1,4 @@
-from flask import Flask, render_template, g, request, session, redirect, flash
+from flask import Flask, render_template, g, request, session, redirect, flash, url_for
 import sqlite3
 import bcrypt
 
@@ -57,6 +57,7 @@ def getAllProductosUsuarios():
 
 
 def getAllCategorias():
+    cantCarrito()
     # Consultando las categorias
     g.db = conectar_db()
     cur = g.db.execute('SELECT * FROM Categorias')
@@ -76,10 +77,30 @@ def getAllCesta():
     g.db = conectar_db()
     consulta = 'SELECT * FROM Cesta WHERE (Id_usuario = ?)'
     cur = g.db.execute(consulta, [id])
-    items = [dict(Id=row[0], Id_Usuario=row[1], Item_nombre=row[2])
+    items = [dict(Id=row[0], Id_Usuario=row[1], Item_nombre=row[2], Tachar=row[3])
              for row in cur.fetchall()]
     g.db.close()
     return items
+
+
+def cantCarrito():
+    if 'nombre' in session:
+        id_usuario = session['id']
+    else:
+        id_usuario = -1
+    db = get_db()
+    while not(db):
+        db = get_db()
+    cur = db.cursor()
+    # Consultando si ya existe dentro del Carrito
+    find_prod = (
+        "SELECT COUNT(Id) FROM Cesta WHERE Id_Usuario = ?")
+    cur.execute(find_prod, [(id_usuario)])
+    resultado = cur.fetchone()
+    session['carrito'] = resultado[0]
+    print(resultado)
+    print(session['carrito'])
+    return session['carrito']
 
 
 @app.route('/')  # ruta para el home
@@ -96,7 +117,8 @@ def home():
         # Consultando los productos
         productos = getAllProductosAdmin()
         return render_template('home.html', categorias=categorias,
-                               productos=productos)
+            productos=productos)
+
 
 
 @app.route('/AddArt/<articulo>', methods=['GET'])
@@ -126,7 +148,7 @@ def AddArt(articulo):
             return render_template('home.html', categorias=categorias,
                                    productos=productos, articuloExistente=True)
 
-    (cur.execute("INSERT INTO Cesta (Id_Usuario, Item) VALUES(?,?)", (id_usuario, articulo)))
+    (cur.execute("INSERT INTO Cesta (Id_Usuario, Item, Tachar) VALUES(?,?, ?)", (id_usuario, articulo, 0)))
     db.commit()
     db.close()
     return redirect('/')
@@ -149,8 +171,36 @@ def DeleteArtCesta(id):
     return redirect("/cart")
 
 
+@app.route('/adquirido/<id>')  # Marcar/desmarcar artículo en carrito
+def tacharToggle(id):
+    if 'nombre' in session:
+        id_usuario = session['id']
+    else:
+        id_usuario = -1
+    db = get_db()
+    cur = db.cursor()
+    # Consultando si ya existe dentro del Carrito
+    find_prod = (
+        "SELECT Tachar FROM Cesta WHERE Id_Usuario = ? AND Id = ?")
+    cur.execute(find_prod, [(id_usuario),(id)])
+    resultado = cur.fetchone()
+    print("resultadox: ")
+    print(resultado[0])
+    
+    if (resultado[0]) == 1:
+        estado = 0
+    else:
+        estado = 1
+    sql = (
+    'UPDATE Cesta SET Tachar=?  WHERE id=?')
+    cur.execute(sql, [(estado),(id)])
+    db.commit()
+    # db.close()
+    return redirect(url_for('cart'))
+
 @app.route('/cart')  # Ruta Mi Cesta
 def cart():
+    cantCarrito()
     if 'nombre' in session:
         # Consultando los item de la tabla Cesta
         items = getAllCesta()
@@ -438,9 +488,6 @@ def deleteArt(id):
 def search():
     productos = getAllProductosUsuarios()
     return render_template("searchTest.html", productos=productos)
-
-
-
 
 
 if __name__ == '__main__':

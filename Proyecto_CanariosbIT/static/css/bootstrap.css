@@ -8901,6 +8901,10 @@ a.text-danger:hover, a.text-danger:focus {
   color: #bd2130 !important;
 }
 
+.isRed {
+  color: brown;
+}
+
 .text-light {
   color: #f8f9fa !important;
 }

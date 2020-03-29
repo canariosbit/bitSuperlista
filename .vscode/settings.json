@@ -2,5 +2,6 @@
     "python.pythonPath": "C:\\Users\\Fran\\.virtualenvs\\Proyecto-bIT_(1)-aZzTeLC2\\Scripts\\python.exe",
     "python.linting.pylintEnabled": false,
     "python.linting.flake8Enabled": true,
-    "python.linting.enabled": true
+    "python.linting.enabled": true,
+    "python.linting.mypyEnabled": false
 }

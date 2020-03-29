@@ -30,6 +30,8 @@
     <link href="https://fonts.googleapis.com/css?family=Lato:400,700" rel="stylesheet">
     <!-- Carga del css personalizado -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/estilos.css') }}">
+    <!-- MAIN CSS -->
+    <link rel="stylesheet" href="{{url_for('static', filename='css/main.css')}}">
     <script>
         $(function () {
             $('#bootnavbar').bootnavbar({
@@ -60,8 +62,9 @@
                         <li><a href="/logout"><i class="fas fa-sign-out-alt"></i></i></a></li>
                         <div>
                             <li><a href="/cart"><i class="fas fa-shopping-cart"></i></a></li>
-                            <span id="cantidad"> <strong>{{ cantCestaActual }}</strong></span>
                         </div>
+                        <span id="cantidad"> <strong>{{ session['carrito'] }}</strong></span>
+                        
                     </ul>
                 </div>
             </div>
