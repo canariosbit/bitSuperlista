@@ -308,7 +308,7 @@ def fnActualizar():
                 if len(password) > 0 and len(password) < 8:
                     flash(
                         "La contraseña debe tener al menos 8 caracteres.", "alert-warning")
-                    return render_template('editar_perfil.html', id=id, nombre=nombre, apellido=apellido, correo=correo, success=False)
+                    return render_template('editar_perfil.html', id=id, nombre=nombre, apellido=apellido, correo=email, success=False)
 
                 if len(password) > 0:
                     password_enc = password.encode("utf-8")
@@ -425,54 +425,24 @@ def ABM_articulos():
 @app.route('/deleteArt/<id>', methods=['GET', 'POST'])
 def deleteArt(id):
     id = int(id)
+    if 'nombre' in session:
+        id_usuario = session['id']
+    else:
+        id_usuario = -1
+    id = int(id)
     db = get_db()
     cur = db.cursor()
-    delete_product = ("DELETE FROM Productos WHERE Id = ?")
-    cur.execute(delete_product, [(id)])
+    delete_product = ("DELETE FROM Productos WHERE Id = ? AND PropietarioId = ?")
+    cur.execute(delete_product, [(id), (id_usuario)])
     db.commit()
     db.close()
-    return redirect("/ABM_articulos")
+    return redirect("/")
 
 
 @app.route('/search/', methods=['GET', 'POST'])
 def search():
     productos = getAllProductosUsuarios()
     return render_template("searchTest.html", productos=productos)
-
-########## ESTOS CAMBIOS LOS AGREGUÉ YO ANTES DE HACER EL PULL
-##########
-##########
-##########
-##########
-##########
-##########
-# @app.context_processor
-# def context_processor():
-    # if 'nombre' in session:
-    #     id_usuario = session['id']
-    # else:
-    #     id_usuario = -1
-
-    # db = get_db()
-    # cur = db.cursor()
-    # db.close()
-    # find_prod = (
-    #     "SELECT Id FROM Cesta WHERE Id_Usuario = ?")
-    # cur.execute(find_prod, [(id_usuario)])
-    # resultado = cur.fetchall()
-    # itemsAdded = len(resultado)
-    # return itemsAdded
-
-
-
-#**************************************
-# Prueba 2 de actualizacion Francisco 
-#*************************************
-
-
-#**************************************
-# Prueba 2 de actualizacion Mariana 
-#*************************************
 
 
 if __name__ == '__main__':
