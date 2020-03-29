@@ -111,8 +111,10 @@ def home():
     if 'nombre' in session:
         # Consultando los productos
         productos = getAllProductosUsuarios()
+        # Consultando los productos en la cesta
+        CestaArticulos = getAllCesta()
         return render_template('home_logged_in.html', categorias=categorias,
-                               productos=productos)
+                               productos=productos, CestaArticulos=CestaArticulos)
     else:
         # Consultando los productos
         productos = getAllProductosAdmin()
@@ -358,7 +360,7 @@ def fnActualizar():
                 if len(password) > 0 and len(password) < 8:
                     flash(
                         "La contraseña debe tener al menos 8 caracteres.", "alert-warning")
-                    return render_template('editar_perfil.html', id=id, nombre=nombre, apellido=apellido, correo=correo, success=False)
+                    return render_template('editar_perfil.html', id=id, nombre=nombre, apellido=apellido, correo=email, success=False)
 
                 if len(password) > 0:
                     password_enc = password.encode("utf-8")
@@ -475,13 +477,18 @@ def ABM_articulos():
 @app.route('/deleteArt/<id>', methods=['GET', 'POST'])
 def deleteArt(id):
     id = int(id)
+    if 'nombre' in session:
+        id_usuario = session['id']
+    else:
+        id_usuario = -1
+    id = int(id)
     db = get_db()
     cur = db.cursor()
-    delete_product = ("DELETE FROM Productos WHERE Id = ?")
-    cur.execute(delete_product, [(id)])
+    delete_product = ("DELETE FROM Productos WHERE Id = ? AND PropietarioId = ?")
+    cur.execute(delete_product, [(id), (id_usuario)])
     db.commit()
     db.close()
-    return redirect("/ABM_articulos")
+    return redirect("/")
 
 
 @app.route('/search/', methods=['GET', 'POST'])
