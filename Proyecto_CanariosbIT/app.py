@@ -120,9 +120,7 @@ def home():
         productos = getAllProductosAdmin()
         CestaArticulos = getAllCesta()
         return render_template('home.html', categorias=categorias,
-                               productos=productos)
-            productos=productos, CestaArticulos=CestaArticulos)
-
+                               productos=productos, CestaArticulos=CestaArticulos)
 
 
 @app.route('/AddArt/<articulo>', methods=['GET'])
@@ -193,6 +191,7 @@ def DeleteArtCesta_home(id):
     db.commit()
     db.close()
     return redirect("/")
+
 
 @app.route('/adquirido/<id>')  # Marcar/desmarcar artículo en carrito
 def tacharToggle(id):

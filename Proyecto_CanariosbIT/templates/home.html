@@ -32,43 +32,51 @@
             </div>
         </header>
     </div>
-    <div class="col-8">
-        <div class="card">
-            <div class="card-header text-center">
-                <span>ARTÍCULOS AGREGADOS A LA CESTA</span>
-            </div>
-            <div class="card-body">
-                    {%  set contador = namespace(value=0) %}
-                    <table class="table table-striped">
-                        {%  set contador = namespace(value=0) %}
-                        <tbody>
-                            <tr class="tex border" >
-                        {% for CestaArticulo in CestaArticulos %}    
-                            {% if  (contador.value % 6) == 0 %}
-                                 </tr>
-                                 <tr>
-                            {% endif %}
-                              <td class="text border">{{ CestaArticulo.Item_nombre }}
-                                <a href="/DeleteArtCesta_home/{{CestaArticulo.Id}}"><i class="far fa-trash-alt text-primary"></i></a>
-                              </td>
-                            {% set contador.value = contador.value + 1 %}
-                            
-                        {% endfor %}
-                                </tr>
-                        </tbody>
-                    </table>
+    <div class="container">
+        <div class="row justify-content-center p-4">
+            <div class="col-12">
+                <div class="card align-content-center">
+                    <div class="card-header text-center">
+                        <span>ARTÍCULOS AGREGADOS A LA CESTA</span>
+                    </div>
+                    <div class="card-body">
+                            {%  set contador = namespace(value=0) %}
+                            <table class="table table-striped">
+                                {%  set contador = namespace(value=0) %}
+                                <tbody>
+                                    <tr class="tex border" >
+                                {% for CestaArticulo in CestaArticulos %}    
+                                    {% if  (contador.value % 6) == 0 %}
+                                         </tr>
+                                         <tr>
+                                    {% endif %}
+                                      <td class="text border">{{ CestaArticulo.Item_nombre }}
+                                        <a href="/DeleteArtCesta_home/{{CestaArticulo.Id}}"><i class="far fa-trash-alt text-primary"></i></a>
+                                      </td>
+                                    {% set contador.value = contador.value + 1 %}
+                                    
+                                {% endfor %}
+                                        </tr>
+                                </tbody>
+                            </table>
+                    </div>
+                </div>
             </div>
         </div>
+        {% with messages = get_flashed_messages(with_categories=true)%}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert {{category}} text-center" id="idMensajeError">
+                    {{message}}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
     </div>
-    {% with messages = get_flashed_messages(with_categories=true)%}
-        {% if messages %}
-            {% for category, message in messages %}
-                <div class="alert {{category}} text-center" id="idMensajeError">
-                {{message}}
-                </div>
-            {% endfor %}
-        {% endif %}
-    {% endwith %}
+        
+
+    
+    
     <!-- listar artículos -->
     <div class="container">
         <div class="row border">
