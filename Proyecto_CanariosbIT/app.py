@@ -155,6 +155,7 @@ def AddArt(articulo):
     (cur.execute("INSERT INTO Cesta (Id_Usuario, Item, Tachar) VALUES(?,?, ?)", (id_usuario, articulo, 0)))
     db.commit()
     db.close()
+    flash("Producto agregado correctamente.", "alert-success")
     return redirect('/')
 
 
