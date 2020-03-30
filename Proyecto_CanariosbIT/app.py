@@ -119,8 +119,7 @@ def home():
         # Consultando los productos
         productos = getAllProductosAdmin()
         return render_template('home.html', categorias=categorias,
-            productos=productos)
-
+                               productos=productos)
 
 
 @app.route('/AddArt/<articulo>', methods=['GET'])
@@ -150,7 +149,8 @@ def AddArt(articulo):
             return render_template('home.html', categorias=categorias,
                                    productos=productos, articuloExistente=True)
 
-    (cur.execute("INSERT INTO Cesta (Id_Usuario, Item, Tachar) VALUES(?,?, ?)", (id_usuario, articulo, 0)))
+    (cur.execute("INSERT INTO Cesta (Id_Usuario, Item, Tachar) VALUES(?,?, ?)",
+                 (id_usuario, articulo, 0)))
     db.commit()
     db.close()
     return redirect('/')
@@ -184,21 +184,22 @@ def tacharToggle(id):
     # Consultando si ya existe dentro del Carrito
     find_prod = (
         "SELECT Tachar FROM Cesta WHERE Id_Usuario = ? AND Id = ?")
-    cur.execute(find_prod, [(id_usuario),(id)])
+    cur.execute(find_prod, [(id_usuario), (id)])
     resultado = cur.fetchone()
     print("resultadox: ")
     print(resultado[0])
-    
+
     if (resultado[0]) == 1:
         estado = 0
     else:
         estado = 1
     sql = (
-    'UPDATE Cesta SET Tachar=?  WHERE id=?')
-    cur.execute(sql, [(estado),(id)])
+        'UPDATE Cesta SET Tachar=?  WHERE id=?')
+    cur.execute(sql, [(estado), (id)])
     db.commit()
     # db.close()
     return redirect(url_for('cart'))
+
 
 @app.route('/cart')  # Ruta Mi Cesta
 def cart():
@@ -484,7 +485,8 @@ def deleteArt(id):
     id = int(id)
     db = get_db()
     cur = db.cursor()
-    delete_product = ("DELETE FROM Productos WHERE Id = ? AND PropietarioId = ?")
+    delete_product = (
+        "DELETE FROM Productos WHERE Id = ? AND PropietarioId = ?")
     cur.execute(delete_product, [(id), (id_usuario)])
     db.commit()
     db.close()
