@@ -66,7 +66,9 @@
                                                  </tr>
                                                  <tr>
                                             {% endif %}
-                                              <td class="text border">{{ CestaArticulo.Item_nombre }}</td>
+                                              <td class="text border">{{ CestaArticulo.Item_nombre }}
+                                                <a href="/DeleteArtCesta_home/{{CestaArticulo.Id}}"><i class="far fa-trash-alt text-primary"></i></a>
+                                              </td>
                                             {% set contador.value = contador.value + 1 %}
                                             
                                         {% endfor %}

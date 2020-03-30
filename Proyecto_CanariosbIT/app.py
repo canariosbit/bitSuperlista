@@ -118,8 +118,9 @@ def home():
     else:
         # Consultando los productos
         productos = getAllProductosAdmin()
+        CestaArticulos = getAllCesta()
         return render_template('home.html', categorias=categorias,
-            productos=productos)
+            productos=productos, CestaArticulos=CestaArticulos)
 
 
 
@@ -139,16 +140,17 @@ def AddArt(articulo):
     resultado = cur.fetchone()
     if resultado:
         flash("El artículo ya fue agregado.", "alert-warning")
-        if id_usuario != -1:
-            categorias = getAllCategorias()
-            productos = getAllProductosUsuarios()
-            return render_template('home_logged_in.html', categorias=categorias,
-                                   productos=productos, articuloExistente=True)
-        else:
-            categorias = getAllCategorias()
-            productos = getAllProductosAdmin()
-            return render_template('home.html', categorias=categorias,
-                                   productos=productos, articuloExistente=True)
+        return redirect('/')
+        # if id_usuario != -1:
+        #     categorias = getAllCategorias()
+        #     productos = getAllProductosUsuarios()
+        #     return render_template('home_logged_in.html', categorias=categorias,
+        #                            productos=productos, articuloExistente=True)
+        # else:
+        #     categorias = getAllCategorias()
+        #     productos = getAllProductosAdmin()
+        #     return render_template('home.html', categorias=categorias,
+        #                            productos=productos, articuloExistente=True)
 
     (cur.execute("INSERT INTO Cesta (Id_Usuario, Item, Tachar) VALUES(?,?, ?)", (id_usuario, articulo, 0)))
     db.commit()
@@ -172,6 +174,22 @@ def DeleteArtCesta(id):
     db.close()
     return redirect("/cart")
 
+
+# Ruta para eliminar articulos de la cesta y volver al home
+@app.route('/DeleteArtCesta_home/<id>', methods=['GET', 'POST'])
+def DeleteArtCesta_home(id):
+    if 'nombre' in session:
+        id_usuario = session['id']
+    else:
+        id_usuario = -1
+    id = int(id)
+    db = get_db()
+    cur = db.cursor()
+    delete_product = ("DELETE FROM Cesta WHERE Id = ? AND Id_Usuario = ?")
+    cur.execute(delete_product, [(id), (id_usuario)])
+    db.commit()
+    db.close()
+    return redirect("/")
 
 @app.route('/adquirido/<id>')  # Marcar/desmarcar artículo en carrito
 def tacharToggle(id):
