@@ -175,6 +175,21 @@ def DeleteArtCesta(id):
     db.close()
     return redirect("/cart")
 
+# Ruta para eliminar articulos de la cesta
+@app.route('/DeleteAllCesta', methods=['GET', 'POST'])
+def DeleteAllCesta():
+    if 'nombre' in session:
+        id_usuario = session['id']
+    else:
+        id_usuario = -1
+    db = get_db()
+    cur = db.cursor()
+    delete_product = ("DELETE FROM Cesta WHERE Id_Usuario = ?")
+    cur.execute(delete_product, [(id_usuario)])
+    db.commit()
+    db.close()
+    return redirect("/cart")
+
 
 # Ruta para eliminar articulos de la cesta y volver al home
 @app.route('/DeleteArtCesta_home/<id>', methods=['GET', 'POST'])

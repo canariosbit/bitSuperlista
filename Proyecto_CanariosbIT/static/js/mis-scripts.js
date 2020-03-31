@@ -139,6 +139,41 @@ $(function () {
         highlightClass:'active'
     });
 
-
+   
 
 })
+function SmrCampo(campo)
+{
+    valor1=parseInt(document.getElementById(campo).value);
+    valor2=1;
+    document.getElementById(campo).value= valor1 + valor2;
+    
+}
+function RtrCampo(campo)
+{
+    document.getElementById(campo).value-= 1;
+}
+
+function SubTotal() {
+
+    var total = 0;
+  
+    $(".monto").each(function() {
+  
+      if (isNaN(parseFloat($(this).val()))) {
+  
+        total += 0;
+  
+      } else {
+  
+        total += parseFloat($(this).val());
+  
+      }
+  
+    });
+  
+    //alert(total);
+    document.getElementById('Total').innerHTML = total;
+  
+  }
+  
