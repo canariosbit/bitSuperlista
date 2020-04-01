@@ -26,18 +26,6 @@
     </div>
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-2">
-                <div class="dropdown">
-                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton"
-                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Opciones
-                    </button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <a class="dropdown-item" href="/deleteAllCesta">Vaciar Cesta</a>
-                        <a class="dropdown-item" href="/guardarLista1" target=_self>Guardar lista</a>
-                    </div>
-                </div>
-            </div>
             <div class="col-6 text-center">
                 <div class="card">
                     <div class="card-header">
@@ -88,41 +76,69 @@
 
                 </div>
                 <br>
-               <!-- Button trigger modal -->
- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-    Guardar Lista
-</button>
+            
+                <!-- Button vaciar carrito -->
+                <div class="container">
+                    <div class="row justify-content-between ">
+                        <div class="col-3">
+                            <div class="text ">
+                                <form id="delete" action="/deleteAllCesta" method="POST">
+                                    <button type="submit" class="btn btn-primary">Vaciar</button>
+                                </form>
+                            </div>
+                            
+                        </div>
+                        <div class="col-3">
+                            <div class="text">
+                                <!-- Button trigger modal -->
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+                                    Guardar
+                                </button>
+                            </div>
 
-<!-- Modal -->
-<form action="/guardarLista" method="POST">
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
-    aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header bg-primary">
-                <h5 class="modal-title text-white " id="exampleModalLabel">Colocale un nombre a tu lista</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <span>
-                La gente suele darle estos nombres, por si te sirven de inspiración: "Cesta semanal", "Cesta compra básica", "Cesta mensual"...
-            </span>
-            <div class="modal-body">
-                <input type="text" name="nmlista" id="nmlista" class="form-control" value="Cesta sin nombre" autofocus>
-            </div>
-            <span class="text text-left ml-3">Descripción</span>
-            <div>
-                <textarea name="descripcion" id="descripcion" cols="55" rows="5"></textarea>
-            </div>
-            <div class="modal-footer">
-            <button  type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
-                <button type="submit" class="btn btn-primary">Guardar</button>
-            </div>
-        </div>
-    </div>
-</div>
-</form>
+                        </div>
+                    </div>
+
+                </div>
+                
+                
+                    
+                
+           
+                <!-- Modal -->
+                <form action="/guardarLista" method="POST">
+                    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+                        aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header bg-primary">
+                                    <h5 class="modal-title text-white " id="exampleModalLabel">Colocale un nombre a tu
+                                        lista</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <span>
+                                    La gente suele darle estos nombres, por si te sirven de inspiración: "Cesta
+                                    semanal", "Cesta compra básica", "Cesta mensual"...
+                                </span>
+                                <div class="modal-body">
+                                    <input type="text" name="nmlista" id="nmlista" class="form-control"
+                                        value="Cesta sin nombre" autofocus>
+                                </div>
+                                <span class="text text-left ml-3">Descripción</span>
+                                <div>
+                                    <textarea name="descripcion" id="descripcion" cols="55" rows="5"></textarea>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary"
+                                        data-dismiss="modal">Cancelar</button>
+                                    <button type="submit" class="btn btn-primary">Guardar</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
 
             </div>
         </div>

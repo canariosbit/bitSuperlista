@@ -192,20 +192,20 @@ def guardarLista():
         cur.execute(consulta, [idUsuario])
         resultado = cur.fetchone()
         print("cant listas= " + str(resultado[0]))
-        nombreLista = "Mi lista " + str(resultado[0]+1)
+        nombreLista = NameLista + '  ' + str(resultado[0]+1)
         consulta = (
             "INSERT INTO Listas (UsuarioId, Nombre, Descripcion) VALUES(?,?,?)")
-        cur.execute(consulta, [idUsuario, NameLista, Descripcion])
+        cur.execute(consulta, [idUsuario, nombreLista, Descripcion])
         db.commit()
         findListaId = ("SELECT Id FROM Listas WHERE Nombre = ?")
-        cur.execute(findListaId, [(NameLista)])
+        cur.execute(findListaId, [(nombreLista)])
         result = cur.fetchone()
         idLista = result[0]
         for producto in cesta:
             insertProducto = ("INSERT INTO Contenido (ListaId, ProductoId)\
                 VALUES(?,?)")
             cur.execute(insertProducto, [idLista, producto["ProductoId"]])
-        flash(NameLista + " creada con éxito.", "alert-success")
+        flash(nombreLista + " creada con éxito.", "alert-success")
         db.commit()
         db.close()
     return redirect("/cart")
