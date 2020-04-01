@@ -2,3 +2,4 @@
   - Crear un identificador para cada invitado y guardarlo en una cookie lado Cliente
   - Gestion de listas
   - buscador de productos!
+  - si diera el tiempo habría que reducir la cantidad de columnas según resolución
