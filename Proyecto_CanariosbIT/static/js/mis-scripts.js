@@ -144,20 +144,22 @@ $(function () {
 })
 function SmrCampo(campo)
 {
-    valor1=parseInt(document.getElementById(campo).value);
-    valor2=1;
-    document.getElementById(campo).value= valor1 + valor2;
-    
+    //valor1=parseInt(document.getElementById(campo).value);
+    document.getElementById(campo).value++;
+    SubTotal();
 }
 function RtrCampo(campo)
 {
-    document.getElementById(campo).value-= 1;
+    if(document.getElementById(campo).value > 0){
+        document.getElementById(campo).value--;
+        SubTotal();
+    }
 }
 
 function SubTotal() {
 
-    var total = 0;
-  
+    var total = 0, parcial = 0;
+    var loopContador = 0;
     $(".monto").each(function() {
   
       if (isNaN(parseFloat($(this).val()))) {
@@ -165,11 +167,14 @@ function SubTotal() {
         total += 0;
   
       } else {
-  
-        total += parseFloat($(this).val());
-  
+          
+        parcial = parseFloat($(this).val()) * parseFloat(document.getElementById(String(loopContador)).value);
+        //parcial = parseFloat(document.getElementById(String(loopContador)).value);
+        total += parcial;
+        //alert(parcial);
       }
-  
+      
+      loopContador++;
     });
   
     //alert(total);

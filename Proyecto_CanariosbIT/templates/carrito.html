@@ -31,7 +31,8 @@
                        <h5><span>Tu lista de la compra</span></h5> 
                     </div>
                     <div class="card-body ml-3">
-                        {%for item in items %}
+                        {%  set contador = namespace(value=0) %}
+                            {%for item in items %}
                                 <div class="input-group py-1">
                                     <div class="input-group-prepend">
                                         <div class="input-group-text">
@@ -45,20 +46,21 @@
                                     
                                     <div class="input-group-prepend">
                                         <div class="input-group-text">
-                                            <a href="/DeleteArtCesta/{{item.Id}}"><i class="far fa-trash-alt text-danger"></i></a>
+                                            <a href="/DeleteArtCesta/{{item.Id}}"><i class="far fa-trash-alt text-success"></i></a>
                                         </div>
                                     </div>
                                     <div class="input-group-prepend ml-2">
-                                        <input type="text" size="10" id="{{item.Id}}" placeholder="Precio" class="monto" onkeyup="SubTotal();" >
+                                        <input type="text" size="10" id="{{item.Item_nombre}}" placeholder="Precio" class="monto" onkeyup="SubTotal();" >
                                     </div>
                                     <div class="input-group-prepend ml-2">
-                                        <input type="button" name="menos1" id="menos1" value="-" onclick="RtrCampo('{{item.Item_nombre}}')"/>
-                                        <input class="form-control text-center" type='text'  size="1"  id='{{item.Item_nombre}}' value=1>
-                                        <input type="button" name="mas1" id="mas1" value="+" onclick="SmrCampo('{{item.Item_nombre}}')"/> 
+                                        <input type="button" name="menos1" id="menos1" value="-" onclick="RtrCampo('{{contador.value|string}}')"/>
+                                        <input class="form-control text-center cantidad" type='text'  size="1"  data='{{contador.value|string}}' id='{{contador.value|string}}' value=1>
+                                        <input type="button" name="mas1" id="mas1" value="+" onclick="SmrCampo('{{contador.value|string}}')"/> 
                                     </div>
                                 </div>   
-                                    
-                        {%endfor%}
+                                {% set contador.value = contador.value + 1 %} 
+                                <!-- <span>{{ contador.value}}</span>    -->
+                            {%endfor%}
                     </div>
                     <div class="card-footer">  <span>Total: </span> <span id="Total"></span>
                     </div>
