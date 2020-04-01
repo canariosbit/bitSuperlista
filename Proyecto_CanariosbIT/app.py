@@ -77,7 +77,7 @@ def getAllCesta():
     g.db = conectar_db()
     consulta = 'SELECT * FROM Cesta WHERE (Id_usuario = ?)'
     cur = g.db.execute(consulta, [id])
-    items = [dict(Id=row[0], Id_Usuario=row[1], Item_nombre=row[2], Tachar=row[3])
+    items = [dict(Id=row[0], Id_Usuario=row[1], Item_nombre=row[2], Tachar=row[3], ProductoId=row[4])
              for row in cur.fetchall()]
     g.db.close()
     return items
@@ -89,8 +89,7 @@ def cantCarrito():
     else:
         id_usuario = -1
     db = get_db()
-    while not(db):
-        db = get_db()
+    
     cur = db.cursor()
     # Consultando si ya existe dentro del Carrito
     find_prod = (
@@ -151,8 +150,8 @@ def AddArt(articulo):
         #     return render_template('home.html', categorias=categorias,
         #                            productos=productos, articuloExistente=True)
 
-    (cur.execute("INSERT INTO Cesta (Id_Usuario, Item, Tachar) VALUES(?,?, ?)",
-                 (id_usuario, articulo, 0)))
+    (cur.execute("INSERT INTO Cesta (Id_Usuario, Item, Tachar, ProductoId) VALUES(?,?,?,?)",
+                 (id_usuario, articulo, 0, -100)))#  TO DO pedir id de artículo para parsar luego a lista de contenidos 
     db.commit()
     db.close()
     flash("Producto agregado correctamente.", "alert-success")
@@ -175,9 +174,9 @@ def DeleteArtCesta(id):
     db.close()
     return redirect("/cart")
 
-# Ruta para eliminar articulos de la cesta
-@app.route('/DeleteAllCesta', methods=['GET', 'POST'])
-def DeleteAllCesta():
+# Ruta para eliminar todos los articulos de la cesta
+@app.route('/deleteAllCesta', methods=['GET', 'POST'])
+def deleteAllCesta():
     if 'nombre' in session:
         id_usuario = session['id']
     else:
@@ -188,6 +187,37 @@ def DeleteAllCesta():
     cur.execute(delete_product, [(id_usuario)])
     db.commit()
     db.close()
+    return redirect("/cart")
+
+
+# Ruta para guardar la cesta en una lista nueva
+@app.route('/guardarLista', methods=['GET', 'POST'])
+def guardarLista():
+    if 'nombre' in session:
+        idUsuario = session['id']
+        cesta = getAllCesta()
+        nombreLista = "unNombre" #TO DO nombre de lista por distinto defecto
+        db = get_db()
+        cur = db.cursor()
+        insertLista = ("INSERT INTO Listas (UsuarioId, Nombre, Descripcion) VALUES(?,?,?)")
+        cur.execute(insertLista, [idUsuario, nombreLista, "Sin Descripción"])
+        db.commit()
+        findListaId = ("SELECT Id FROM Listas WHERE Nombre = ?")
+        cur.execute(findListaId, [(nombreLista)])
+        result = cur.fetchone()
+        idLista = result[0]
+        for producto in cesta:
+            insertProducto = ("INSERT INTO Contenido (ListaId, ProductoId)\
+                VALUES(?,?)")
+            cur.execute(insertProducto, [idLista, producto["ProductoId"]])
+        
+        # find_product = ("SELECT FROM Cesta WHERE Id_Usuario = ?")
+        # cur.execute(find_product, [(id_usuario)])
+        #
+        #
+        cesta = cur.fetchall()
+        db.commit()
+        db.close()
     return redirect("/cart")
 
 

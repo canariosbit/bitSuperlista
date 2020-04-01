@@ -20,8 +20,8 @@
                       Opciones
                     </button>
                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                      <a class="dropdown-item" href="/DeleteAllCesta">Vaciar Cesta</a>
-                      <a class="dropdown-item" href="#">Guardar Cesta</a>
+                      <a class="dropdown-item" href="/deleteAllCesta">Vaciar Cesta</a>
+                      <a class="dropdown-item" href="/guardarLista">Guardar lista</a>
                     </div>
                 </div>
             </div>
@@ -54,7 +54,7 @@
                                     </div>
                                     <div class="input-group-prepend ml-2">
                                         <input type="button" name="menos1" id="menos1" value="-" onclick="RtrCampo('{{contador.value|string}}')"/>
-                                        <input class="form-control text-center cantidad" type='text'  size="1"  data='{{contador.value|string}}' id='{{contador.value|string}}' value=1>
+                                        <input class="form-control text-center" type='text'  size="1" id='{{contador.value|string}}' value=1>
                                         <input type="button" name="mas1" id="mas1" value="+" onclick="SmrCampo('{{contador.value|string}}')"/> 
                                     </div>
                                 </div>   
