@@ -1,0 +1,4 @@
+  - Dos columnas o tres en ambos carritos
+  - Crear un identificador para cada invitado y guardarlo en una cookie lado Cliente
+  - Gestion de listas
+  - buscador de productos!
