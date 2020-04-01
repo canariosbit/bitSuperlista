@@ -77,7 +77,7 @@ def getAllCesta():
     g.db = conectar_db()
     consulta = 'SELECT * FROM Cesta WHERE (Id_usuario = ?)'
     cur = g.db.execute(consulta, [id])
-    items = [dict(Id=row[0], Id_Usuario=row[1], Item_nombre=row[2], Tachar=row[3])
+    items = [dict(Id=row[0], Id_Usuario=row[1], Item_nombre=row[2], Tachar=row[3], ProductoId=row[4])
              for row in cur.fetchall()]
     g.db.close()
     return items
@@ -89,8 +89,7 @@ def cantCarrito():
     else:
         id_usuario = -1
     db = get_db()
-    while not(db):
-        db = get_db()
+    
     cur = db.cursor()
     # Consultando si ya existe dentro del Carrito
     find_prod = (
@@ -98,8 +97,8 @@ def cantCarrito():
     cur.execute(find_prod, [(id_usuario)])
     resultado = cur.fetchone()
     session['carrito'] = resultado[0]
-    print(resultado)
-    print(session['carrito'])
+    # print(resultado)
+    # print(session['carrito'])
     return session['carrito']
 
 
@@ -123,8 +122,8 @@ def home():
                                productos=productos, CestaArticulos=CestaArticulos)
 
 
-@app.route('/AddArt/<articulo>', methods=['GET'])
-def AddArt(articulo):
+@app.route('/AddArt/<string:articulo>/<int:idArticulo>', methods=['GET'])
+def AddArt(articulo, idArticulo):
     if 'nombre' in session:
         id_usuario = session['id']
     else:
@@ -140,19 +139,9 @@ def AddArt(articulo):
     if resultado:
         flash("El artículo ya fue agregado.", "alert-warning")
         return redirect('/')
-        # if id_usuario != -1:
-        #     categorias = getAllCategorias()
-        #     productos = getAllProductosUsuarios()
-        #     return render_template('home_logged_in.html', categorias=categorias,
-        #                            productos=productos, articuloExistente=True)
-        # else:
-        #     categorias = getAllCategorias()
-        #     productos = getAllProductosAdmin()
-        #     return render_template('home.html', categorias=categorias,
-        #                            productos=productos, articuloExistente=True)
-
-    (cur.execute("INSERT INTO Cesta (Id_Usuario, Item, Tachar) VALUES(?,?, ?)",
-                 (id_usuario, articulo, 0)))
+        
+    (cur.execute("INSERT INTO Cesta (Id_Usuario, Item, Tachar, ProductoId) VALUES(?,?,?,?)",
+                 (id_usuario, articulo, 0, idArticulo)))
     db.commit()
     db.close()
     flash("Producto agregado correctamente.", "alert-success")
@@ -175,9 +164,9 @@ def DeleteArtCesta(id):
     db.close()
     return redirect("/cart")
 
-# Ruta para eliminar articulos de la cesta
-@app.route('/DeleteAllCesta', methods=['GET', 'POST'])
-def DeleteAllCesta():
+# Ruta para eliminar todos los articulos de la cesta
+@app.route('/deleteAllCesta', methods=['GET', 'POST'])
+def deleteAllCesta():
     if 'nombre' in session:
         id_usuario = session['id']
     else:
@@ -188,6 +177,38 @@ def DeleteAllCesta():
     cur.execute(delete_product, [(id_usuario)])
     db.commit()
     db.close()
+    return redirect("/cart")
+
+
+# Ruta para guardar la cesta en una lista nueva
+@app.route('/guardarLista', methods=['GET', 'POST'])
+def guardarLista():
+    if 'nombre' in session:
+        idUsuario = session['id']
+        cesta = getAllCesta()
+        
+        db = get_db()
+        cur = db.cursor()
+        consulta = ("SELECT COUNT(Id) FROM Listas WHERE UsuarioId = ?")
+        cur.execute(consulta, [idUsuario])
+        resultado = cur.fetchone()
+        print("cant listas= "+ str(resultado[0]))
+        nombreLista = "Mi lista " + str(resultado[0]+1)
+        
+        consulta = ("INSERT INTO Listas (UsuarioId, Nombre, Descripcion) VALUES(?,?,?)")
+        cur.execute(consulta, [idUsuario, nombreLista, "Sin Descripción"])
+        db.commit()
+        findListaId = ("SELECT Id FROM Listas WHERE Nombre = ?")
+        cur.execute(findListaId, [(nombreLista)])
+        result = cur.fetchone()
+        idLista = result[0]
+        for producto in cesta:
+            insertProducto = ("INSERT INTO Contenido (ListaId, ProductoId)\
+                VALUES(?,?)")
+            cur.execute(insertProducto, [idLista, producto["ProductoId"]])
+        flash(nombreLista + " creada con éxito.", "alert-success")
+        db.commit()
+        db.close()
     return redirect("/cart")
 
 
