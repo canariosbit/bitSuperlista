@@ -97,8 +97,8 @@ def cantCarrito():
     cur.execute(find_prod, [(id_usuario)])
     resultado = cur.fetchone()
     session['carrito'] = resultado[0]
-    print(resultado)
-    print(session['carrito'])
+    # print(resultado)
+    # print(session['carrito'])
     return session['carrito']
 
 
@@ -122,8 +122,8 @@ def home():
                                productos=productos, CestaArticulos=CestaArticulos)
 
 
-@app.route('/AddArt/<articulo>', methods=['GET'])
-def AddArt(articulo):
+@app.route('/AddArt/<string:articulo>/<int:idArticulo>', methods=['GET'])
+def AddArt(articulo, idArticulo):
     if 'nombre' in session:
         id_usuario = session['id']
     else:
@@ -139,19 +139,9 @@ def AddArt(articulo):
     if resultado:
         flash("El artículo ya fue agregado.", "alert-warning")
         return redirect('/')
-        # if id_usuario != -1:
-        #     categorias = getAllCategorias()
-        #     productos = getAllProductosUsuarios()
-        #     return render_template('home_logged_in.html', categorias=categorias,
-        #                            productos=productos, articuloExistente=True)
-        # else:
-        #     categorias = getAllCategorias()
-        #     productos = getAllProductosAdmin()
-        #     return render_template('home.html', categorias=categorias,
-        #                            productos=productos, articuloExistente=True)
-
+        
     (cur.execute("INSERT INTO Cesta (Id_Usuario, Item, Tachar, ProductoId) VALUES(?,?,?,?)",
-                 (id_usuario, articulo, 0, -100)))#  TO DO pedir id de artículo para parsar luego a lista de contenidos 
+                 (id_usuario, articulo, 0, idArticulo)))
     db.commit()
     db.close()
     flash("Producto agregado correctamente.", "alert-success")
@@ -196,11 +186,17 @@ def guardarLista():
     if 'nombre' in session:
         idUsuario = session['id']
         cesta = getAllCesta()
-        nombreLista = "unNombre" #TO DO nombre de lista por distinto defecto
+        
         db = get_db()
         cur = db.cursor()
-        insertLista = ("INSERT INTO Listas (UsuarioId, Nombre, Descripcion) VALUES(?,?,?)")
-        cur.execute(insertLista, [idUsuario, nombreLista, "Sin Descripción"])
+        consulta = ("SELECT COUNT(Id) FROM Listas WHERE UsuarioId = ?")
+        cur.execute(consulta, [idUsuario])
+        resultado = cur.fetchone()
+        print("cant listas= "+ str(resultado[0]))
+        nombreLista = "Mi lista " + str(resultado[0]+1)
+        
+        consulta = ("INSERT INTO Listas (UsuarioId, Nombre, Descripcion) VALUES(?,?,?)")
+        cur.execute(consulta, [idUsuario, nombreLista, "Sin Descripción"])
         db.commit()
         findListaId = ("SELECT Id FROM Listas WHERE Nombre = ?")
         cur.execute(findListaId, [(nombreLista)])
@@ -210,12 +206,7 @@ def guardarLista():
             insertProducto = ("INSERT INTO Contenido (ListaId, ProductoId)\
                 VALUES(?,?)")
             cur.execute(insertProducto, [idLista, producto["ProductoId"]])
-        
-        # find_product = ("SELECT FROM Cesta WHERE Id_Usuario = ?")
-        # cur.execute(find_product, [(id_usuario)])
-        #
-        #
-        cesta = cur.fetchall()
+        flash(nombreLista + " creada con éxito.", "alert-success")
         db.commit()
         db.close()
     return redirect("/cart")

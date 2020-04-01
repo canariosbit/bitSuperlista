@@ -12,6 +12,17 @@
             <a href=""><i onclick="javascript:window.print();" class="fas fa-print text-primary fa-2x "></i></a>
         </div>
     </div>
+    <div class="text-center">
+        {% with messages = get_flashed_messages(with_categories=true)%}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="alert {{category}}" id="idMensajeError">
+                    {{message}}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </div>
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-2">
