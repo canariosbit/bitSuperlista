@@ -89,7 +89,6 @@ def cantCarrito():
     else:
         id_usuario = -1
     db = get_db()
-    
     cur = db.cursor()
     # Consultando si ya existe dentro del Carrito
     find_prod = (
@@ -139,7 +138,6 @@ def AddArt(articulo, idArticulo):
     if resultado:
         flash("El artículo ya fue agregado.", "alert-warning")
         return redirect('/')
-        
     (cur.execute("INSERT INTO Cesta (Id_Usuario, Item, Tachar, ProductoId) VALUES(?,?,?,?)",
                  (id_usuario, articulo, 0, idArticulo)))
     db.commit()
@@ -184,29 +182,30 @@ def deleteAllCesta():
 @app.route('/guardarLista', methods=['GET', 'POST'])
 def guardarLista():
     if 'nombre' in session:
+        NameLista = request.form['nmlista']
+        Descripcion = request.form['descripcion']
         idUsuario = session['id']
         cesta = getAllCesta()
-        
         db = get_db()
         cur = db.cursor()
         consulta = ("SELECT COUNT(Id) FROM Listas WHERE UsuarioId = ?")
         cur.execute(consulta, [idUsuario])
         resultado = cur.fetchone()
-        print("cant listas= "+ str(resultado[0]))
+        print("cant listas= " + str(resultado[0]))
         nombreLista = "Mi lista " + str(resultado[0]+1)
-        
-        consulta = ("INSERT INTO Listas (UsuarioId, Nombre, Descripcion) VALUES(?,?,?)")
-        cur.execute(consulta, [idUsuario, nombreLista, "Sin Descripción"])
+        consulta = (
+            "INSERT INTO Listas (UsuarioId, Nombre, Descripcion) VALUES(?,?,?)")
+        cur.execute(consulta, [idUsuario, NameLista, Descripcion])
         db.commit()
         findListaId = ("SELECT Id FROM Listas WHERE Nombre = ?")
-        cur.execute(findListaId, [(nombreLista)])
+        cur.execute(findListaId, [(NameLista)])
         result = cur.fetchone()
         idLista = result[0]
         for producto in cesta:
             insertProducto = ("INSERT INTO Contenido (ListaId, ProductoId)\
                 VALUES(?,?)")
             cur.execute(insertProducto, [idLista, producto["ProductoId"]])
-        flash(nombreLista + " creada con éxito.", "alert-success")
+        flash(NameLista + " creada con éxito.", "alert-success")
         db.commit()
         db.close()
     return redirect("/cart")
