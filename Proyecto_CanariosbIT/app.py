@@ -599,8 +599,8 @@ def AgregarProductoLista(id):
     return redirect("/MisListas")
 
 
-@app.route('/EditarLista/<id>', methods=['GET', 'POST'])
-def EditarLista(id):
+@app.route('/EditarLista/<id>/<nombreLista>', methods=['GET', 'POST'])
+def EditarLista(id, nombreLista):
     if 'nombre' in session:
         id_usuario = session['id']
     else:
