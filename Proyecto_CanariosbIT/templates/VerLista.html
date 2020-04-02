@@ -8,132 +8,63 @@
         <span>Tu Lista</span>
     </div>
     <div class="container">
-        <div class="text-right ">
-            <a href=""><i onclick="javascript:window.print();" class="fas fa-print text-primary fa-2x "></i></a>
-        </div>
-    </div>
-
-    <div class="text-center">
-        {% with messages = get_flashed_messages(with_categories=true)%}
-        {% if messages %}
-        {% for category, message in messages %}
-        <div class="alert {{category}}" id="idMensajeError">
-            {{message}}
-        </div>
-        {% endfor %}
-        {% endif %}
-        {% endwith %}
-    </div>
-    <div class="container">
         <div class="row justify-content-center">
-            <div class="col-6 text-center">
-                <div class="card">
-                    <div class="card-header">
-                        <span class="text text-align-left" name="nmlista" id="nmlista"  >Prueba</span>
-                    </div>
-                    <div class="card-body ml-3">
-                    {%  set contador = namespace(value=0) %}  
-                        {% for dato in datos %}
-                                <div class="input-group py-1">
-                                    <div class="input-group-prepend">
-                                        <div class="input-group-text">
-                                            <a href="/adquirido/{{dato.ProductoId}}"><i
-                                                    class="{% if dato.Tachar %} text-success fas fa-check {% else %} text-danger fas fa-times  {% endif %} "></i></a>
-                                            
-                                        </div>
-                                    </div>
-                                    <div class="input">
-                                        <input type="text" readonly="true" color="blue"
-                                            class="form-control {% if dato.Tachar %} tachar {% endif %}"
-                                            value="{{ dato.ProductoNombre }}">
-                                    </div>
-                                    <div class="input-group-prepend">
-                                        <div class="input-group-text">
-                                            <a href="/DeleteArtContenido/{{dato.ContenidoId}}"><i
-                                                    class="far fa-trash-alt text-success"></i></a>
-                                        </div>
-                                    </div>
-                                    <div class="input-group-prepend ml-2">
-                                        <input type="text" size="10" id="{{dato.ProductoNombre}}" placeholder="Precio"
-                                            class="monto" onkeyup="SubTotal();">
-                                    </div>
-                                    <div class="input-group-prepend ml-2">
-                                        <input type="button" name="menos1" id="menos1" value="-"
-                                            onclick="RtrCampo('{{contador.value|string}}')" />
-                                        <input class="form-control text-center" type='text' size="1"
-                                            id='{{contador.value|string}}' value=1>
-                                        <input type="button" name="mas1" id="mas1" value="+"
-                                            onclick="SmrCampo('{{contador.value|string}}')" />
-                                    </div>
+            <div class="col-4">
+                {% for dato in datos%}
+                <form action="/AgregarProductoLista/{{dato.ListaId}}" method="POST">
+                {% endfor %}
+                    <div class="card text-center">
+                        <div class="card-header">
+                            <div class="form-group">
+                                <div class="text text-center px-1 text-primary">
+                                    <label>AGREGUE UN PRODUCTO A TU LISTA</label> 
                                 </div>
-                            {% set contador.value = contador.value + 1 %}
-                        {% endfor %}
-                           
-                    </div>
-                    <div class="card-footer"> <span>Total: </span> <span id="Total"></span>
-                    </div>
-
-                </div>
-                <br>
-            
-                <!-- Button vaciar carrito -->
-                <div class="container">
-                    <div class="row justify-content-between ">
-                        <div class="col-3">
-                            <div class="text ">
-                                <form id="delete" action="/deleteAllCesta" method="POST">
-                                    <button type="submit" class="btn btn-primary">Vaciar</button>
-                                </form>
-                            </div>
-                            
-                        </div>
-                        <div class="col-3">
-                            <div class="text">
-                                <!-- Button trigger modal -->
-                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-                                    Guardar
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- Modal -->
-                <form action="/guardarLista" method="POST">
-                    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
-                        aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header bg-primary">
-                                    <h5 class="modal-title text-white " id="exampleModalLabel">Colocale un nombre a tu
-                                        lista</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
+                                <div class="text text-left px-1">
+                                    <label>Productos</label> 
                                 </div>
-                                <span>
-                                    La gente suele darle estos nombres, por si te sirven de inspiración: "Cesta
-                                    semanal", "Cesta compra básica", "Cesta mensual"...
-                                </span>
-                                {% for dato in datos %}
-                                    <div class="modal-body">
-                                        <input type="text" name="nmlista" id="nmlista" class="form-control"
-                                            value="{{ dato.Nombre }}" autofocus>
-                                    </div>
-                                    <span class="text text-left ml-3">Descripción</span>
-                                    <div>
-                                        <textarea value="{{ dato.Descripcion }}" name="descripcion" id="descripcion" cols="55" rows="5"></textarea>
-                                    </div>
-                                {% endfor %}
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary"
-                                        data-dismiss="modal">Cancelar</button>
-                                    <button type="submit" class="btn btn-primary">Guardar</button>
-                                </div>
+                                <select class="form-control" name="producto">
+                                    <option selected="OTROS" value="0">SELECCIONAR</option>
+                                    {% for producto in productos %}
+                                    <option value="{{producto.pro_id}}" {% if producto.pro_id == catSelected %}
+                                        selected {% endif %}>{{ producto.pro_nombre }}</option>
+                                    {% endfor %}
+                                </select>
                             </div>
+                            <button type="submit" name="submit" value="agregarDesdeHome" class="btn btn-primary btn-block">
+                                Agregar <i class="fa fa-plus"></i></button>
                         </div>
                     </div>
                 </form>
+            </div>
 
+            <div class="col-5 text-center">
+                <div class="card">
+                    <div class="card-header">
+                        {%  set contador = namespace(value=1) %}
+                            {% for dato in datos%}
+                                {% if contador.value == 1 %}
+                                    <span class="text text-align-left" name="nmlista" id="nmlista"  >{{dato.ListaNombre}}</span>
+                                {% endif %}
+                            {% set contador.value = contador.value + 1 %}
+                        {% endfor %}
+                        
+                    </div>
+                    <div class="card-body ml-3">
+                
+                        {% for dato in datos %}
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">
+                                    <a href="/DeleteArtContenido/{{dato.ContenidoId}}"><i
+                                            class="far fa-trash-alt text-success"></i></a>
+                                </div>
+                                <input type="text"  readonly="true" color="blue"
+                                    class="form-control"
+                                    value="{{ dato.ProductoNombre }}">
+                            </div>                               
+                        {% endfor %}  
+                    </div>   
+                </div>
+                <br>
             </div>
         </div>
     </div>

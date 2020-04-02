@@ -224,21 +224,18 @@ def DeleteArtCesta(id):
 # Ruta para eliminar articulos de la cesta
 @app.route('/DeleteArtContenido/<id>', methods=['GET', 'POST'])
 def DeleteArtContenido(id):
-    if 'nombre' in session:
-        id_usuario = session['id']
-    else:
-        try:
-            id_usuario = int(request.cookies.get('visitanteId'))
-        except:
-            return redirect('/del_cookie')
     id = int(id)
     db = get_db()
     cur = db.cursor()
+    findListaId = ("SELECT ListaId FROM Contenido WHERE Id = ?")
+    cur.execute(findListaId, [(id)])
+    result = cur.fetchone()
+    idLista = result[0]
     delete_product = ("DELETE FROM Contenido WHERE Id = ?")
     cur.execute(delete_product, [(id)])
     db.commit()
     db.close()
-    return redirect("/EditarLista")
+    return redirect("/MisListas")
 
 # Ruta para eliminar todos los articulos de la cesta
 @app.route('/deleteAllCesta', methods=['GET', 'POST'])
@@ -583,6 +580,24 @@ def DeleteLista(id):
     db.close()
     return redirect("/MisListas")
 
+# Ruta para eliminar articulos de la cesta y volver al home
+@app.route('/AgregarProductoLista/<id>', methods=['GET', 'POST'])
+def AgregarProductoLista(id):
+    if 'nombre' in session:
+        id_usuario = session['id']
+    else:
+        id_usuario = -1
+    id = int(id)
+    proSelected = request.form.get('producto')
+    db = get_db()
+    cur = db.cursor()
+    sql = (
+        'INSERT INTO Contenido (ListaId, ProductoId) VALUES(?,?)')
+    cur.execute(sql, [(id), (proSelected)])
+    db.commit()
+    db.close()
+    return redirect("/MisListas")
+
 
 @app.route('/EditarLista/<id>', methods=['GET', 'POST'])
 def EditarLista(id):
@@ -593,14 +608,16 @@ def EditarLista(id):
     id = int(id)
     db = get_db()
     cur = db.cursor()
+    # Consultando los productos
+    productos = getAllProductosUsuarios()
     # Consultado  las listas segun el usuario
     searchAll = (
-        "SELECT ListaNombre, Descripcion, ProductoNombre, ContenidoProductoId, ContenidoId FROM General WHERE ListaId = ? AND UsuarioId = ?")
+        "SELECT ListaId, ListaNombre, Descripcion, ProductoNombre, ContenidoProductoId, ContenidoId FROM General WHERE ListaId = ? AND UsuarioId = ?")
     cur.execute(searchAll, [(id), (id_usuario)])
-    resultados = [dict(ListaNombre=row[0], Descripcion=row[1], ProductoNombre=row[2], ProductoId=row[3], ContenidoId=row[4])
+    resultados = [dict(ListaId=row[0], ListaNombre=row[1], Descripcion=row[2], ProductoNombre=row[3], ProductoId=row[4], ContenidoId=row[5])
                   for row in cur.fetchall()]
     db.close()
-    return render_template('VerLista.html', datos=resultados)
+    return render_template('VerLista.html', datos=resultados, productos=productos)
 
 # Ruta alta y baja de artículos
 @app.route('/ABM_articulos', methods=['GET', 'POST'])
