@@ -3,3 +3,4 @@
   - Gestion de listas
   - buscador de productos!
   - si diera el tiempo habría que reducir la cantidad de columnas según resolución
+  - al agregar un producto a la cesta refrescar la página en la misma posicion de scroll
