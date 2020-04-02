@@ -584,8 +584,8 @@ def DeleteLista(id):
     return redirect("/MisListas")
 
 
-@app.route('/EditarLista/<id>', methods=['GET', 'POST'])
-def EditarLista(id):
+@app.route('/EditarLista/<id>/<nombreLista>', methods=['GET', 'POST'])
+def EditarLista(id, nombreLista):
     if 'nombre' in session:
         id_usuario = session['id']
     else:
@@ -600,7 +600,7 @@ def EditarLista(id):
     resultados = [dict(ListaNombre=row[0], Descripcion=row[1], ProductoNombre=row[2], ProductoId=row[3], ContenidoId=row[4])
                   for row in cur.fetchall()]
     db.close()
-    return render_template('VerLista.html', datos=resultados)
+    return render_template('VerLista.html', datos=resultados, nombreLista=nombreLista)
 
 # Ruta alta y baja de artículos
 @app.route('/ABM_articulos', methods=['GET', 'POST'])
