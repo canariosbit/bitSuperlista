@@ -595,7 +595,7 @@ def EditarLista(id):
     cur = db.cursor()
     # Consultado  las listas segun el usuario
     searchAll = (
-        "SELECT ListaNombre, Descripcion, ProductoNombre, ProductoId, ContenidoId FROM General WHERE ListaId = ? AND UsuarioId = ?")
+        "SELECT ListaNombre, Descripcion, ProductoNombre, ContenidoProductoId, ContenidoId FROM General WHERE ListaId = ? AND UsuarioId = ?")
     cur.execute(searchAll, [(id), (id_usuario)])
     resultados = [dict(ListaNombre=row[0], Descripcion=row[1], ProductoNombre=row[2], ProductoId=row[3], ContenidoId=row[4])
                   for row in cur.fetchall()]
