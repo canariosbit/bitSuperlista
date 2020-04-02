@@ -1,4 +1,4 @@
-from flask import Flask, render_template, g, request, session, redirect, flash, url_for
+from flask import Flask, render_template, g, request, session, redirect, flash, url_for, make_response
 import sqlite3
 import bcrypt
 
@@ -46,10 +46,9 @@ def getAllProductosUsuarios():
     consulta = 'SELECT * FROM Productos WHERE (PropietarioId= ?)'
     if 'nombre' in session:
         id = session['id']
-    # else:
-    #     id = -1
+    
     cur = g.db.execute(consulta, [id])
-    # print(id)
+    
     productos_usuarios = [dict(pro_id=row[0], cat_id=row[1], pro_nombre=row[2])
                           for row in cur.fetchall()]
     g.db.close()
@@ -73,7 +72,10 @@ def getAllCesta():
     if 'nombre' in session:
         id = session['id']
     else:
-        id = -1
+        try:
+            id = int(request.cookies.get('visitanteId'))
+        except:
+            return redirect('/del_cookie')
     g.db = conectar_db()
     consulta = 'SELECT * FROM Cesta WHERE (Id_usuario = ?)'
     cur = g.db.execute(consulta, [id])
@@ -87,7 +89,10 @@ def cantCarrito():
     if 'nombre' in session:
         id_usuario = session['id']
     else:
-        id_usuario = -1
+        try:
+            id_usuario = int(request.cookies.get('visitanteId'))
+        except:
+            return redirect('/del_cookie')
     db = get_db()
     cur = db.cursor()
     # Consultando si ya existe dentro del Carrito
@@ -100,6 +105,47 @@ def cantCarrito():
     # print(session['carrito'])
     return session['carrito']
 
+@app.route('/set_cookie')
+def visitante():
+    visitanteId = request.cookies.get('visitanteId')
+    # print(visitanteId)
+    if visitanteId == None:
+        visitanteId = bcrypt.gensalt()
+        db = get_db()
+        cur = db.cursor()
+        (cur.execute("INSERT INTO Usuarios (Nombre, Apellido, Email"
+            ", Contrasena, Admin) VALUES(?,?,?,?,?)", (visitanteId,
+            "guest", visitanteId, visitanteId, (-1))))
+        db.commit()
+        find_user = ("SELECT Id FROM Usuarios WHERE Nombre = ?")
+        cur.execute(find_user, [visitanteId])
+        resultado = cur.fetchone()
+        db.close()
+        # print(resultado[0])
+        resStr = str(resultado[0])
+        redirect_to_index = redirect('/')
+        response = app.make_response(redirect_to_index )  
+        response.set_cookie('visitanteId', resStr)
+        # print("cookie seteada")
+        return response
+    else:
+        return redirect('/')
+
+
+# @app.route('/get_cookie')
+# def get_cookie():
+#     datos = request.cookies.get('cookie_name')
+#     if datos!=None:
+#         return datos
+#     else:
+#         return "No hay cookie"
+
+@app.route('/del_cookie')
+def del_cookie():
+    redirect_to_index = redirect('/')
+    response = app.make_response(redirect_to_index )  
+    response.set_cookie('visitanteId',value='',expires=0)
+    return response
 
 @app.route('/')  # ruta para el home
 def home():
@@ -114,6 +160,11 @@ def home():
         return render_template('home_logged_in.html', categorias=categorias,
                                productos=productos, CestaArticulos=CestaArticulos)
     else:
+        visitanteId = request.cookies.get('visitanteId')
+        # print("VisitanteId: ", visitanteId)
+        if visitanteId == None:
+            return redirect('/set_cookie')
+        
         # Consultando los productos
         productos = getAllProductosAdmin()
         CestaArticulos = getAllCesta()
@@ -126,7 +177,10 @@ def AddArt(articulo, idArticulo):
     if 'nombre' in session:
         id_usuario = session['id']
     else:
-        id_usuario = -1
+        try:
+            id_usuario = int(request.cookies.get('visitanteId'))
+        except:
+            return redirect('/del_cookie')
 
     db = get_db()
     cur = db.cursor()
@@ -152,7 +206,10 @@ def DeleteArtCesta(id):
     if 'nombre' in session:
         id_usuario = session['id']
     else:
-        id_usuario = -1
+        try:
+            id_usuario = int(request.cookies.get('visitanteId'))
+        except:
+            return redirect('/del_cookie')
     id = int(id)
     db = get_db()
     cur = db.cursor()
@@ -191,7 +248,7 @@ def guardarLista():
         consulta = ("SELECT COUNT(Id) FROM Listas WHERE UsuarioId = ?")
         cur.execute(consulta, [idUsuario])
         resultado = cur.fetchone()
-        print("cant listas= " + str(resultado[0]))
+        # print("cant listas= " + str(resultado[0]))
         nombreLista = NameLista + '  ' + str(resultado[0]+1)
         consulta = (
             "INSERT INTO Listas (UsuarioId, Nombre, Descripcion) VALUES(?,?,?)")
@@ -217,7 +274,10 @@ def DeleteArtCesta_home(id):
     if 'nombre' in session:
         id_usuario = session['id']
     else:
-        id_usuario = -1
+        try:
+            id_usuario = int(request.cookies.get('visitanteId'))
+        except:
+            return redirect('/del_cookie')
     id = int(id)
     db = get_db()
     cur = db.cursor()
@@ -233,7 +293,10 @@ def tacharToggle(id):
     if 'nombre' in session:
         id_usuario = session['id']
     else:
-        id_usuario = -1
+        try:
+            id_usuario = int(request.cookies.get('visitanteId'))
+        except:
+            return redirect('/del_cookie')
     db = get_db()
     cur = db.cursor()
     # Consultando si ya existe dentro del Carrito
@@ -241,8 +304,8 @@ def tacharToggle(id):
         "SELECT Tachar FROM Cesta WHERE Id_Usuario = ? AND Id = ?")
     cur.execute(find_prod, [(id_usuario), (id)])
     resultado = cur.fetchone()
-    print("resultadox: ")
-    print(resultado[0])
+    # print("resultadox: ")
+    # print(resultado[0])
 
     if (resultado[0]) == 1:
         estado = 0
@@ -592,7 +655,10 @@ def deleteArt(id):
     if 'nombre' in session:
         id_usuario = session['id']
     else:
-        id_usuario = -1
+        try:
+            id_usuario = int(request.cookies.get('visitanteId'))
+        except:
+            return redirect('/del_cookie')
     id = int(id)
     db = get_db()
     cur = db.cursor()
