@@ -46,9 +46,9 @@ def getAllProductosUsuarios():
     consulta = 'SELECT * FROM Productos WHERE (PropietarioId= ?)'
     if 'nombre' in session:
         id = session['id']
-    
+
     cur = g.db.execute(consulta, [id])
-    
+
     productos_usuarios = [dict(pro_id=row[0], cat_id=row[1], pro_nombre=row[2])
                           for row in cur.fetchall()]
     g.db.close()
@@ -105,6 +105,7 @@ def cantCarrito():
     # print(session['carrito'])
     return session['carrito']
 
+
 @app.route('/set_cookie')
 def visitante():
     visitanteId = request.cookies.get('visitanteId')
@@ -114,8 +115,8 @@ def visitante():
         db = get_db()
         cur = db.cursor()
         (cur.execute("INSERT INTO Usuarios (Nombre, Apellido, Email"
-            ", Contrasena, Admin) VALUES(?,?,?,?,?)", (visitanteId,
-            "guest", visitanteId, visitanteId, (-1))))
+                     ", Contrasena, Admin) VALUES(?,?,?,?,?)", (visitanteId,
+                                                                "guest", visitanteId, visitanteId, (-1))))
         db.commit()
         find_user = ("SELECT Id FROM Usuarios WHERE Nombre = ?")
         cur.execute(find_user, [visitanteId])
@@ -124,7 +125,7 @@ def visitante():
         # print(resultado[0])
         resStr = str(resultado[0])
         redirect_to_index = redirect('/')
-        response = app.make_response(redirect_to_index )  
+        response = app.make_response(redirect_to_index)
         response.set_cookie('visitanteId', resStr)
         # print("cookie seteada")
         return response
@@ -143,9 +144,10 @@ def visitante():
 @app.route('/del_cookie')
 def del_cookie():
     redirect_to_index = redirect('/')
-    response = app.make_response(redirect_to_index )  
-    response.set_cookie('visitanteId',value='',expires=0)
+    response = app.make_response(redirect_to_index)
+    response.set_cookie('visitanteId', value='', expires=0)
     return response
+
 
 @app.route('/')  # ruta para el home
 def home():
@@ -164,7 +166,7 @@ def home():
         # print("VisitanteId: ", visitanteId)
         if visitanteId == None:
             return redirect('/set_cookie')
-        
+
         # Consultando los productos
         productos = getAllProductosAdmin()
         CestaArticulos = getAllCesta()
@@ -218,6 +220,25 @@ def DeleteArtCesta(id):
     db.commit()
     db.close()
     return redirect("/cart")
+
+# Ruta para eliminar articulos de la cesta
+@app.route('/DeleteArtContenido/<id>', methods=['GET', 'POST'])
+def DeleteArtContenido(id):
+    if 'nombre' in session:
+        id_usuario = session['id']
+    else:
+        try:
+            id_usuario = int(request.cookies.get('visitanteId'))
+        except:
+            return redirect('/del_cookie')
+    id = int(id)
+    db = get_db()
+    cur = db.cursor()
+    delete_product = ("DELETE FROM Contenido WHERE Id = ? AND Id_Usuario = ?")
+    cur.execute(delete_product, [(id), (id_usuario)])
+    db.commit()
+    db.close()
+    return redirect("/EditarLista")
 
 # Ruta para eliminar todos los articulos de la cesta
 @app.route('/deleteAllCesta', methods=['GET', 'POST'])
@@ -563,34 +584,23 @@ def DeleteLista(id):
     return redirect("/MisListas")
 
 
-# @app.route('/EditarLista/<id>', methods=['GET', 'POST'])
-# def EditarLista(id):
-#     if 'nombre' in session:
-#         id_usuario = session['id']
-#     else:
-#         id_usuario = -1
-#     id = int(id)
-#     db = get_db()
-#     cur = db.cursor()
-#     search_list = (
-#         "SELECT Nombre, Descripcion FROM Listas WHERE Id = ? AND UsuarioId = ?")
-#     cur.execute(search_list, [(id), (id_usuario)])
-#     resultados = [dict(Nombre=row[0], Descripcion=row[1])
-#                   for row in cur.fetchall()]
-#     search_list = (
-#         "SELECT ProductoId FROM Contenido WHERE ListaId = ? ")
-#     cur.execute(search_list, [(id)])
-#     Idproductos = [dict(IdProducto=row[0])
-#                   for row in cur.fetchall()]
-#     for producto in Idproductos:
-#         search_productos = (
-#         "SELECT Producto FROM Productos WHERE Id = ? ")
-#         cur.execute(search_productos, [(producto.IdProducto)])
-#         nombreproductos = [dict(NombreProducto=row[0])
-#                     for row in cur.fetchall()] 
-
-#     db.close()
-#     return render_template('VerListas', datos=resultados, productos=nombreproductos)
+@app.route('/EditarLista/<id>', methods=['GET', 'POST'])
+def EditarLista(id):
+    if 'nombre' in session:
+        id_usuario = session['id']
+    else:
+        id_usuario = -1
+    id = int(id)
+    db = get_db()
+    cur = db.cursor()
+    # Consultado  las listas segun el usuario
+    searchAll = (
+        "SELECT ListaNombre, Descripcion, ProductoNombre, ProductoId, ContenidoId FROM General WHERE ListaId = ? AND UsuarioId = ?")
+    cur.execute(searchAll, [(id), (id_usuario)])
+    resultados = [dict(ListaNombre=row[0], Descripcion=row[1], ProductoNombre=row[2], ProductoId=row[3], ContenidoId=row[4])
+                  for row in cur.fetchall()]
+    db.close()
+    return render_template('VerLista.html', datos=resultados)
 
 # Ruta alta y baja de artículos
 @app.route('/ABM_articulos', methods=['GET', 'POST'])
