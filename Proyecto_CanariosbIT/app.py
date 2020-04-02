@@ -469,9 +469,65 @@ def registrarse():
 @app.route('/MisListas')  # Ruta Mis Listas
 def MisListas():
     if 'nombre' in session:
-        return render_template('mis_listas.html')
+        id = session['id']
+        db = get_db()
+        cur = db.cursor()
+        find_lists = (
+            "SELECT Id, Nombre, Descripcion FROM Listas WHERE UsuarioId = ?")
+        cur.execute(find_lists, [(id)])
+        resultado = [dict(Id=row[0], Nombre=row[1], Descripcion=row[2])
+                     for row in cur.fetchall()]
+        db.close()
+        return render_template('mis_listas.html', listas=resultado)
     else:
         return redirect("/")
+
+
+# Ruta para eliminar articulos de la cesta y volver al home
+@app.route('/DeleteLista/<id>', methods=['GET', 'POST'])
+def DeleteLista(id):
+    if 'nombre' in session:
+        id_usuario = session['id']
+    else:
+        id_usuario = -1
+    id = int(id)
+    db = get_db()
+    cur = db.cursor()
+    delete_list = ("DELETE FROM Listas WHERE Id = ? AND UsuarioId = ?")
+    cur.execute(delete_list, [(id), (id_usuario)])
+    db.commit()
+    db.close()
+    return redirect("/MisListas")
+
+
+# @app.route('/EditarLista/<id>', methods=['GET', 'POST'])
+# def EditarLista(id):
+#     if 'nombre' in session:
+#         id_usuario = session['id']
+#     else:
+#         id_usuario = -1
+#     id = int(id)
+#     db = get_db()
+#     cur = db.cursor()
+#     search_list = (
+#         "SELECT Nombre, Descripcion FROM Listas WHERE Id = ? AND UsuarioId = ?")
+#     cur.execute(search_list, [(id), (id_usuario)])
+#     resultados = [dict(Nombre=row[0], Descripcion=row[1])
+#                   for row in cur.fetchall()]
+#     search_list = (
+#         "SELECT ProductoId FROM Contenido WHERE ListaId = ? ")
+#     cur.execute(search_list, [(id)])
+#     Idproductos = [dict(IdProducto=row[0])
+#                   for row in cur.fetchall()]
+#     for producto in Idproductos:
+#         search_productos = (
+#         "SELECT Producto FROM Productos WHERE Id = ? ")
+#         cur.execute(search_productos, [(producto.IdProducto)])
+#         nombreproductos = [dict(NombreProducto=row[0])
+#                     for row in cur.fetchall()] 
+
+#     db.close()
+#     return render_template('VerListas', datos=resultados, productos=nombreproductos)
 
 # Ruta alta y baja de artículos
 @app.route('/ABM_articulos', methods=['GET', 'POST'])

@@ -12,8 +12,8 @@
         <div class="row">
             <div class="col-12 col-lg-12 text-center">
 
-                <table class="table table-bordered">
-                    <thead class="table text-secondary">
+                <table class="table table-bordered table-striped ">
+                    <thead class="table bg-primary text-white ">
                       <tr>
                         <th scope="col">Id</th>
                         <th scope="col">Nombre</th>
@@ -22,17 +22,17 @@
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
-                        <th scope="row">1</th>
-                        <td>Asado</td>
-                        <td>3500</td>
-                        <td></td>
-                        <td>
-                            <a href=""><i class="fas fa-edit text-primary px-3"></i></i></a>
-                            <a href=""><i class="fas fa-download text-primary px-3"></i></i></a>
-                            <a href=""><i class="fas fa-trash-alt text-primary px-3"></i></i></a>
-                        </td>
-                      </tr>
+                      {% for lista in listas %}
+                        <tr>
+                            <th scope="row">{{ lista.Id }}</th>
+                            <td>{{ lista.Nombre }}</td>
+                            <td>{{ lista.Descripcion }}</td>
+                            <td>
+                                <a href="/EditarLista/{{lista.Id}}"><i class="fas fa-edit text-primary px-3"></i></a>
+                                <a href="/DeleteLista/{{lista.Id}}"><i class="fas fa-trash-alt text-primary px-3"></i></a>
+                            </td>
+                        </tr>
+                      {% endfor %}
                     </tbody>
                   </table>
             </div>
