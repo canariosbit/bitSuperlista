@@ -88,15 +88,23 @@
                     <!-- <li class="nav-item mb-1 mb-md-0 mr-md-0"><a href="#" class="nav-link">Cargar Lista</a></li> -->
                 </ul>
             </div>
-            <form action="" class=" bg-secondary ">
+            <form action="/agregarDesdeBuscador" class=" bg-secondary " method="POST">
                 <div class="form-group mb-0">
                     <label for="buscar" class="sr-only">Buscar:</label>
-                    <div class="input-group">
-                        <input type="text" size="25" style="height:50px" name="buscar" id="buscar" placeholder="Buscar..." class="form-control">
-                        <div class="input-group-append">
-                            <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i></button>
+                        <div class="input-group">
+
+                            <select  style="height:45px;" class="form-control" name="producto">
+                                <option selected="" value="0">Escribe para buscar..</option>
+                                {% for producto in productos %}
+                                <option value="{{producto.pro_id}}" {% if producto.pro_id == catSelected %}
+                                    selected {% endif %}>{{ producto.pro_nombre }}</option>
+                                {% endfor %}
+                            </select>
+                            <div class="input-group-append">
+                                <button type="submit" class="btn btn-primary input-group-append"><i class="fas fa-cart-plus"></i></button>
+                                
+                            </div>
                         </div>
-                    </div>
                 </div>
             </form>
         </div>

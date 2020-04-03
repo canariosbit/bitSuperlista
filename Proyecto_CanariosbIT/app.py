@@ -202,6 +202,51 @@ def AddArt(articulo, idArticulo):
     return redirect('/')
 
 
+@app.route('/agregarDesdeBuscador', methods=['POST'])
+def agregarArtCesta():
+    if 'nombre' in session:
+        id_usuario = session['id']
+    else:
+        return redirect('/')
+
+    proSelected = request.form.get('producto')
+    
+    if proSelected != "0":
+        print(proSelected)
+        print(id_usuario)
+        db = get_db()
+        cur = db.cursor()
+        # Consultando si ya existe dentro del Carrito
+        sql = "SELECT Producto FROM Productos WHERE Id = ?"
+        cur.execute(sql, [proSelected])
+        nomProd = cur.fetchone()
+        nomProd = nomProd[0]
+        findInCesta = (
+            "SELECT * FROM Cesta WHERE Item = ? AND Id_Usuario = ?")
+        cur.execute(findInCesta, [(nomProd), (id_usuario)])
+        resultado = cur.fetchone()
+        print("search")
+        print(resultado)
+        if resultado:
+            flash("El artículo ya fue agregado.", "alert-warning")
+            return redirect('/')
+        
+        (cur.execute("INSERT INTO Cesta (Id_Usuario, Item, Tachar, ProductoId) VALUES(?,?,?,?)",
+                    (id_usuario, nomProd, 0, proSelected)))
+        db.commit()
+        db.close()
+        flash("Producto agregado correctamente.", "alert-success")
+        return redirect('/')
+
+
+    else:
+        flash("Seleccione un producto", "alert-warning")
+        return redirect('/')
+
+
+    
+
+
 # Ruta para eliminar articulos de la cesta
 @app.route('/DeleteArtCesta/<id>', methods=['GET', 'POST'])
 def DeleteArtCesta(id):
@@ -705,7 +750,7 @@ def deleteArt(id):
     return redirect("/")
 
 
-@app.route('/search/', methods=['GET', 'POST'])
+@app.route('/search', methods=['GET', 'POST'])
 def search():
     productos = getAllProductosUsuarios()
     return render_template("searchTest.html", productos=productos)

@@ -30,25 +30,8 @@
     <link href="https://fonts.googleapis.com/css?family=Lato:400,700" rel="stylesheet">
     <!-- Carga del css personalizado -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/estilos.css') }}">
-    
-    <!-- barra de búsqueda -->
-    <meta charset="utf-8">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
-    <!-- barra busqueda script -->
-    <script>
-        $(document).ready(function(){
-          $("#searchInput").on("keyup", function() {
-            var value = $(this).val().toLowerCase();
-            $("#t_productos tr").filter(function() {
-              $(this).toggle($(this).text().toLowerCase().indexOf(value) > 0)
-            });
-          });
-        });
-    </script> 
-
-    <!-- bara navegacion script -->
+    <!-- MAIN CSS -->
+    <link rel="stylesheet" href="{{url_for('static', filename='css/main.css')}}">
     <script>
         $(function () {
             $('#bootnavbar').bootnavbar({
@@ -57,7 +40,7 @@
               //animation: false
 
             });
-        });
+        })
     </script>
 </head>
 
@@ -77,6 +60,11 @@
                         <li class="py-2">{{ session['correo'] }}</li>
                         <li><a href="/perfil"><i class="fas fa-user-edit"></i></i></a></li>
                         <li><a href="/logout"><i class="fas fa-sign-out-alt"></i></i></a></li>
+                        <div>
+                            <li><a href="/cart"><i class="fas fa-shopping-cart"></i></a></li>
+                        </div>
+                        <span id="cantidad"> <strong>{{ session['carrito'] }}</strong></span>
+                        
                     </ul>
                 </div>
             </div>
@@ -94,38 +82,20 @@
 
             <div class="collapse navbar-collapse" id="menu-principal">
                 <ul class="navbar-nav mt-3 mt-md-0">
-                    <li class="nav-item mb-1 mb-md-0 mr-md-2"><a href="{{ url_for('home') }}" 
-                        class="nav-link">Inicio</a></li>
+                    <li class="nav-item mb-1 mb-md-0 mr-md-2"><a href="{{ url_for('home' )}}" class="nav-link">Inicio</a></li>
                     <li class="nav-item mb-1 mb-md-0 mr-md-2"><a href="{{ url_for('MisListas')}}" class="nav-link">Mis Listas</a></li>
-                    <!-- <li class="nav-item mb-1 mb-md-0 mr-md-0"><a href="{{ url_for('ABM_articulos')}}" class="nav-link">Artículos</a></li> -->
+                   
                     <!-- <li class="nav-item mb-1 mb-md-0 mr-md-0"><a href="#" class="nav-link">Cargar Lista</a></li> -->
                 </ul>
-            </div>
-            <div class="container mt-3">
-                <!-- <input class="form-control" id="searchInput" type="text" placeholder="Buscar.."> -->
-                <br>
-                
             </div>
             <form action="" class=" bg-secondary ">
                 <div class="form-group mb-0">
                     <label for="buscar" class="sr-only">Buscar:</label>
-                    <div class="input-group-append">
-                        
-                    
-                        <button type="submit" class="btn btn-primary"><i class="fas fa-cart-plus"></i></button>
-                    </div>
                     <div class="input-group">
-                        <input class="form-control" type="text" size="25" style="height:50px" id="searchInput" value="" placeholder="Buscar...">
-                        <table class="table table-bordered">
-                            <tbody id="t_productos">
-                                {% for producto in productos %}
-                                    <tr>    
-                                        <td><button>{{ producto.pro_nombre }}</button></td>
-                                    </tr>
-                                {% endfor %}
-                            </tbody>
-                          </table>
-                        
+                        <input type="text" size="25" style="height:50px" name="buscar" id="buscar" placeholder="Buscar..." class="form-control">
+                        <div class="input-group-append">
+                            <button type="submit" class="btn btn-primary"><i class="fas fa-search"></i></button>
+                        </div>
                     </div>
                 </div>
             </form>
