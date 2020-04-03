@@ -711,6 +711,41 @@ def search():
     return render_template("searchTest.html", productos=productos)
 
 
+@app.route('/compact_database/<ultimosReg>')
+def compact_db(ultimosReg):
+    db = get_db()
+    cur = db.cursor()
+    countGuest = (
+        "SELECT COUNT(Id) FROM Usuarios WHERE Admin = -1")
+    cur.execute(countGuest)
+    resultado = cur.fetchone()
+    cantidadBorrar = resultado[0] - int(ultimosReg)
+    print(cantidadBorrar)
+    find_guest = (
+        "SELECT Id FROM Usuarios WHERE Admin = -1 ORDER BY Id LIMIT ?")
+    cur.execute(find_guest, [cantidadBorrar])
+    resultado = cur.fetchall()
+    if resultado: 
+        
+
+        delete_guestCesta = (
+            "DELETE FROM Cesta WHERE Id_Usuario = ?")
+        for user in resultado:
+            print(user)
+            cur.execute(delete_guestCesta, [user[0]])
+        
+        db.commit()
+        delete_guestUser = (
+            "DELETE FROM Usuarios WHERE Id = ?")
+        
+        for user in resultado:
+            cur.execute(delete_guestUser, [user[0]])
+        db.commit()
+        return "Compactada."
+    else:
+        return "No hay mas invitados en la DB."
+
+
 if __name__ == '__main__':
     app.secret_key = 'qwerty'
     app.run(debug=True, port=5000)
