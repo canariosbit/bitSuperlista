@@ -612,16 +612,20 @@ def MisListas():
         return redirect("/")
 
 
-# Ruta para eliminar articulos de la cesta y volver al home
-@app.route('/DeleteLista/<id>', methods=['POST'])
+# Ruta para eliminar articulos de la lista
+@app.route('/DeleteLista/<id>', methods=['GET'])
 def DeleteLista(id):
-    id = int(id)
-    db = get_db()
-    cur = db.cursor()
-    delete_list = ("DELETE FROM Listas WHERE Id = ? AND UsuarioId = ?")
-    cur.execute(delete_list, [(id), (id_usuario)])
-    db.commit()
-    return redirect("/MisListas")
+    if 'nombre' in session:
+        id_usuario = session['id']
+        id = int(id)    
+        db = get_db()
+        cur = db.cursor()
+
+        delete_list = ("DELETE FROM Listas WHERE Id = ? AND UsuarioId = ?")
+        cur.execute(delete_list, [(id), (id_usuario)])
+        db.commit()
+        return redirect("/MisListas")
+    return redirect('/')
 
 # Ruta para eliminar articulos de la cesta y volver al home
 @app.route('/AgregarProductoLista/<id>', methods=['POST'])
