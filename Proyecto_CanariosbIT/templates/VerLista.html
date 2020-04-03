@@ -5,19 +5,28 @@
 <!-- Sección #Mis_Listas -->
 <section>
     <div class="text h2 text-center py-3">
-        <span>{{nombreLista}}</span>
+        <span>Editar Lista</span>
     </div>
+</div>
+    {% with messages = get_flashed_messages(with_categories=true)%}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class="alert {{category}} text-center" id="idMensajeError">
+                {{message}}
+                </div>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+</div>
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-4">
-                {% for dato in datos%}
-                <form action="/AgregarProductoLista/{{dato.ListaId}}" method="POST">
-                {% endfor %}
+                <form action="/AgregarProductoLista/{{datos[0].ListaId}}" method="POST">
                     <div class="card text-center">
                         <div class="card-header">
                             <div class="form-group">
                                 <div class="text text-center px-1 text-primary">
-                                    <label>AGREGUE UN PRODUCTO A TU LISTA</label> 
+                                    <label>AGREGA UN PRODUCTO A TU LISTA</label> 
                                 </div>
                                 <div class="text text-left px-1">
                                     <label>Productos</label> 
@@ -30,7 +39,7 @@
                                     {% endfor %}
                                 </select>
                             </div>
-                            <button type="submit" name="submit" value="agregarDesdeHome" class="btn btn-primary btn-block">
+                            <button type="submit" name="submit"  class="btn btn-primary btn-block">
                                 Agregar <i class="fa fa-plus"></i></button>
                         </div>
                     </div>
