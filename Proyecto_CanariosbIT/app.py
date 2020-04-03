@@ -222,9 +222,10 @@ def DeleteArtCesta(id):
     return redirect("/cart")
 
 # Ruta para eliminar articulos de la cesta
-@app.route('/DeleteArtContenido/<id>', methods=['GET', 'POST'])
+@app.route('/DeleteArtContenido/<id>', methods=['GET'])
 def DeleteArtContenido(id):
     id = int(id)
+    nombreLista = request.form.get('nombreDeLista')
     db = get_db()
     cur = db.cursor()
     findListaId = ("SELECT ListaId FROM Contenido WHERE Id = ?")
@@ -234,8 +235,7 @@ def DeleteArtContenido(id):
     delete_product = ("DELETE FROM Contenido WHERE Id = ?")
     cur.execute(delete_product, [(id)])
     db.commit()
-    db.close()
-    return redirect("/MisListas")
+    return EditarLista(result[0])
 
 # Ruta para eliminar todos los articulos de la cesta
 @app.route('/deleteAllCesta', methods=['GET', 'POST'])
@@ -243,7 +243,10 @@ def deleteAllCesta():
     if 'nombre' in session:
         id_usuario = session['id']
     else:
-        id_usuario = -1
+        try:
+            id_usuario = int(request.cookies.get('visitanteId'))
+        except:
+            return redirect('/del_cookie')
     db = get_db()
     cur = db.cursor()
     delete_product = ("DELETE FROM Cesta WHERE Id_Usuario = ?")
@@ -565,46 +568,50 @@ def MisListas():
 
 
 # Ruta para eliminar articulos de la cesta y volver al home
-@app.route('/DeleteLista/<id>', methods=['GET', 'POST'])
+@app.route('/DeleteLista/<id>', methods=['POST'])
 def DeleteLista(id):
-    if 'nombre' in session:
-        id_usuario = session['id']
-    else:
-        id_usuario = -1
     id = int(id)
     db = get_db()
     cur = db.cursor()
     delete_list = ("DELETE FROM Listas WHERE Id = ? AND UsuarioId = ?")
     cur.execute(delete_list, [(id), (id_usuario)])
     db.commit()
-    db.close()
     return redirect("/MisListas")
 
 # Ruta para eliminar articulos de la cesta y volver al home
-@app.route('/AgregarProductoLista/<id>', methods=['GET', 'POST'])
+@app.route('/AgregarProductoLista/<id>', methods=['POST'])
 def AgregarProductoLista(id):
-    if 'nombre' in session:
-        id_usuario = session['id']
-    else:
-        id_usuario = -1
     id = int(id)
     proSelected = request.form.get('producto')
-    db = get_db()
-    cur = db.cursor()
-    sql = (
-        'INSERT INTO Contenido (ListaId, ProductoId) VALUES(?,?)')
-    cur.execute(sql, [(id), (proSelected)])
-    db.commit()
-    db.close()
-    return redirect("/MisListas")
+    if proSelected != "0":
+        print(proSelected)
+        db = get_db()
+        cur = db.cursor()
+        find_prod = (
+            "SELECT * FROM Contenido WHERE ListaId = ? AND ProductoId= ?")
+        cur.execute(find_prod, [(id), (proSelected)])
+        resultado = cur.fetchone()
+
+        if resultado:
+            flash("El artículo ya fue ingresado", "alert-warning")
+        else:
+            sql = (
+                'INSERT INTO Contenido (ListaId, ProductoId) VALUES(?,?)')
+            cur.execute(sql, [(id), (proSelected)])
+            db.commit()
+    else:
+            flash("Seleccione un producto", "alert-warning")
+
+    return EditarLista(id)
 
 
-@app.route('/EditarLista/<id>/<nombreLista>', methods=['GET', 'POST'])
-def EditarLista(id, nombreLista):
+@app.route('/EditarLista/<id>', methods=['GET', 'POST'])
+def EditarLista(id):
     if 'nombre' in session:
         id_usuario = session['id']
     else:
-        id_usuario = -1
+        return redirect("/")
+
     id = int(id)
     db = get_db()
     cur = db.cursor()
@@ -642,10 +649,10 @@ def ABM_articulos():
                 find_prod = (
                     "SELECT * FROM Productos WHERE Producto = ? AND PropietarioId= ?")
                 cur.execute(find_prod, [(articulo), (session['id'])])
-                resultado = cur.fetchall()  # podria ser fetchone()
+                resultado = cur.fetchone()
 
                 if resultado:
-                    catExiste = str(resultado[0][1])
+                    # catExiste = str(resultado[0][1])
                     # print("el prod ya existe en categ: " + catExiste)
                     flash("El artículo ya fue ingresado", "alert-warning")
                 else:

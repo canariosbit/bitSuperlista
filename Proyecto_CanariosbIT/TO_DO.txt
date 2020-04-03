@@ -4,3 +4,30 @@
   - buscador de productos!
   - si diera el tiempo habría que reducir la cantidad de columnas según resolución
   - al agregar un producto a la cesta refrescar la página en la misma posicion de scroll
+  
+  
+  Tareas en proceso:
+  - Búsqueda rápida de productos y agregado a la "cesta" desde allí. (en proceso, la estoy tratando de tarminar hoy)
+  - Gestión de listas. Borrado y edición de nombre y descripción. (Mariana está tratando de terminarlo hoy y yo la ayudaré mas tarde si le queda algo)
+  - Hacer responsive (por ahora no ajusta el contenido al ancho de pantalla, no se si llegaremos a hacerlo)
+  
+  Funcionalidades destacables F-E:
+  - Del Front End creo que las podés sacar todas navegando la página. Sino te enumero algunas.
+
+  Funcionalidades futuras:
+  - Agregar productos reales con base de datos de códigos de barra y precios para funcioar cómo una tienda online.
+  
+  Funcionalidades destacables B-E:  
+  - Encriptación de contraseñas en la DB.
+  - Gestión de cookies de identificación de usuarios "invitados" para instancias en base de datos.
+  - Utilización de scripts para modificación de datos sin recargas la página.
+  - Utilización de sesiones para datos de usuarios registrados
+  
+  Tecnologías utulizadas:
+  - PYTHON
+  - Flask
+  - SQLite3
+  - Bcrypt
+  - Bootstrap 4
+  - JavaScript
+  - JQuerry
