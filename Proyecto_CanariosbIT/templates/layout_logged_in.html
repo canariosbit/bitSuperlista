@@ -22,10 +22,6 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/jarallax.css') }}">
     <!-- Carga del CSS de "Pickadate.js" -->
     <link rel="stylesheet" href="{{ url_for('static', filename='js/pickadate.js/themes/default.css') }}">
-    <!-- Carga del CSS de "Date Picker" -->
-    <link rel="stylesheet"  href="{{ url_for('static', filename='js/pickadate.js/themes/default.date.css') }}">
-     <!-- Carga del CSS de "Time Picker" -->
-     <link rel="stylesheet" href="{{ url_for('static', filename='js/pickadate.js/themes/default.time.css') }}">
      <!-- Carga de Fuentes de google-->
     <link href="https://fonts.googleapis.com/css?family=Lato:400,700" rel="stylesheet">
     <!-- Carga del css personalizado -->
@@ -48,14 +44,14 @@
     <!-- Seccion #barra-contacto -->
     <section id="barra-contacto" class="bg-primary text-white py-3 py-lg-1 text-center">
         <div class="container">
-            <div class="row justify-content-sm-between align-items-sm-center">
-                <div class="col-auto align-content-sm-center">
+            <div class="row justify-content-md-between align-items-md-center">
+                <div class="col-auto align-content-md-center">
                     <a  href="javascript:history.back(-1);" class="logo">
                         <img src="{{ url_for('static', filename='images/texto.png') }}" alt="Logo del sitio" width="200"
                             class="img-fluid">
                     </a>
                 </div>
-                <div class="col-12 col-sm-auto">
+                <div class="col-12 col-md-auto">
                     <ul class="redes-sociales list-unstyled d-inline-flex mb-0">
                         <li class="py-2">{{ session['correo'] }}</li>
                         <li><a href="/perfil"><i class="fas fa-user-edit"></i></i></a></li>

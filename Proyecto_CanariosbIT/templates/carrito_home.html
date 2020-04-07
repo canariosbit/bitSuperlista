@@ -80,8 +80,8 @@
         <span>Tu Cesta</span>
     </div>
         <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-5 py-5 text-center">
+            <div class="row justify-content-center py-3">
+                <div class="col-#-8 text-center">
                     <div class="card">
                         <div class="card-header">
                             <span>Tu lista de la compra</span>
@@ -97,7 +97,7 @@
                                 {% endif %}
                             {% endwith %}
                         </div>
-                        <div class="card-body ">
+                        <div class="card-body align-self-center">
                             {%for item in items %}
                                 <div class="input-group py-1">
                         
@@ -107,7 +107,7 @@
                                             <!-- <a href="/adquirido/{{item.Id}}" type="checkbox" aria-label="Checkbox for following text input"></a> -->
                                         </div>
                                     </div>
-                                    <input type="text" readonly="true" color="blue" class="form-control {% if item.Tachar %} tachar {% endif %}" value="{{item.Item_nombre}}">
+                                    <input type="text" readonly="true" size="30" color="blue" class="form-control {% if item.Tachar %} tachar {% endif %}" value="{{item.Item_nombre}}">
                                     <div class="input-group-prepend">
                                         <div class="input-group-text">
                                             <a href="/DeleteArtCesta/{{item.Id}}"><i class="far fa-trash-alt text-primary"></i></a>

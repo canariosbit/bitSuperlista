@@ -26,19 +26,19 @@
     </div>
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-6 text-center">
+            <div class="col-#-8 text-center">
                 <div class="card">
                     <div class="card-header">
                         <h5><span>Tu lista de la compra</span></h5>
                     </div>
-                    <div class="card-body ml-3">
+                    <div class="card-body align-self-center">
                         {%  set contador = namespace(value=0) %}
                             {%for item in items %}
                                 <div class="input-group py-1">
                                     <div class="input-group-prepend">
                                         <div class="input-group-text">
                                             <a href="/adquirido/{{item.Id}}"><i
-                                                    class="{% if item.Tachar %} text-success fas fa-check {% else %} text-danger fas fa-times  {% endif %} "></i></a>
+                                                    class="{% if item.Tachar %} text-primary fas fa-check {% else %} text-secondary fas fa-times  {% endif %} "></i></a>
                                             <!-- <a href="/adquirido/{{item.Id}}" type="checkbox" aria-label="Checkbox for following text input"></a> -->
                                         </div>
                                     </div>
@@ -79,7 +79,7 @@
                 <!-- Button vaciar carrito -->
                 <div class="container">
                     <div class="row justify-content-between ">
-                        <div class="col-3">
+                        <div class="col-4">
                             <div class="text ">
                                 <form id="delete" action="/deleteAllCesta" method="POST">
                                     <button type="submit" class="btn btn-primary">Vaciar</button>
@@ -87,7 +87,7 @@
                             </div>
                             
                         </div>
-                        <div class="col-3">
+                        <div class="col-4">
                             <div class="text">
                                 <!-- Button trigger modal -->
                                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">

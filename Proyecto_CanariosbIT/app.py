@@ -68,7 +68,7 @@ def getAllCategorias():
 
 
 def getAllCesta():
-    # Consultando los productos
+    # Consultando los productos en la cesta
     if 'nombre' in session:
         id = session['id']
     else:
@@ -210,7 +210,7 @@ def agregarArtCesta():
         return redirect('/')
 
     proSelected = request.form.get('producto')
-    
+
     if proSelected != "0":
         print(proSelected)
         print(id_usuario)
@@ -230,21 +230,17 @@ def agregarArtCesta():
         if resultado:
             flash("El artículo ya fue agregado.", "alert-warning")
             return redirect('/')
-        
+
         (cur.execute("INSERT INTO Cesta (Id_Usuario, Item, Tachar, ProductoId) VALUES(?,?,?,?)",
-                    (id_usuario, nomProd, 0, proSelected)))
+                     (id_usuario, nomProd, 0, proSelected)))
         db.commit()
         db.close()
         flash("Producto agregado correctamente.", "alert-success")
         return redirect('/')
 
-
     else:
         flash("Seleccione un producto", "alert-warning")
         return redirect('/')
-
-
-    
 
 
 # Ruta para eliminar articulos de la cesta
@@ -266,7 +262,7 @@ def DeleteArtCesta(id):
     db.close()
     return redirect("/cart")
 
-# Ruta para eliminar articulos de la cesta
+# Ruta para eliminar articulos de la tabla contenido
 @app.route('/DeleteArtContenido/<id>', methods=['GET'])
 def DeleteArtContenido(id):
     id = int(id)
@@ -490,12 +486,13 @@ def login():
             return render_template('login.html')
 
 
-@app.route('/logout')
+@app.route('/logout')  # Ruta de logout
 def fnLogout():
     session.clear()
     return redirect("/")
 
 
+# Ruta para editar perfil
 @app.route('/perfil', methods=['GET', 'POST'])
 def fnPerfil():
     if 'nombre' in session:
@@ -617,7 +614,7 @@ def MisListas():
 def DeleteLista(id):
     if 'nombre' in session:
         id_usuario = session['id']
-        id = int(id)    
+        id = int(id)
         db = get_db()
         cur = db.cursor()
 
@@ -649,7 +646,7 @@ def AgregarProductoLista(id):
             cur.execute(sql, [(id), (proSelected)])
             db.commit()
     else:
-            flash("Seleccione un producto", "alert-warning")
+        flash("Seleccione un producto", "alert-warning")
 
     return EditarLista(id)
 
@@ -774,19 +771,18 @@ def compact_db(ultimosReg):
         "SELECT Id FROM Usuarios WHERE Admin = -1 ORDER BY Id LIMIT ?")
     cur.execute(find_guest, [cantidadBorrar])
     resultado = cur.fetchall()
-    if resultado: 
-        
+    if resultado:
 
         delete_guestCesta = (
             "DELETE FROM Cesta WHERE Id_Usuario = ?")
         for user in resultado:
             print(user)
             cur.execute(delete_guestCesta, [user[0]])
-        
+
         db.commit()
         delete_guestUser = (
             "DELETE FROM Usuarios WHERE Id = ?")
-        
+
         for user in resultado:
             cur.execute(delete_guestUser, [user[0]])
         db.commit()
