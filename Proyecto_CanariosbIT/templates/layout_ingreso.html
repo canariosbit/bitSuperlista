@@ -49,8 +49,8 @@
      <!-- Sección #detalles-encabezado -->
      <section id="detalles-encabezado" class="d-none d-md-block py-2">
         <div class="container">
-            <div class="row justify-content-md-between align-items-md-center">
-                <div class="col-auto">
+            <div class="row justify-content-md-between align-items-center">
+                <div class="col-auto ">
                     <a href="{{ url_for('home') }}" class="logo">
                         <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo del sitio" width="200" class="img-fluid">
                     </a>
@@ -63,6 +63,24 @@
         </div>
 
     </section>
+    <!-- Barra de Navegacion -->
+    <nav id="menu-navegacion" class="navbar navbar-dark bg-secondary navbar-expand-md">
+        <div class="container">
+            <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#menu-principal"
+                aria-expanded="false" aria-label="Botón Menú principal">
+                <span class="boton-menu"></span>
+            </button>
+            <!-- <a href="#" class="btn btn-primary order-md-1">Info</a> -->
+
+            <div class="collapse navbar-collapse" id="menu-principal">
+                <ul class="navbar-nav mt-3 mt-md-0">
+                    <li class="nav-item mb-1 mb-md-0 mr-md-2"><a href="{{ url_for('home') }}"
+                            class="nav-link active">Inicio</a></li>
+                    
+                </ul>
+            </div>
+        </div>
+    </nav>
 
     {% block content %}
     

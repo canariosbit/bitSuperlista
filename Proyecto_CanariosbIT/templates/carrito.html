@@ -25,7 +25,7 @@
         {% endwith %}
     </div>
     <div class="container">
-        <div class="row justify-content-center">
+        <div class="row justify-content-center align-items-center">
             <div class="col-#-8 text-center">
                 <div class="card">
                     <div class="card-header">
@@ -43,7 +43,7 @@
                                         </div>
                                     </div>
                                     <div class="input">
-                                        <input type="text" readonly="true" color="blue"
+                                        <input type="text" size="17" readonly="true" color="blue"
                                             class="form-control {% if item.Tachar %} tachar {% endif %}"
                                             value="{{item.Item_nombre}}">
                                     </div>
@@ -55,11 +55,11 @@
                                         </div>
                                     </div>
                                     <div class="input-group-prepend ml-2">
-                                        <input type="text" size="10" id="{{item.Item_nombre}}" placeholder="Precio"
+                                        <input type="text" size="6" id="{{item.Item_nombre}}" placeholder="Precio"
                                             class="monto" onkeyup="SubTotal();">
                                     </div>
                                     <div class="input-group-prepend ml-2">
-                                        <input type="button" name="menos1" id="menos1" value="-"
+                                        <input  type="button" name="menos1" id="menos1" value="-"
                                             onclick="RtrCampo('{{contador.value|string}}')" />
                                         <input class="form-control text-center" type='text' size="1"
                                             id='{{contador.value|string}}' value=1>

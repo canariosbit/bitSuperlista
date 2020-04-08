@@ -13,8 +13,8 @@
 
         <div class="collapse navbar-collapse" id="menu-principal">
             <ul class="navbar-nav mt-3 mt-md-0">
-                <li class="nav-item mb-1 mb-md-0 mr-md-2"><a href="#barra-contacto"
-                        class="nav-link active">Inicio</a></li>
+                <li class="nav-item mb-1 mb-md-0 mr-md-2"><a href="#barra-contacto" class="nav-link active">Inicio</a>
+                </li>
                 <li class="nav-item mb-1 mb-md-0 mr-md-2"><a href="#bienvenidos" class="nav-link">Nosotros</a></li>
                 <li class="nav-item mb-1 mb-md-0 mr-md-0"><a href="#contacto" class="nav-link">Contacto</a></li>
             </ul>
@@ -34,32 +34,41 @@
     </div>
     <div class="container">
         <div class="row justify-content-center py-3">
-            <div class="col-sm-12">
-                <div class="card">
-                    <div class="card-header text-center">
-                        <span>ARTÍCULOS AGREGADOS A LA CESTA</span>
-                    </div>
-                    <div class="card-body">
-                            
+            <div class="col-md-12">
+                <div id="accordion" role="tablist">
+                    <div class="card">
+                      <div class="card-header text-center" role="tab" id="headingZero">
+                        <h6 class="mb-0">
+                          <a data-toggle="collapse" href="#collapseZero" aria-expanded="true" aria-controls="collapseZero">
+                            <span class="text text-primary">ARTÍCULOS AGREGADOS A LA CESTA</span>
+                          </a>
+                        </h6>
+                      </div>
+                  
+                      <div id="collapseZero" class="collapse show" role="tabpanel" aria-labelledby="headingZero">
+                        <div class="card-body">
                             <table class="table table-striped  table-sm ">
                                 {%  set contador = namespace(value=0) %}
-                                <tbody >
-                                    <tr class="text-center border" >
-                                {% for CestaArticulo in CestaArticulos %}    
-                                    {% if  (contador.value % 5) == 0 %}
-                                         </tr>
-                                         <tr>
-                                    {% endif %}
-                                      <td class="text   border ">{{ CestaArticulo.Item_nombre }}
-                                        <a href="/DeleteArtCesta_home/{{CestaArticulo.Id}}"><i class="far fa-trash-alt text-primary"></i></a>
-                                      </td>
-                                    {% set contador.value = contador.value + 1 %}
-                                    
-                                {% endfor %}
-                                        </tr>
+                                <tbody>
+                                    <tr class="text-center border">
+                                        {% for CestaArticulo in CestaArticulos %}
+                                        {% if  (contador.value % 3) == 0 %}
+                                    </tr>
+                                    <tr>
+                                        {% endif %}
+                                        <td class="text   border ">{{ CestaArticulo.Item_nombre }}
+                                            <a href="/DeleteArtCesta_home/{{CestaArticulo.Id}}"><i
+                                                    class="far fa-trash-alt text-primary"></i></a>
+                                        </td>
+                                        {% set contador.value = contador.value + 1 %}
+    
+                                        {% endfor %}
+                                    </tr>
                                 </tbody>
                             </table>
-                    </div>
+                        </div>
+                      </div>
+                    </div>    
                 </div>
             </div>
         </div>
@@ -67,131 +76,490 @@
             {% if messages %}
                 {% for category, message in messages %}
                     <div class="alert {{category}} text-center" id="idMensajeError">
-                    {{message}}
+                        {{message}}
                     </div>
                 {% endfor %}
             {% endif %}
         {% endwith %}
     </div>
-        
-
-    
-    
     <!-- listar artículos -->
     <div class="container">
-        <div class="row border">
-            <div class="col-md-3 border">
+        <div class="row justify-content-center">
+            <div class="col-md-4">
                 <form action="">
-                    {% for categoria in categorias %}
-                        <div class="form-group">
-                            {% if categoria.cat_id == 9 or categoria.cat_id == 13 or categoria.cat_id ==12  or categoria.cat_id == 11 %}
-                                <div class="text h5 py-2 text-center bg-primary text-white">
-                                    <span>{{ categoria.cat_nombre }} </span>
-                                </div>
-                                {% for producto in productos %}
+                    <div id="accordion" role="tablist">
+                        {% for categoria in categorias %}
+                        {% if categoria.cat_id == 13 %}
+                        <div class="card">
+                            <div class="card-header" role="tab" id="headingOne">
+                                <h5 class="mb-0">
+                                    <a data-toggle="collapse" href="#collapseOne" aria-expanded="true"
+                                        aria-controls="collapseOne">
+                                        <div class="text h5 py-2 text-center bg-primary text-white">
+                                            <span>{{ categoria.cat_nombre }} </span>
+                                        </div>
+                                    </a>
+                                </h5>
+                            </div>
+
+                            <div id="collapseOne" class="collapse" role="tabpanel" aria-labelledby="headingOne">
+                                <div class="card-body">
+                                    {% for producto in productos %}
                                     {% if categoria.cat_id == producto.cat_id  %}
+                                    <div class="input-group py-1">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">
+                                                <a href="/AddArt/{{producto.pro_nombre}}/{{producto.pro_id}}"><i
+                                                        class="fas fa-cart-plus" style="color:black;"></i></a>
+                                            </div>
+                                        </div>
+                                        <input type="text" name="input" readonly="true" class="form-control"
+                                            value="{{ producto.pro_nombre }}" aria-label="Text input with checkbox">
+
+                                    </div>
+                                    {% endif %}
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                        {%endif%}
+
+                        {%endfor%}
+                    </div>
+                    <div id="accordion" role="tablist">
+                        {% for categoria in categorias %}
+                        {% if categoria.cat_id == 12 %}
+                        <div class="card">
+                            <div class="card-header" role="tab" id="headingTwo">
+                                <h5 class="mb-0">
+                                    <a data-toggle="collapse" href="#collapseTwo" aria-expanded="true"
+                                        aria-controls="collapseTwo">
+                                        <div class="text h5 py-2 text-center bg-primary text-white">
+                                            <span>{{ categoria.cat_nombre }} </span>
+                                        </div>
+                                    </a>
+                                </h5>
+                            </div>
+
+                            <div id="collapseTwo" class="collapse" role="tabpanel" aria-labelledby="headingTwo">
+                                <div class="card-body">
+                                    {% for producto in productos %}
+                                    {% if categoria.cat_id == producto.cat_id  %}
+                                    <div class="input-group py-1">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">
+                                                <a href="/AddArt/{{producto.pro_nombre}}/{{producto.pro_id}}"><i
+                                                        class="fas fa-cart-plus" style="color:black;"></i></a>
+                                            </div>
+                                        </div>
+                                        <input type="text" name="input" readonly="true" class="form-control"
+                                            value="{{ producto.pro_nombre }}" aria-label="Text input with checkbox">
+
+                                    </div>
+                                    {% endif %}
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                        {%endif%}
+                        {%endfor%}
+                    </div>
+                    <div id="accordion" role="tablist">
+                        {% for categoria in categorias %}
+                        {% if categoria.cat_id == 9 %}
+                        <div class="card">
+                            <div class="card-header" role="tab" id="headingThree">
+                                <h5 class="mb-0">
+                                    <a data-toggle="collapse" href="#collapseThree" aria-expanded="true"
+                                        aria-controls="collapseThree">
+                                        <div class="text h5 py-2 text-center bg-primary text-white">
+                                            <span>{{ categoria.cat_nombre }} </span>
+                                        </div>
+                                    </a>
+                                </h5>
+                            </div>
+
+                            <div id="collapseThree" class="collapse" role="tabpanel" aria-labelledby="headingThree">
+                                <div class="card-body">
+                                    {% for producto in productos %}
+                                    {% if categoria.cat_id == producto.cat_id  %}
+                                    <div class="input-group py-1">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">
+                                                <a href="/AddArt/{{producto.pro_nombre}}/{{producto.pro_id}}"><i
+                                                        class="fas fa-cart-plus" style="color:black;"></i></a>
+                                            </div>
+                                        </div>
+                                        <input type="text" name="input" readonly="true" class="form-control"
+                                            value="{{ producto.pro_nombre }}" aria-label="Text input with checkbox">
+
+                                    </div>
+                                    {% endif %}
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                        {%endif%}
+                        {%endfor%}
+                    </div>
+                    <div id="accordion" role="tablist">
+                        {% for categoria in categorias %}
+                        {% if categoria.cat_id == 11 %}
+                        <div class="card">
+                            <div class="card-header" role="tab" id="headingFour">
+                                <h5 class="mb-0">
+                                    <a data-toggle="collapse" href="#collapseFour" aria-expanded="true"
+                                        aria-controls="collapseFour">
+                                        <div class="text h5 py-2 text-center bg-primary text-white">
+                                            <span>{{ categoria.cat_nombre }} </span>
+                                        </div>
+                                    </a>
+                                </h5>
+                            </div>
+                            <div id="collapseFour" class="collapse" role="tabpanel" aria-labelledby="headingFour">
+                                <div class="card-body">
+                                    {% for producto in productos %}
+                                    {% if categoria.cat_id == producto.cat_id  %}
+                                    <div class="input-group py-1">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">
+                                                <a href="/AddArt/{{producto.pro_nombre}}/{{producto.pro_id}}"><i
+                                                        class="fas fa-cart-plus" style="color:black;"></i></a>
+                                            </div>
+                                        </div>
+                                        <input type="text" name="input" readonly="true" class="form-control"
+                                            value="{{ producto.pro_nombre }}" aria-label="Text input with checkbox">
+
+                                    </div>
+                                    {% endif %}
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                        {%endif%}
+                        {%endfor%}
+                    </div>
+                </form>
+            </div>
+            <div class="col-md-4">
+                <form action="">
+                    <div id="accordion" role="tablist">
+                        {% for categoria in categorias %}
+                            {% if categoria.cat_id == 5 %}
+                            <div class="card">
+                                <div class="card-header" role="tab" id="headingFive">
+                                    <h5 class="mb-0">
+                                        <a data-toggle="collapse" href="#collapseFive" aria-expanded="true"
+                                            aria-controls="collapseFive">
+                                            <div class="text h5 py-2 text-center bg-primary text-white">
+                                                <span>{{ categoria.cat_nombre }} </span>
+                                            </div>
+                                        </a>
+                                    </h5>
+                                </div>
+                                <div id="collapseFive" class="collapse" role="tabpanel" aria-labelledby="headingFive">
+                                    <div class="card-body">
+                                        {% for producto in productos %}
+                                        {% if categoria.cat_id == producto.cat_id  %}
                                         <div class="input-group py-1">
                                             <div class="input-group-prepend">
                                                 <div class="input-group-text">
-                                                    <a href="/AddArt/{{producto.pro_nombre}}/{{producto.pro_id}}"><i class="fas fa-cart-plus" style="color:black;"></i></a>
+                                                    <a href="/AddArt/{{producto.pro_nombre}}/{{producto.pro_id}}"><i
+                                                            class="fas fa-cart-plus" style="color:black;"></i></a>
                                                 </div>
                                             </div>
                                             <input type="text" name="input" readonly="true" class="form-control"
                                                 value="{{ producto.pro_nombre }}" aria-label="Text input with checkbox">
-
                                         </div>
-                                    {% endif %}
-                                {% endfor %}
-                            {% endif %}
-                        </div>
-                    {%endfor%}
-                </form>
-            </div>
-            <div class="col-md-3 border">
-                <form action="">
-                    {% for categoria in categorias %}
-                    <div class="form-group">
-                        {% if categoria.cat_id == 5 or categoria.cat_id == 2 or categoria.cat_id == 6 or categoria.cat_id == 10 %}
-                            <div class="text h5 py-2 text-center bg-primary text-white">
-                                <span>{{ categoria.cat_nombre }} </span>
+                                        {% endif %}
+                                        {% endfor %}
+                                    </div>
+                                </div>
                             </div>
-                            {% for producto in productos %}
-                                {% if categoria.cat_id == producto.cat_id  %}
-                                <div class="input-group py-1">
-                                    <div class="input-group-prepend">
-                                        <div class="input-group-text">
-                                            <a href="/AddArt/{{producto.pro_nombre}}/{{producto.pro_id}}"><i class="fas fa-cart-plus" style="color:black;"></i></a>
+                            {%endif%}
+                        {%endfor%}
+                    </div>
+                    <div id="accordion" role="tablist">
+                        {% for categoria in categorias %}
+                            {% if categoria.cat_id == 6 %}
+                                <div class="card">
+                                    <div class="card-header" role="tab" id="headingSix">
+                                        <h5 class="mb-0">
+                                            <a data-toggle="collapse" href="#collapseSix" aria-expanded="true"
+                                                aria-controls="collapseSix">
+                                                <div class="text h5 py-2 text-center bg-primary text-white">
+                                                    <span>{{ categoria.cat_nombre }} </span>
+                                                </div>
+                                            </a>
+                                        </h5>
+                                    </div>
+
+                                    <div id="collapseSix" class="collapse" role="tabpanel" aria-labelledby="headingSix">
+                                        <div class="card-body">
+                                            {% for producto in productos %}
+                                            {% if categoria.cat_id == producto.cat_id  %}
+                                            <div class="input-group py-1">
+                                                <div class="input-group-prepend">
+                                                    <div class="input-group-text">
+                                                        <a href="/AddArt/{{producto.pro_nombre}}/{{producto.pro_id}}"><i
+                                                                class="fas fa-cart-plus" style="color:black;"></i></a>
+                                                    </div>
+                                                </div>
+                                                <input type="text" name="input" readonly="true" class="form-control"
+                                                    value="{{ producto.pro_nombre }}" aria-label="Text input with checkbox">
+
+                                            </div>
+                                            {% endif %}
+                                            {% endfor %}
                                         </div>
                                     </div>
-                                    <input type="text" name="input" readonly="true" class="form-control"
-                                        value="{{ producto.pro_nombre }}" aria-label="Text input with checkbox">
-
                                 </div>
-                                {% endif %}
-                            {% endfor %}
-                        {% endif %}
+                            {%endif%}
+                        {%endfor%}
                     </div>
-                    {%endfor%}
+                    <div id="accordion" role="tablist">
+                        {% for categoria in categorias %}
+                        {% if categoria.cat_id == 2 %}
+                        <div class="card">
+                            <div class="card-header" role="tab" id="headingSeven">
+                                <h5 class="mb-0">
+                                    <a data-toggle="collapse" href="#collapseSeven" aria-expanded="true"
+                                        aria-controls="collapseSeven">
+                                        <div class="text h5 py-2 text-center bg-primary text-white">
+                                            <span>{{ categoria.cat_nombre }} </span>
+                                        </div>
+                                    </a>
+                                </h5>
+                            </div>
+
+                            <div id="collapseSeven" class="collapse" role="tabpanel" aria-labelledby="headingSeven">
+                                <div class="card-body">
+                                    {% for producto in productos %}
+                                    {% if categoria.cat_id == producto.cat_id  %}
+                                    <div class="input-group py-1">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">
+                                                <a href="/AddArt/{{producto.pro_nombre}}/{{producto.pro_id}}"><i
+                                                        class="fas fa-cart-plus" style="color:black;"></i></a>
+                                            </div>
+                                        </div>
+                                        <input type="text" name="input" readonly="true" class="form-control"
+                                            value="{{ producto.pro_nombre }}" aria-label="Text input with checkbox">
+
+                                    </div>
+                                    {% endif %}
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                        {%endif%}
+                        {%endfor%}
+                    </div>
+                    <div id="accordion" role="tablist">
+                        {% for categoria in categorias %}
+                        {% if categoria.cat_id == 10 %}
+                        <div class="card">
+                            <div class="card-header" role="tab" id="headingEight">
+                                <h5 class="mb-0">
+                                    <a data-toggle="collapse" href="#collapseEight" aria-expanded="true"
+                                        aria-controls="collapseEight">
+                                        <div class="text h5 py-2 text-center bg-primary text-white">
+                                            <span>{{ categoria.cat_nombre }} </span>
+                                        </div>
+                                    </a>
+                                </h5>
+                            </div>
+
+                            <div id="collapseEight" class="collapse" role="tabpanel" aria-labelledby="headingEight">
+                                <div class="card-body">
+                                    {% for producto in productos %}
+                                    {% if categoria.cat_id == producto.cat_id  %}
+                                    <div class="input-group py-1">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">
+                                                <a href="/AddArt/{{producto.pro_nombre}}/{{producto.pro_id}}"><i
+                                                        class="fas fa-cart-plus" style="color:black;"></i></a>
+                                            </div>
+                                        </div>
+                                        <input type="text" name="input" readonly="true" class="form-control"
+                                            value="{{ producto.pro_nombre }}" aria-label="Text input with checkbox">
+
+                                    </div>
+                                    {% endif %}
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                        {%endif%}
+                        {%endfor%}
+                    </div>
                 </form>
             </div>
-            <div class="col-md-3 border">
+
+
+            <div class="col-md-4">
                 <form action="">
-                    {% for categoria in categorias %}
-                        <div class="form-group">
-                            {% if categoria.cat_id == 7 or categoria.cat_id == 3 or categoria.cat_id == 4 %}
-                                <div class="text h5 py-2 text-center bg-primary text-white">
-                                    <span>{{ categoria.cat_nombre }} </span>
-                                </div>
-                                    {% for producto in productos %}
-                                        {% if categoria.cat_id == producto.cat_id  %}
-                                        <div class="input-group py-1">
-                                            <div class="input-group-prepend">
-                                                <div class="input-group-text">
-                                                    <a href="/AddArt/{{producto.pro_nombre}}/{{producto.pro_id}}"><i class="fas fa-cart-plus" style="color:black;"></i></a>
-                                                </div>
-                                            </div>
-                                            <input type="text" name="input" readonly="true" class="form-control"
-                                                value="{{ producto.pro_nombre }}" aria-label="Text input with checkbox">
-    
+                    <div id="accordion" role="tablist">
+                        {% for categoria in categorias %}
+                        {% if categoria.cat_id == 7 %}
+                        <div class="card">
+                            <div class="card-header" role="tab" id="headingNine">
+                                <h5 class="mb-0">
+                                    <a data-toggle="collapse" href="#collapseNine" aria-expanded="true"
+                                        aria-controls="collapseNine">
+                                        <div class="text h5 py-2 text-center bg-primary text-white">
+                                            <span>{{ categoria.cat_nombre }} </span>
                                         </div>
-                                        {% endif %}
-                                    {% endfor %}
-                            {% endif %}
-                        </div>
-                    {%endfor%}
-                </form>
-            </div>
-            <div class="col-md-3 border py-3">
-                <form action="">
-                    {% for categoria in categorias %}
-                        <div class="form-group">
-                            {% if categoria.cat_id == 1 or categoria.cat_id == 8 %}
-                                <div class="text h5 py-2 text-center bg-primary text-white">
-                                    <span>{{ categoria.cat_nombre }} </span>
-                                </div>
+                                    </a>
+                                </h5>
+                            </div>
+
+                            <div id="collapseNine" class="collapse" role="tabpanel" aria-labelledby="headingNine">
+                                <div class="card-body">
                                     {% for producto in productos %}
-                                        {% if categoria.cat_id == producto.cat_id  %}
-                                        <div class="input-group py-1">
-                                            <div class="input-group-prepend">
-                                                <div class="input-group-text">
-                                                    <a href="/AddArt/{{producto.pro_nombre}}/{{producto.pro_id}}"><i class="fas fa-cart-plus" style="color:black;"></i></a>
-                                                </div>
+                                    {% if categoria.cat_id == producto.cat_id  %}
+                                    <div class="input-group py-1">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">
+                                                <a href="/AddArt/{{producto.pro_nombre}}/{{producto.pro_id}}"><i
+                                                        class="fas fa-cart-plus" style="color:black;"></i></a>
                                             </div>
-                                            <input type="text" name="input" readonly="true" class="form-control"
-                                                value="{{ producto.pro_nombre }}" aria-label="Text input with checkbox">
-    
                                         </div>
-                                        {% endif %}
+                                        <input type="text" name="input" readonly="true" class="form-control"
+                                            value="{{ producto.pro_nombre }}" aria-label="Text input with checkbox">
+
+                                    </div>
+                                    {% endif %}
                                     {% endfor %}
-                            {% endif %}
+                                </div>
+                            </div>
                         </div>
-                    {%endfor%}
+                        {%endif%}
+
+                        {%endfor%}
+                    </div>
+                    <div id="accordion" role="tablist">
+                        {% for categoria in categorias %}
+                        {% if categoria.cat_id == 3 %}
+                        <div class="card">
+                            <div class="card-header" role="tab" id="headingTen">
+                                <h5 class="mb-0">
+                                    <a data-toggle="collapse" href="#collapseTen" aria-expanded="true"
+                                        aria-controls="collapseTen">
+                                        <div class="text h5 py-2 text-center bg-primary text-white">
+                                            <span>{{ categoria.cat_nombre }} </span>
+                                        </div>
+                                    </a>
+                                </h5>
+                            </div>
+
+                            <div id="collapseTen" class="collapse" role="tabpanel" aria-labelledby="headingTen">
+                                <div class="card-body">
+                                    {% for producto in productos %}
+                                    {% if categoria.cat_id == producto.cat_id  %}
+                                    <div class="input-group py-1">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">
+                                                <a href="/AddArt/{{producto.pro_nombre}}/{{producto.pro_id}}"><i
+                                                        class="fas fa-cart-plus" style="color:black;"></i></a>
+                                            </div>
+                                        </div>
+                                        <input type="text" name="input" readonly="true" class="form-control"
+                                            value="{{ producto.pro_nombre }}" aria-label="Text input with checkbox">
+
+                                    </div>
+                                    {% endif %}
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                        {%endif%}
+                        {%endfor%}
+                    </div>
+                    <div id="accordion" role="tablist">
+                        {% for categoria in categorias %}
+                        {% if categoria.cat_id == 4 %}
+                        <div class="card">
+                            <div class="card-header" role="tab" id="headingEleven">
+                                <h5 class="mb-0">
+                                    <a data-toggle="collapse" href="#collapseEleven" aria-expanded="true"
+                                        aria-controls="collapseEleven">
+                                        <div class="text h5 py-2 text-center bg-primary text-white">
+                                            <span>{{ categoria.cat_nombre }} </span>
+                                        </div>
+                                    </a>
+                                </h5>
+                            </div>
+
+                            <div id="collapseEleven" class="collapse" role="tabpanel" aria-labelledby="headingEleven">
+                                <div class="card-body">
+                                    {% for producto in productos %}
+                                    {% if categoria.cat_id == producto.cat_id  %}
+                                    <div class="input-group py-1">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">
+                                                <a href="/AddArt/{{producto.pro_nombre}}/{{producto.pro_id}}"><i
+                                                        class="fas fa-cart-plus" style="color:black;"></i></a>
+                                            </div>
+                                        </div>
+                                        <input type="text" name="input" readonly="true" class="form-control"
+                                            value="{{ producto.pro_nombre }}" aria-label="Text input with checkbox">
+
+                                    </div>
+                                    {% endif %}
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                        {%endif%}
+                        {%endfor%}
+                    </div>
+
+                    <div id="accordion" role="tablist">
+                        {% for categoria in categorias %}
+                        {% if categoria.cat_id == 1 %}
+                        <div class="card">
+                            <div class="card-header" role="tab" id="headingTwelve">
+                                <h5 class="mb-0">
+                                    <a data-toggle="collapse" href="#collapseTwelve" aria-expanded="true"
+                                        aria-controls="collapseTwelve">
+                                        <div class="text h5 py-2 text-center bg-primary text-white">
+                                            <span>{{ categoria.cat_nombre }} </span>
+                                        </div>
+                                    </a>
+                                </h5>
+                            </div>
+                            <div id="collapseTwelve" class="collapse" role="tabpanel" aria-labelledby="headingTwelve">
+                                <div class="card-body">
+                                    {% for producto in productos %}
+                                    {% if categoria.cat_id == producto.cat_id  %}
+                                    <div class="input-group py-1">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">
+                                                <a href="/AddArt/{{producto.pro_nombre}}/{{producto.pro_id}}"><i
+                                                        class="fas fa-cart-plus" style="color:black;"></i></a>
+                                            </div>
+                                        </div>
+                                        <input type="text" name="input" readonly="true" class="form-control"
+                                            value="{{ producto.pro_nombre }}" aria-label="Text input with checkbox">
+
+                                    </div>
+                                    {% endif %}
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                        {%endif%}
+                        {%endfor%}
+                    </div>
                 </form>
             </div>
         </div>
     </div>
 </section>
 <!-- Sección #bienvenidos -->
+<br>
+<br>
 <section id="bienvenidos" class="py-5">
 
     <div class="container">
@@ -202,8 +570,8 @@
 
                     <img src="{{ url_for('static', filename='images/images.jpg') }}"
                         alt="Imagen del video promocional del Sitio" class="img-fluid">
-                    <a href="https://www.youtube.com/watch?v=AulXnRyo-C0" class="venobox-video"
-                        data-vbtype="video" title="Bienvenidos a nuestro sitio web."><i class="fas fa-play"></i></a>
+                    <a href="https://www.youtube.com/watch?v=AulXnRyo-C0" class="venobox-video" data-vbtype="video"
+                        title="Bienvenidos a nuestro sitio web."><i class="fas fa-play"></i></a>
                 </div>
 
             </div>
@@ -220,7 +588,8 @@
         </div>
     </div>
 </section>
-
+<br>
+<br>
 <!-- Sección #contacto -->
 <section id="contacto">
     <header class="py-5 bg-primary text-white text-center position-relative">
@@ -240,7 +609,8 @@
                         <i class="fas fa-envelope-open fa-3x text-danger mr-4 fa-fw"></i>
                         <div>
                             <h5 class="font-weight-bold">Email:</h5>
-                            <p class="mb-0"><a href="mailto:canariosbit@gmail.com" style="color:#000000;">canariosbit@gmail.com</a></p>
+                            <p class="mb-0"><a href="mailto:canariosbit@gmail.com"
+                                    style="color:#000000;">canariosbit@gmail.com</a></p>
                         </div>
                     </li>
                     <li class="d-flex border-bottom py-4">

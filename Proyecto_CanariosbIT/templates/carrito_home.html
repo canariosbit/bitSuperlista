@@ -54,24 +54,37 @@
         </div>
     </section>
     <!-- Sección #detalles-encabezado -->
-     <section id="detalles-encabezado" class="d-none d-md-block py-2">
-        <div class="container">
-            <div class="row justify-content-md-between align-items-md-center">
+     <section id="detalles-encabezado" class="d-none d-md-block py-2 justify-content-sm-center">
+        <div class="container ">
+            <div class="row justify-content-between align-items-center">
                 <div class="col-auto">
                     <a href="/" class="logo">
                         <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Logo del sitio" width="200" class="img-fluid">
                     </a>
                 </div>
                 <div class="col-auto">
-                    <i class="fas fa-envelope fa-2x align-middle text-primary"></i>
+                    <i class="fas fa-envelope fa-2x align-self-center text-primary"></i>
                     <span class="font-weight-bold h5 ml-2">canariosbit@gmail.com</span>
                 </div>
             </div>
         </div>
     </section>
 <!-- Sección #menu-navegacion -->
-
 <nav id="menu-navegacion" class="navbar navbar-dark bg-secondary navbar-expand-md">
+    <div class="container">
+        <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#menu-principal"
+            aria-expanded="false" aria-label="Botón Menú principal">
+            <span class="boton-menu"></span>
+        </button>
+        <!-- <a href="#" class="btn btn-primary order-md-1">Info</a> -->
+
+        <div class="collapse navbar-collapse" id="menu-principal">
+            <ul class="navbar-nav mt-3 mt-md-0">
+                <li class="nav-item mb-1 mb-md-0 mr-md-2"><a href="{{ url_for('home') }}"
+                        class="nav-link active">Inicio</a></li>  
+            </ul>
+        </div>
+    </div>
 </nav>
 
 <!-- Sección #Mis_Listas -->
@@ -81,7 +94,7 @@
     </div>
         <div class="container">
             <div class="row justify-content-center py-3">
-                <div class="col-#-8 text-center">
+                <div class="col-sm-8 text-center">
                     <div class="card">
                         <div class="card-header">
                             <span>Tu lista de la compra</span>
