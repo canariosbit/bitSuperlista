@@ -80,12 +80,13 @@
                 <ul class="navbar-nav mt-3 mt-md-0">
                     <li class="nav-item mb-1 mb-md-0 mr-md-2"><a href="{{ url_for('home' )}}" class="nav-link">Inicio</a></li>
                     <li class="nav-item mb-1 mb-md-0 mr-md-2"><a href="{{ url_for('MisListas')}}" class="nav-link">Mis Listas</a></li>
+                    
                    
                     <!-- <li class="nav-item mb-1 mb-md-0 mr-md-0"><a href="#" class="nav-link">Cargar Lista</a></li> -->
                 </ul>
             </div>
-            <form action="/agregarDesdeBuscador" class=" bg-secondary " method="POST">
-                <div class="form-group mb-0 px-2">
+            <form action="/agregarDesdeBuscador" class=" bg-secondary" method="POST">
+                <div class="form-group mb-0 px-2 ">
                     <label for="buscar" class="sr-only">Buscar:</label>
                         <div class="input-group">
 
@@ -103,6 +104,7 @@
                         </div>
                 </div>
             </form>
+            
         </div>
     </nav>
 
