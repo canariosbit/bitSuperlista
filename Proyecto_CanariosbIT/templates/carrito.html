@@ -42,7 +42,7 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-#-auto">
-            <div class="card-header text-center"> <span>Tu Lista de Compras</span> <span id="Total"></span>
+            <div class="card-header text-center"> <span>Tu Lista de Compras</span> 
             </div>
             <table class="table table-sm ">
                 <thead>
@@ -98,11 +98,11 @@
                             <input type="button" name="mas1" id="mas1" value="+"
                                 onclick="SmrCampo('{{contador.value|string}}')" />
                         </div>
-
-
                         {% set contador.value = contador.value + 1 %}
                         {%endfor%}
+                        
                     </td>
+                   
                   </tr>
                   
                 </tbody>
@@ -110,6 +110,42 @@
               </table>
               <div class="card-footer"> <span>Total: </span> <span id="Total"></span>
               </div>
+              
+              
+               <!-- Modal -->
+            <form action="/guardarLista" method="POST">
+                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+                    aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog" role="document">
+                        <div class="modal-content">
+                            <div class="modal-header bg-primary">
+                                <h5 class="modal-title text-white " id="exampleModalLabel">Colocale un nombre a tu
+                                    lista</h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <span>
+                                La gente suele darle estos nombres, por si te sirven de inspiración: "Lista
+                                semanal", "Lista de compra básica", "Lista mensual"...
+                            </span>
+                            <div class="modal-body">
+                                <input type="text" name="nmlista" id="nmlista" class="form-control"
+                                    value="Lista sin nombre" autofocus>
+                            </div>
+                            <span class="text text-left ml-3">Descripción</span>
+                            <div>
+                                <textarea name="descripcion" id="descripcion" cols="55" rows="5"></textarea>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary"
+                                    data-dismiss="modal">Cancelar</button>
+                                <button type="submit" class="btn btn-primary">Guardar</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
 
         </div>
     </div>
