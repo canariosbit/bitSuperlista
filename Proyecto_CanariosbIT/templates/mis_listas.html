@@ -9,10 +9,10 @@
     </header>
     <br>
     <div class="container">
-        <div class="row">
-            <div class="col-12 col-lg-12 text-center">
+        <div class="row justify-content-center">
+            <div class="col-sm-10 text-center">
 
-                <table class="table table-bordered table-striped ">
+                <table class="table table-bordered table-striped table-sm">
                     <thead class="table bg-primary text-white ">
                       <tr>
                         <th scope="col">Nombre</th>
@@ -26,13 +26,13 @@
                             <td>{{ lista.Nombre }}</td>
                             <td>{{ lista.Descripcion }}</td>
                             <td>
-                                <a href="/EditarLista/{{lista.Id}}"><i class="fas fa-edit text-primary px-3"></i></a>
-                                <a href="/DeleteLista/{{lista.Id}}"><i class="fas fa-trash-alt text-primary px-3"></i></a>
+                                <a href="/EditarLista/{{lista.Id}}"><i class="fas fa-edit text-primary fa-1x px-2"></i></a>
+                                <a href="/DeleteLista/{{lista.Id}}"><i class="fas fa-trash-alt text-primary fa-1x px-2"></i></a>
                             </td>
                         </tr>
                       {% endfor %}
                     </tbody>
-                  </table>
+                </table>
             </div>
            
         </div>

@@ -38,27 +38,38 @@
                 <div id="accordion" role="tablist">
                     <div class="card">
                       <div class="card-header text-center" role="tab" id="headingZero">
-                        <h6 class="mb-0">
-                          <a data-toggle="collapse" href="#collapseZero" aria-expanded="true" aria-controls="collapseZero">
-                            <span class="text text-primary">ARTÍCULOS AGREGADOS A LA CESTA</span>
+                        <h5 class="mb-0">
+                          <a data-toggle="collapse" href="#collapseZero" aria-expanded="true" aria-controls="collapseZero" style="text-decoration:none">
+                            <div class="d-flex text-white">
+                                <div class="p-2 w-100 bg-primary text-center text-white">ARTÍCULOS AGREGADOS A LA CESTA</div>
+                                <div class="p-2 flex-shrink-0 bg-primary"><i class="fas fa-caret-down "></i></div>
+                            </div>
                           </a>
-                        </h6>
+                        </h5>
                       </div>
                   
                       <div id="collapseZero" class="collapse show" role="tabpanel" aria-labelledby="headingZero">
                         <div class="card-body">
-                            <table class="table table-striped  table-sm ">
+                            <table class="table  table-sm ">
                                 {%  set contador = namespace(value=0) %}
                                 <tbody>
                                     <tr class="text-center border">
                                         {% for CestaArticulo in CestaArticulos %}
-                                        {% if  (contador.value % 2) == 0 %}
+                                        {% if  (contador.value % 1) == 0 %}
                                     </tr>
                                     <tr>
                                         {% endif %}
-                                        <td class="text   border ">{{ CestaArticulo.Item_nombre }}
-                                            <a href="/DeleteArtCesta_home/{{CestaArticulo.Id}}"><i
-                                                    class="far fa-trash-alt text-primary"></i></a>
+                                        <td class="text   border ">
+                                            <div class="input-group py-1">
+                                                <div class="input-group-prepend">
+                                                    <div class="input-group-text">
+                                                        <a href="/DeleteArtCesta_home/{{CestaArticulo.Id}}"><i
+                                                            class="far fa-trash-alt text-primary"></i></a>
+                                                    </div>
+                                                </div>
+                                                <input type="text" name="input" readonly="true" class="form-control"
+                                                    value="{{ CestaArticulo.Item_nombre }}" aria-label="Text input with checkbox">
+        
                                         </td>
                                         {% set contador.value = contador.value + 1 %}
     
@@ -89,14 +100,15 @@
                 <form action="">
                     <div id="accordion" role="tablist">
                         {% for categoria in categorias %}
-                        {% if categoria.cat_id == 13 %}
+                        {% if categoria.cat_id == 11 %}
                         <div class="card">
                             <div class="card-header" role="tab" id="headingOne">
                                 <h5 class="mb-0">
                                     <a data-toggle="collapse" href="#collapseOne" aria-expanded="true"
-                                        aria-controls="collapseOne">
-                                        <div class="text h5 py-2 text-center bg-primary text-white">
-                                            <span>{{ categoria.cat_nombre }} </span>
+                                        aria-controls="collapseOne" style="text-decoration:none">
+                                        <div class="d-flex text-white">
+                                            <div class="p-2 w-100 bg-primary text-center">{{ categoria.cat_nombre }}</div>
+                                            <div class="p-2 flex-shrink-0 bg-primary"><i class="fas fa-caret-down "></i></div>
                                         </div>
                                     </a>
                                 </h5>
@@ -133,9 +145,10 @@
                             <div class="card-header" role="tab" id="headingTwo">
                                 <h5 class="mb-0">
                                     <a data-toggle="collapse" href="#collapseTwo" aria-expanded="true"
-                                        aria-controls="collapseTwo">
-                                        <div class="text h5 py-2 text-center bg-primary text-white">
-                                            <span>{{ categoria.cat_nombre }} </span>
+                                        aria-controls="collapseTwo" style="text-decoration:none">
+                                        <div class="d-flex text-white">
+                                            <div class="p-2 w-100 bg-primary text-center">{{ categoria.cat_nombre }}</div>
+                                            <div class="p-2 flex-shrink-0 bg-primary"><i class="fas fa-caret-down "></i></div>
                                         </div>
                                     </a>
                                 </h5>
@@ -171,9 +184,10 @@
                             <div class="card-header" role="tab" id="headingThree">
                                 <h5 class="mb-0">
                                     <a data-toggle="collapse" href="#collapseThree" aria-expanded="true"
-                                        aria-controls="collapseThree">
-                                        <div class="text h5 py-2 text-center bg-primary text-white">
-                                            <span>{{ categoria.cat_nombre }} </span>
+                                        aria-controls="collapseThree" style="text-decoration:none">
+                                        <div class="d-flex text-white">
+                                            <div class="p-2 w-100 bg-primary text-center">{{ categoria.cat_nombre }}</div>
+                                            <div class="p-2 flex-shrink-0 bg-primary"><i class="fas fa-caret-down "></i></div>
                                         </div>
                                     </a>
                                 </h5>
@@ -204,14 +218,15 @@
                     </div>
                     <div id="accordion" role="tablist">
                         {% for categoria in categorias %}
-                        {% if categoria.cat_id == 11 %}
+                        {% if categoria.cat_id == 13 %}
                         <div class="card">
                             <div class="card-header" role="tab" id="headingFour">
                                 <h5 class="mb-0">
                                     <a data-toggle="collapse" href="#collapseFour" aria-expanded="true"
-                                        aria-controls="collapseFour">
-                                        <div class="text h5 py-2 text-center bg-primary text-white">
-                                            <span>{{ categoria.cat_nombre }} </span>
+                                        aria-controls="collapseFour" style="text-decoration:none">
+                                        <div class="d-flex text-white">
+                                            <div class="p-2 w-100 bg-primary text-center">{{ categoria.cat_nombre }}</div>
+                                            <div class="p-2 flex-shrink-0 bg-primary"><i class="fas fa-caret-down "></i></div>
                                         </div>
                                     </a>
                                 </h5>
@@ -250,9 +265,10 @@
                                 <div class="card-header" role="tab" id="headingFive">
                                     <h5 class="mb-0">
                                         <a data-toggle="collapse" href="#collapseFive" aria-expanded="true"
-                                            aria-controls="collapseFive">
-                                            <div class="text h5 py-2 text-center bg-primary text-white">
-                                                <span>{{ categoria.cat_nombre }} </span>
+                                            aria-controls="collapseFive" style="text-decoration:none">
+                                            <div class="d-flex text-white">
+                                                <div class="p-2 w-100 bg-primary text-center">{{ categoria.cat_nombre }}</div>
+                                                <div class="p-2 flex-shrink-0 bg-primary"><i class="fas fa-caret-down "></i></div>
                                             </div>
                                         </a>
                                     </h5>
@@ -286,9 +302,10 @@
                                     <div class="card-header" role="tab" id="headingSix">
                                         <h5 class="mb-0">
                                             <a data-toggle="collapse" href="#collapseSix" aria-expanded="true"
-                                                aria-controls="collapseSix">
-                                                <div class="text h5 py-2 text-center bg-primary text-white">
-                                                    <span>{{ categoria.cat_nombre }} </span>
+                                                aria-controls="collapseSix" style="text-decoration:none">
+                                                <div class="d-flex text-white">
+                                                    <div class="p-2 w-100 bg-primary text-center">{{ categoria.cat_nombre }}</div>
+                                                    <div class="p-2 flex-shrink-0 bg-primary"><i class="fas fa-caret-down "></i></div>
                                                 </div>
                                             </a>
                                         </h5>
@@ -324,9 +341,10 @@
                             <div class="card-header" role="tab" id="headingSeven">
                                 <h5 class="mb-0">
                                     <a data-toggle="collapse" href="#collapseSeven" aria-expanded="true"
-                                        aria-controls="collapseSeven">
-                                        <div class="text h5 py-2 text-center bg-primary text-white">
-                                            <span>{{ categoria.cat_nombre }} </span>
+                                        aria-controls="collapseSeven" style="text-decoration:none">
+                                        <div class="d-flex text-white">
+                                            <div class="p-2 w-100 bg-primary text-center">{{ categoria.cat_nombre }}</div>
+                                            <div class="p-2 flex-shrink-0 bg-primary"><i class="fas fa-caret-down "></i></div>
                                         </div>
                                     </a>
                                 </h5>
@@ -362,9 +380,10 @@
                             <div class="card-header" role="tab" id="headingEight">
                                 <h5 class="mb-0">
                                     <a data-toggle="collapse" href="#collapseEight" aria-expanded="true"
-                                        aria-controls="collapseEight">
-                                        <div class="text h5 py-2 text-center bg-primary text-white">
-                                            <span>{{ categoria.cat_nombre }} </span>
+                                        aria-controls="collapseEight" style="text-decoration:none">
+                                        <div class="d-flex text-white">
+                                            <div class="p-2 w-100 bg-primary text-center">{{ categoria.cat_nombre }}</div>
+                                            <div class="p-2 flex-shrink-0 bg-primary"><i class="fas fa-caret-down "></i></div>
                                         </div>
                                     </a>
                                 </h5>
@@ -406,9 +425,10 @@
                             <div class="card-header" role="tab" id="headingNine">
                                 <h5 class="mb-0">
                                     <a data-toggle="collapse" href="#collapseNine" aria-expanded="true"
-                                        aria-controls="collapseNine">
-                                        <div class="text h5 py-2 text-center bg-primary text-white">
-                                            <span>{{ categoria.cat_nombre }} </span>
+                                        aria-controls="collapseNine" style="text-decoration:none">
+                                        <div class="d-flex text-white">
+                                            <div class="p-2 w-100 bg-primary text-center">{{ categoria.cat_nombre }}</div>
+                                            <div class="p-2 flex-shrink-0 bg-primary"><i class="fas fa-caret-down "></i></div>
                                         </div>
                                     </a>
                                 </h5>
@@ -445,9 +465,10 @@
                             <div class="card-header" role="tab" id="headingTen">
                                 <h5 class="mb-0">
                                     <a data-toggle="collapse" href="#collapseTen" aria-expanded="true"
-                                        aria-controls="collapseTen">
-                                        <div class="text h5 py-2 text-center bg-primary text-white">
-                                            <span>{{ categoria.cat_nombre }} </span>
+                                        aria-controls="collapseTen" style="text-decoration:none">
+                                        <div class="d-flex text-white">
+                                            <div class="p-2 w-100 bg-primary text-center">{{ categoria.cat_nombre }}</div>
+                                            <div class="p-2 flex-shrink-0 bg-primary"><i class="fas fa-caret-down "></i></div>
                                         </div>
                                     </a>
                                 </h5>
@@ -483,9 +504,10 @@
                             <div class="card-header" role="tab" id="headingEleven">
                                 <h5 class="mb-0">
                                     <a data-toggle="collapse" href="#collapseEleven" aria-expanded="true"
-                                        aria-controls="collapseEleven">
-                                        <div class="text h5 py-2 text-center bg-primary text-white">
-                                            <span>{{ categoria.cat_nombre }} </span>
+                                        aria-controls="collapseEleven" style="text-decoration:none">
+                                        <div class="d-flex text-white">
+                                            <div class="p-2 w-100 bg-primary text-center">{{ categoria.cat_nombre }}</div>
+                                            <div class="p-2 flex-shrink-0 bg-primary"><i class="fas fa-caret-down "></i></div>
                                         </div>
                                     </a>
                                 </h5>
@@ -522,9 +544,10 @@
                             <div class="card-header" role="tab" id="headingTwelve">
                                 <h5 class="mb-0">
                                     <a data-toggle="collapse" href="#collapseTwelve" aria-expanded="true"
-                                        aria-controls="collapseTwelve">
-                                        <div class="text h5 py-2 text-center bg-primary text-white">
-                                            <span>{{ categoria.cat_nombre }} </span>
+                                        aria-controls="collapseTwelve" style="text-decoration:none">
+                                        <div class="d-flex text-white">
+                                            <div class="p-2 w-100 bg-primary text-center">{{ categoria.cat_nombre }}</div>
+                                            <div class="p-2 flex-shrink-0 bg-primary"><i class="fas fa-caret-down "></i></div>
                                         </div>
                                     </a>
                                 </h5>

@@ -2,10 +2,9 @@
 
 {% block content %}
 
-<!-- Sección #Mis_Listas -->
-<section>
-    <div class="text h2 text-center py-3">
-        <span>Tu Cesta</span>
+<section class="text-center">
+    <div class="text h2 py-3">
+        <span class="text ">Tu Cesta</span>
     </div>
     <div class="text-center">
         {% with messages = get_flashed_messages(with_categories=true)%}
@@ -18,116 +17,102 @@
         {% endif %}
         {% endwith %}
     </div>
-    <!-- Boton de opciones -->
-    <div class="container">
-        <div class="row justify-content-right">
-            <div class="col-5">
-                <div class="dropdown py-3">
-                    <button class="btn btn-primary dropdown-toggle"
-                            type="button" id="dropdownMenu1" data-toggle="dropdown"
-                            aria-haspopup="true" aria-expanded="false">
-                      Opciones
-                    </button>
-                    <div class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                      <a class="dropdown-item" data-toggle="modal" href="#exampleModal">Guardar Lista</a>
-                      <div class="dropdown-divider"></div>
-                      <a class="dropdown-item" href="{{ url_for('deleteAllCesta') }}">Vaciar Cesta</a> 
-                      <div class="dropdown-divider"></div>
-                      <a class="dropdown-item" href="javascript:window.print()">Imprimir</a>             
-                    </div>
-                  </div>
-            </div>
-        </div>
-        <!-- Lista de compras -->
-        <div class="row justify-content-center">
-            <div class="col-#-6 text-center">
-                <div class="card">
-                    <div class="card-header">
-                        <h5><span>Tu lista de la compra</span></h5>
-                    </div>
-                    <div class="card-body align-self-center">
-                        {%  set contador = namespace(value=0) %}
-                            {%for item in items %}
-                                <div class="input-group py-1">
-                                    <div class="input-group-prepend">
-                                        <div class="input-group-text">
-                                            <a href="/adquirido/{{item.Id}}"><i
-                                                    class="{% if item.Tachar %} text-primary fas fa-check {% else %} text-secondary fas fa-times  {% endif %} "></i></a>
-                                            <!-- <a href="/adquirido/{{item.Id}}" type="checkbox" aria-label="Checkbox for following text input"></a> -->
-                                        </div>
-                                    </div>
-                                    <div class="input">
-                                        <input type="text" size="17" readonly="true" color="blue"
-                                            class="form-control {% if item.Tachar %} tachar {% endif %}"
-                                            value="{{item.Item_nombre}}">
-                                    </div>
+</section>
 
-                                    <div class="input-group-prepend">
-                                        <div class="input-group-text">
-                                            <a href="/DeleteArtCesta/{{item.Id}}"><i
-                                                    class="far fa-trash-alt text-success"></i></a>
-                                        </div>
-                                    </div>
-                                    <div class="input-group-prepend ml-2">
-                                        <input type="text" size="6" id="{{item.Item_nombre}}" placeholder="Precio"
-                                            class="monto" onkeyup="SubTotal();">
-                                    </div>
-                                    <div class="input-group-prepend ml-2">
-                                        <input  type="button" name="menos1" id="menos1" value="-"
-                                            onclick="RtrCampo('{{contador.value|string}}')" />
-                                        <input class="form-control text-center" type='text' size="1"
-                                            id='{{contador.value|string}}' value=1>
-                                        <input type="button" name="mas1" id="mas1" value="+"
-                                            onclick="SmrCampo('{{contador.value|string}}')" />
-                                    </div>
-                                </div>
-                            {% set contador.value = contador.value + 1 %}
-                        {%endfor%}
-                    </div>
-                    <div class="card-footer"> <span>Total: </span> <span id="Total"></span>
-                    </div>
-
+<!-- Boton de opciones -->
+<div class="container">
+    <div class="row">
+        <div class="col-7">
+            <div class="dropdown py-3">
+                <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="false">
+                    Opciones
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                    <a class="dropdown-item" data-toggle="modal" href="#exampleModal">Guardar</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="{{ url_for('deleteAllCesta') }}">Vaciar</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="javascript:window.print()">Imprimir</a>
                 </div>
             </div>
-
-
-            
-            <!-- Modal -->
-            <form action="/guardarLista" method="POST">
-                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
-                    aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header bg-primary">
-                                <h5 class="modal-title text-white " id="exampleModalLabel">Colocale un nombre a tu
-                                    lista</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                </button>
-                            </div>
-                            <span>
-                                La gente suele darle estos nombres, por si te sirven de inspiración: "Lista
-                                semanal", "Lista de compra básica", "Lista mensual"...
-                            </span>
-                            <div class="modal-body">
-                                <input type="text" name="nmlista" id="nmlista" class="form-control"
-                                    value="Lista sin nombre" autofocus>
-                            </div>
-                            <span class="text text-left ml-3">Descripción</span>
-                            <div>
-                                <textarea name="descripcion" id="descripcion" cols="55" rows="5"></textarea>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary"
-                                    data-dismiss="modal">Cancelar</button>
-                                <button type="submit" class="btn btn-primary">Guardar</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </form>               
         </div>
     </div>
-</section>
+</div>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-#-auto">
+            <div class="card-header text-center"> <span>Tu Lista de Compras</span> <span id="Total"></span>
+            </div>
+            <table class="table table-sm ">
+                <thead>
+                  <tr class="text  bg-primary text-white text-center">
+                   
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <th scope="row">
+                        {%  set contador = namespace(value=0) %}
+                            {%for item in items %}
+                        <div class="input-group py-1">
+                            
+                            <div class="input-group-prepend">
+                                
+                            <div class="input-group-text">
+                                <a href="/adquirido/{{item.Id}}"><i
+                                        class="{% if item.Tachar %} text-primary fas fa-check {% else %} text-secondary fas fa-times  {% endif %} "></i></a>
+                            </div>
+                                    
+                            </div>
+                            <input type="text" class="form-control {% if item.Tachar %} tachar {% endif %} "  value="{{item.Item_nombre}}" >
+                            <div class="input-group-prepend">
+                                <div class="input-group-text">
+                                    <a href="/DeleteArtCesta/{{item.Id}}"><i
+                                            class="far fa-trash-alt text-success"></i></a>
+                                </div>
+                            </div>
+                          </div>
+                          {% set contador.value = contador.value + 1 %}
+                          {%endfor%}
+                    </th>
+                    <td>
+
+                        {%  set contador = namespace(value=0) %}
+                        {%for item in items %}
+                        <div class="input-group-prepend py-1">
+                            <input type="text"  size="6" id="{{item.Item_nombre}}" placeholder="Precio"
+                                class=" form-control monto" onkeyup="SubTotal();">
+                        </div>
+                        {% set contador.value = contador.value + 1 %}
+                        {%endfor%}
+                    </td>
+                    <td>
+                        {%  set contador = namespace(value=0) %}
+                        {%for item in items %}
+                        <div class="input-group-prepend ml-1 py-1">
+                            <input  type="button" name="menos1" id="menos1" value="-"
+                                onclick="RtrCampo('{{contador.value|string}}')" />
+                            <input class="form-control text-center" type='text' size="1"
+                                id='{{contador.value|string}}' value=1>
+                            <input type="button" name="mas1" id="mas1" value="+"
+                                onclick="SmrCampo('{{contador.value|string}}')" />
+                        </div>
+
+
+                        {% set contador.value = contador.value + 1 %}
+                        {%endfor%}
+                    </td>
+                  </tr>
+                  
+                </tbody>
+               
+              </table>
+              <div class="card-footer"> <span>Total: </span> <span id="Total"></span>
+              </div>
+
+        </div>
+    </div>
+</div>
 
 {% endblock %}
