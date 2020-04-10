@@ -20,8 +20,6 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/venobox.css') }}">
     <!-- Carga del CSS de "Jarallax" -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/jarallax.css') }}">
-    <!-- Carga del CSS de "Pickadate.js" -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='js/pickadate.js/themes/default.css') }}">
      <!-- Carga de Fuentes de google-->
     <link href="https://fonts.googleapis.com/css?family=Lato:400,700" rel="stylesheet">
     <!-- Carga del css personalizado -->
@@ -38,36 +36,43 @@
             });
         })
     </script>
+
+
 </head>
 
 <body>
     <!-- Seccion #barra-contacto -->
-    <section id="barra-contacto" class="bg-primary text-white py-3 py-lg-1 text-center">
-        <div class="container">
-            <div class="row justify-content-md-between align-items-md-center">
+    <section id="barra-contacto" class="bg-primary text-white py-3 py-lg-1 text-right">
+        <div class="container ">
+            <div class="row justify-content-md-between align-items-center">
                 <div class="col-auto align-content-md-center">
-                    <a  href="javascript:history.back(-1);" class="logo">
+                    <a  href="/" class="logo">
                         <img src="{{ url_for('static', filename='images/texto.png') }}" alt="Logo del sitio" width="200"
                             class="img-fluid">
                     </a>
                 </div>
                 <div class="col-12 col-md-auto">
                     <ul class="redes-sociales list-unstyled d-inline-flex mb-0">
-                        <li class="py-2">{{ session['correo'] }}</li>
-                        <li><a href="/perfil"><i class="fas fa-user-edit"></i></i></a></li>
-                        <li><a href="/logout"><i class="fas fa-sign-out-alt"></i></i></a></li>
+                        <li class="nav-item py-2">
+                          <a class="dropdown-toggle text-white" data-toggle="dropdown" style="text-decoration:none" >
+                             {{ session['correo'] }}</a>
+                          <div class="dropdown-menu">
+                            <a class="dropdown-item" href="/perfil" style="text-decoration:none" >Editar Perfil</a>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" href="/logout" style="text-decoration:none" >Salir</a>
+                          </div>
+                        </li>
                         <div>
                             <li><a href="/cart"><i class="fas fa-shopping-cart"></i></a></li>
                         </div>
                         <span id="cantidad"> <strong>{{ session['carrito'] }}</strong></span>
-                        
-                    </ul>
+
+                      </ul>
                 </div>
             </div>
         </div>
     </section>
     <!-- Sección #menu-navegacion -->
-
     <nav id="menu-navegacion" class="navbar navbar-dark bg-secondary navbar-expand-md">
         <div class="container">
             <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#menu-principal"
@@ -82,23 +87,14 @@
                     <li class="nav-item mb-1 mb-md-0 mr-md-2"><a href="{{ url_for('MisListas')}}" class="nav-link">Mis Listas</a></li>
                 </ul>
             </div>
-
-
-
-
-            
-
-
             <form action="/agregarDesdeBuscador" class=" bg-secondary" method="POST">
                 <div class="form-group mb-0 px-2 ">
                     <label for="buscar" class="sr-only">Buscar:</label>
                         <div class="input-group">
-
-                            <select  style="height:45px;" class="form-control" name="producto">
+                            <select style="height:45px;" class="form-control" name="producto">
                                 <option selected="" value="0">Escribe para buscar..</option>
                                 {% for producto in productos %}
-                                <option value="{{producto.pro_id}}" {% if producto.pro_id == catSelected %}
-                                    selected {% endif %}>{{ producto.pro_nombre }}</option>
+                                    <option value="{{producto.pro_id}}">{{ producto.pro_nombre }}</option>
                                 {% endfor %}
                             </select>
                             <div class="input-group-append">

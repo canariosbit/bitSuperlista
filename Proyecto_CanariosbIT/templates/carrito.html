@@ -1,7 +1,6 @@
 {% extends "layout_logged_in.html" %}
 
 {% block content %}
-
 <section class="text-center">
     <div class="text h2 py-3">
         <span class="text ">Tu Cesta</span>
@@ -18,8 +17,9 @@
         {% endwith %}
     </div>
 </section>
-
+    
 <!-- Boton de opciones -->
+
 <div class="container">
     <div class="row">
         <div class="col-7">
@@ -42,77 +42,77 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-#-auto">
-            <div class="card-header text-center"> <span>Tu Lista de Compras</span> 
+            <div class="card-header text-center"> <span>Tu Lista de Compras</span>
             </div>
             <table class="table table-sm ">
                 <thead>
-                  <tr class="text  bg-primary text-white text-center">
-                   
-                  </tr>
+                    <tr class="text  bg-primary text-white text-center">
+
+                    </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <th scope="row">
-                        {%  set contador = namespace(value=0) %}
+                    <tr>
+                        <th scope="row">
+                            {%  set contador = namespace(value=0) %}
                             {%for item in items %}
-                        <div class="input-group py-1">
-                            
-                            <div class="input-group-prepend">
-                                
-                            <div class="input-group-text">
-                                <a href="/adquirido/{{item.Id}}"><i
-                                        class="{% if item.Tachar %} text-primary fas fa-check {% else %} text-secondary fas fa-times  {% endif %} "></i></a>
-                            </div>
-                                    
-                            </div>
-                            <input type="text" class="form-control {% if item.Tachar %} tachar {% endif %} "  value="{{item.Item_nombre}}" >
-                            <div class="input-group-prepend">
-                                <div class="input-group-text">
-                                    <a href="/DeleteArtCesta/{{item.Id}}"><i
-                                            class="far fa-trash-alt text-success"></i></a>
+                            <div class="input-group py-1">
+
+                                <div class="input-group-prepend">
+
+                                    <div class="input-group-text">
+                                        <a href="/adquirido/{{item.Id}}"><i
+                                                class="{% if item.Tachar %} text-primary fas fa-check {% else %} text-secondary fas fa-times  {% endif %} "></i></a>
+                                    </div>
+
+                                </div>
+                                <input type="text" class="form-control {% if item.Tachar %} tachar {% endif %} " value="{{item.Item_nombre}}">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">
+                                        <a href="/DeleteArtCesta/{{item.Id}}"><i
+                                                class="far fa-trash-alt text-success"></i></a>
+                                    </div>
                                 </div>
                             </div>
-                          </div>
-                          {% set contador.value = contador.value + 1 %}
-                          {%endfor%}
-                    </th>
-                    <td>
+                            {% set contador.value = contador.value + 1 %}
+                            {%endfor%}
+                        </th>
+                        <td>
 
-                        {%  set contador = namespace(value=0) %}
-                        {%for item in items %}
-                        <div class="input-group-prepend py-1">
-                            <input type="text"  size="6" id="{{item.Item_nombre}}" placeholder="Precio"
-                                class=" form-control monto" onkeyup="SubTotal();">
-                        </div>
-                        {% set contador.value = contador.value + 1 %}
-                        {%endfor%}
-                    </td>
-                    <td>
-                        {%  set contador = namespace(value=0) %}
-                        {%for item in items %}
-                        <div class="input-group-prepend ml-1 py-1">
-                            <input  type="button" name="menos1" id="menos1" value="-"
-                                onclick="RtrCampo('{{contador.value|string}}')" />
-                            <input class="form-control text-center" type='text' size="1"
-                                id='{{contador.value|string}}' value=1>
-                            <input type="button" name="mas1" id="mas1" value="+"
-                                onclick="SmrCampo('{{contador.value|string}}')" />
-                        </div>
-                        {% set contador.value = contador.value + 1 %}
-                        {%endfor%}
-                        
-                    </td>
-                   
-                  </tr>
-                  
+                            {%  set contador = namespace(value=0) %}
+                            {%for item in items %}
+                            <div class="input-group-prepend py-1">
+                                <input type="text" size="6" id="{{item.Item_nombre}}" placeholder="Precio"
+                                    class=" form-control monto" onkeyup="SubTotal();">
+                            </div>
+                            {% set contador.value = contador.value + 1 %}
+                            {%endfor%}
+                        </td>
+                        <td>
+                            {%  set contador = namespace(value=0) %}
+                            {%for item in items %}
+                            <div class="input-group-prepend py-1">
+                                <input type="button" name="menos1" id="menos1" value="-"
+                                    onclick="RtrCampo('{{contador.value|string}}')" />
+                                <input class="form-control text-center" type='text' size="1"
+                                    id='{{contador.value|string}}' value=1>
+                                <input type="button" name="mas1" id="mas1" value="+"
+                                    onclick="SmrCampo('{{contador.value|string}}')" />
+                            </div>
+                            {% set contador.value = contador.value + 1 %}
+                            {%endfor%}
+
+                        </td>
+
+                    </tr>
+
                 </tbody>
-               
-              </table>
-              <div class="card-footer"> <span>Total: </span> <span id="Total"></span>
-              </div>
-              
-              
-               <!-- Modal -->
+
+            </table>
+            <div class="card-footer"> <span>Total: </span> <span id="Total"></span>
+            </div>
+
+
+            <!-- Modal -->
             <form action="/guardarLista" method="POST">
                 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
                     aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -138,8 +138,7 @@
                                 <textarea name="descripcion" id="descripcion" cols="55" rows="5"></textarea>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary"
-                                    data-dismiss="modal">Cancelar</button>
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
                                 <button type="submit" class="btn btn-primary">Guardar</button>
                             </div>
                         </div>
