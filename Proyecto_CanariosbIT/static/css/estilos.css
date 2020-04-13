@@ -157,7 +157,8 @@ body {
   content: "\f105";
   font-weight: 900;
   -webkit-transition: all .3s ease;
-  transition: all .3s ease; }
+  transition: all .3s ease;
+  text-decoration: none; }
 
 /*Estilos estado hover de enlace*/
 .navbar-dark .navbar-nav .nav-link:hover {
@@ -358,50 +359,6 @@ body {
   margin-bottom: 0;
   cursor: pointer; }
 
-/*Personalizando el selector de fechas*/
-.picker__box {
-  border: 5px solid #00ad75; }
-
-.picker--focused .picker__day--selected,
-.picker__day--selected,
-.picker__day--selected:hover {
-  background: #00ad75;
-  color: #fff; }
-
-.picker__day--today:before {
-  border-top: .5em solid #ffffff; }
-
-.picker__select--month,
-.picker__select--year {
-  margin-top: -.5em;
-  padding: 0 .5rem;
-  border-radius: .5rem; }
-
-/*personalizando el selector de hora*/
-.picker--focused .picker__list-item--selected,
-.picker__list-item--selected,
-.picker__list-item--selected:hover {
-  background: #00ad75; }
-
-.picker__list-item--highlighted,
-.picker__list-item:hover {
-  border-color: #007a53; }
-
-.picker__list {
-  padding: .5rem 0; }
-
-.picker--time .picker__button--clear {
-  color: #fff;
-  background: #ff520d;
-  border-radius: .5rem;
-  -webkit-transition: all .5s ease;
-  transition: all .5s ease; }
-
-.picker__button--clear:before {
-  width: 0;
-  border-top: 0px solid #e20;
-  display: none; }
-
 /*-----------------------------------------
 17. ESTILOS PARA "#pie-de-pagina"
 ------------------------------------------*/
@@ -467,7 +424,5 @@ X .EMPEZAN EL SHOW DE LAS MEDIAS QUERIES
   .swiper-slide {
     height: 44rem;
     /*700px*/ } }
-  
- 
 
 /*# sourceMappingURL=estilos.css.map */
