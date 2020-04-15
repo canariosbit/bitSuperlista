@@ -1,0 +1,53 @@
+{% extends "layout_ingreso.html" %}
+
+{% block content %}
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-12 col-lg-6">
+                <form action="/sendmail" method="POST" class="border rounded bg-light p-3 mt-3">
+                    <div class="form-group">
+                        <h2 class="text-center">¿Olvidaste tu contraseña?</h2>
+                        <label>Sin problemas. Danos tu email y te enviaremos una nueva.</label>
+                        <input type="text" class="form-control " name="correo" id="correo" placeholder="Tú correo."
+                             autofocus required>
+                    </div>
+                    {% with messages = get_flashed_messages(with_categories=true)%}
+                        {% if messages %}
+                            {% for category, message in messages %}
+                                <div class="alert {{category}}" id="idMensajeError">
+                                {{message}}
+                                </div>
+                            {% endfor %}
+                        {% endif %}
+                    {% endwith %}
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary btn-block">Enviar Contraseña</button>
+                    </div>    
+            </div>
+        </div>
+    </div>
+    <br>
+    <br>
+{% if success%}
+<script type="text/javascript">
+    var url = '/login';
+    var delay = "1400";
+    window.onload = function ()
+    {
+        setTimeout(GoToURL, delay);
+    }
+    function GoToURL()
+    {
+        if(typeof IE_fix != "undefined") // IE8 and lower fix to pass the http referer
+        {
+            var referLink = document.createElement("a");
+            referLink.href = url;
+            document.body.appendChild(referLink);
+            referLink.click();
+        }
+        else { window.location.replace(url); } // All other browsers
+    }
+</script>
+{% endif %}
+
+    {% endblock %}

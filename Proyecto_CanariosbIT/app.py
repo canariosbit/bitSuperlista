@@ -1,8 +1,15 @@
 from flask import Flask, render_template, g, request, session, redirect, flash, url_for, make_response
 import sqlite3
 import bcrypt
+import smtplib
+from random import choice
+
 
 app = Flask(__name__)  # Aplicacion del servidor
+
+# Para generar clave aleatoria
+longitud = 8
+valores = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ<=>@#%&+'
 
 
 # Semilla para encriptacion de passwords
@@ -32,7 +39,7 @@ def conectar_db():
 def getAllProductosAdmin():
     # Consultando los productos
     g.db = conectar_db()
-    consulta = 'SELECT * FROM Productos WHERE (PropietarioId= 0)'
+    consulta = 'SELECT * FROM Productos WHERE (PropietarioId= 0) ORDER BY Producto'
     cur = g.db.execute(consulta)
     productos = [dict(pro_id=row[0], cat_id=row[1], pro_nombre=row[2])
                  for row in cur.fetchall()]
@@ -43,7 +50,7 @@ def getAllProductosAdmin():
 def getAllProductosUsuarios():
     # Consultando los productos
     g.db = conectar_db()
-    consulta = 'SELECT * FROM Productos WHERE (PropietarioId= ?)'
+    consulta = 'SELECT * FROM Productos WHERE (PropietarioId= ?) ORDER BY Producto'
     if 'nombre' in session:
         id = session['id']
 
@@ -59,7 +66,7 @@ def getAllCategorias():
     cantCarrito()
     # Consultando las categorias
     g.db = conectar_db()
-    cur = g.db.execute('SELECT * FROM Categorias')
+    cur = g.db.execute('SELECT * FROM Categorias  ORDER BY Categoria')
 
     categorias = [dict(cat_id=row[0], cat_nombre=row[1])
                   for row in cur.fetchall()]
@@ -585,6 +592,41 @@ def fnActualizar():
 @app.route('/reset')  # Ruta de la pagina reset
 def reset():
     return render_template('reset.html')
+
+
+@app.route('/sendmail', methods=['POST'])  # Ruta para enviar mensaje
+def sendmail():
+    correo = request.form['correo']
+    db = get_db()
+    cur = db.cursor()
+    find_user = (
+        "SELECT Id, Email FROM Usuarios WHERE Email = ?")
+    cur.execute(find_user, [(correo)])
+    resultado = cur.fetchall()
+    if resultado:
+        id = resultado[0][0]
+        email = resultado[0][1]
+        clave = ""
+        clave = clave.join([choice(valores) for i in range(longitud)])
+        password_enc = clave.encode("utf-8")
+        hashed_pw = bcrypt.hashpw(password_enc, semilla)
+        sql = ('UPDATE Usuarios SET Contrasena=?  WHERE id=?')
+        cur.execute(sql, [(hashed_pw), (id)])
+        db.commit()
+        db.close()
+        # message = 'Prueba de correo'
+        message = 'Subject: Nueva Clave en Superlista \n\n' + str('Hola! CanariosBit le informa que su nueva clave es: ') + clave + str('\nUn saludo, El equipo de CanariosBit')
+        server = smtplib.SMTP('smtp.gmail.com', 587)  # Generando la instancia
+        server.starttls()  # Definiendo el protocolo tls
+        server.login('canariosbit@gmail.com', 'programabit2020')  # Autenticacion
+        server.sendmail('canariosbit@gmail.com', correo, message)  # envio del correo
+        server.quit()
+        flash("Mensaje enviado con éxito!!", "alert-success")
+        return render_template('reset.html', success=True)
+    else:
+        flash("Correo no registrado.", "alert-warning")
+        return render_template('reset.html')
+
 
 
 @app.route('/registrarse')  # Ruta de la pagina registro

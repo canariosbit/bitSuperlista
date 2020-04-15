@@ -17,7 +17,7 @@
         {% endwith %}
     </div>
 </section>
-    
+
 <!-- Boton de opciones -->
 
 <div class="container">
@@ -45,43 +45,34 @@
             <div class="card-header text-center"> <span>Tu Lista de Compras</span>
             </div>
             <table class="table table-sm ">
-                <thead>
-                    <tr class="text  bg-primary text-white text-center">
-
-                    </tr>
-                </thead>
                 <tbody>
                     <tr>
                         <th scope="row">
                             {%  set contador = namespace(value=0) %}
                             {%for item in items %}
-                            <div class="input-group py-1">
-
-                                <div class="input-group-prepend">
-
-                                    <div class="input-group-text">
-                                        <a href="/adquirido/{{item.Id}}"><i
-                                                class="{% if item.Tachar %} text-primary fas fa-check {% else %} text-secondary fas fa-times  {% endif %} "></i></a>
+                                <div class="input-group py-1">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text">
+                                            <a href="/adquirido/{{item.Id}}"><i class="{% if item.Tachar %} text-primary fas fa-check {% else %} text-secondary fas fa-times  {% endif %} "></i></a>
+                                        </div>
                                     </div>
-
-                                </div>
-                                <input type="text" class="form-control {% if item.Tachar %} tachar {% endif %} " value="{{item.Item_nombre}}">
-                                <div class="input-group-prepend">
-                                    <div class="input-group-text">
-                                        <a href="/DeleteArtCesta/{{item.Id}}"><i
-                                                class="far fa-trash-alt text-success"></i></a>
+                                    <input type="text" class="form-control {% if item.Tachar %} tachar {% endif %} "
+                                        value="{{item.Item_nombre}}">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text">
+                                            <a href="/DeleteArtCesta/{{item.Id}}"><i
+                                                    class="far fa-trash-alt text-success"></i></a>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            {% set contador.value = contador.value + 1 %}
+                                {% set contador.value = contador.value + 1 %}
                             {%endfor%}
                         </th>
                         <td>
-
                             {%  set contador = namespace(value=0) %}
                             {%for item in items %}
                             <div class="input-group-prepend py-1">
-                                <input type="text" size="6" id="{{item.Item_nombre}}" placeholder="Precio"
+                                <input type="text" name="precio" size="6" id="{{item.Item_nombre}}" placeholder="Precio"
                                     class=" form-control monto" onkeyup="SubTotal();">
                             </div>
                             {% set contador.value = contador.value + 1 %}
