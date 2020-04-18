@@ -38,8 +38,11 @@
                                     <select class="form-control" name="categoria">
                                         <option selected="OTROS" value="0">SELECCIONAR</option>
                                         {% for categoria in categorias %}
-                                        <option value="{{categoria.cat_id}}" {% if categoria.cat_id == catSelected %}
-                                            selected {% endif %}>{{ categoria.cat_nombre }}</option>
+                                            {% if categoria.cat_id == 8 %}
+                                            {% else %}
+                                                <option value="{{categoria.cat_id}}" {% if categoria.cat_id == catSelected %}
+                                                    selected {% endif %}>{{ categoria.cat_nombre }}</option>
+                                            {% endif %}
                                         {% endfor %}
                                     </select>
                                 </div>

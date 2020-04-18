@@ -762,9 +762,9 @@ def ABM_articulos():
                 return render_template('ABM_articulos.html', categorias=categorias, productos=productos, catSelected=catSelected)
             else:
                 # cargo lista del carrito
-                itemsCarrito = getAllCesta()
+                CestaArticulos = getAllCesta()
                 return render_template('home_logged_in.html', categorias=categorias,
-                                       productos=productos, items=itemsCarrito)
+                                       productos=productos, CestaArticulos=CestaArticulos)
         else:
             return render_template('ABM_articulos.html', categorias=categorias, productos=productos, catSelected="OTROS")
     else:
