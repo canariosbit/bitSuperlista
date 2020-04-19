@@ -331,6 +331,8 @@ def guardarLista():
             insertProducto = ("INSERT INTO Contenido (ListaId, ProductoId)\
                 VALUES(?,?)")
             cur.execute(insertProducto, [idLista, producto["ProductoId"]])
+            delete_product = ("DELETE FROM Cesta WHERE Id_Usuario = ?")
+            cur.execute(delete_product, [(idUsuario)])   
         flash(nombreLista + " creada con éxito.", "alert-success")
         db.commit()
         db.close()
